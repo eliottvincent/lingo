@@ -5,4 +5,7 @@ package com.eliottvincent.lingo.Model;
  */
 public class Session {
 
+	private int id;
+
+
 }
