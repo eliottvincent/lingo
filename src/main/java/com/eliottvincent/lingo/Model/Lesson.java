@@ -1,7 +1,7 @@
 package com.eliottvincent.lingo.Model;
 
-import com.eliottvincent.lingo.Language;
-import com.eliottvincent.lingo.LessonType;
+import com.eliottvincent.lingo.Data.Language;
+import com.eliottvincent.lingo.Data.LessonType;
 
 import java.util.Collection;
 

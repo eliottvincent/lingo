@@ -1,6 +1,8 @@
 package com.eliottvincent.lingo.Model;
 
-import com.eliottvincent.lingo.*;
+import com.eliottvincent.lingo.Data.Gender;
+import com.eliottvincent.lingo.Data.Language;
+
 import java.util.Collection;
 
 /**

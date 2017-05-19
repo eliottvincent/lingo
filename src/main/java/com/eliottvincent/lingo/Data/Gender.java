@@ -1,4 +1,4 @@
-package com.eliottvincent.lingo;
+package com.eliottvincent.lingo.Data;
 
 public enum Gender {
 	MALE, FEMALE, OTHER
