@@ -12,8 +12,7 @@ import java.util.Collection;
 public class User {
 
 	private int id;
-	private String firstName;
-	private String lastName;
+	private String userName;
 	private String password;
 	private Gender gender;
 	private int age;
@@ -21,9 +20,8 @@ public class User {
 	private Collection<Session> sessions;
 	private Collection<History> history;
 
-	public User(String firstName, String lastName, String password, Gender gender, int age, Language language) {
-		this.firstName = firstName;
-		this.lastName = lastName;
+	public User(String userName, String password, Gender gender, int age, Language language) {
+		this.userName = userName;
 		this.password = password;
 		this.gender = gender;
 		this.age = age;
@@ -38,20 +36,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {

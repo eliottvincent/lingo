@@ -15,19 +15,22 @@ public class UserController {
 
 	}
 
-	public void saveUser(User use) {
-		// TODO : save user in file
+	User logIn(String username, String password) {
+		boolean exists = false;
+
+		User tmpUser = this.searchUser(username, password);
+
+		if (tmpUser != null) {
+			return tmpUser;
+		}
+		else {
+			return null;
+		}
 	}
 
-	void logIn(boolean isAnonymous) {
+	User searchUser(String username, String password) {
 
-		if (isAnonymous) {
-
-		}
-
-		else {
-
-		}
+		return null;
 	}
 
 	public void logOut() {
@@ -37,5 +40,10 @@ public class UserController {
 	public Session getLastSession() {
 		// TODO : return last user's session
 		return new Session();
+	}
+
+
+	void saveUser(String username, String password) {
+
 	}
 }
