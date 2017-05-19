@@ -15,10 +15,10 @@ public class UserController {
 
 	}
 
-	User logIn(String username, String password) {
+	User logIn(String username, String password, Integer age, String gender, String language) {
 		boolean exists = false;
 
-		User tmpUser = this.searchUser(username, password);
+		User tmpUser = this.searchUser(gender, language);
 
 		if (tmpUser != null) {
 			return tmpUser;
@@ -43,7 +43,8 @@ public class UserController {
 	}
 
 
-	void saveUser(String username, String password) {
+	void saveUser(String username1, String s, Integer age, String username, String password) {
 
+		System.out.printf("Il faut sauvegarder l\'utilisateur --------------------");
 	}
 }
