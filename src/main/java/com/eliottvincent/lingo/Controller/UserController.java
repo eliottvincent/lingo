@@ -7,12 +7,27 @@ import com.eliottvincent.lingo.Model.*;
  */
 public class UserController {
 
+	UserController() {
+
+	}
+
+	void createUser() {
+
+	}
+
 	public void saveUser(User use) {
 		// TODO : save user in file
 	}
 
-	public void logOn() {
-		// TODO : log user in
+	void logIn(boolean isAnonymous) {
+
+		if (isAnonymous) {
+
+		}
+
+		else {
+
+		}
 	}
 
 	public void logOut() {
