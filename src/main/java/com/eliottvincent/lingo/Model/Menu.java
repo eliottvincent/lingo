@@ -9,6 +9,7 @@ import java.util.*;
  */
 public class Menu {
 
+	// double brackets initialization
 	private List<String> options = new ArrayList<String>() {{
 		add("Create an account");
 		add("Log in");
