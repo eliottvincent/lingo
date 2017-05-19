@@ -1,7 +1,5 @@
 package com.eliottvincent.lingo.Model;
 
-import com.eliottvincent.lingo.View.TerminalView;
-
 import java.util.*;
 
 /**
@@ -10,22 +8,37 @@ import java.util.*;
 public class Menu {
 
 	// double brackets initialization
-	private List<String> options = new ArrayList<String>() {{
+	private List<String> menuOptions = new ArrayList<String>() {{
 		add("Create an account");
 		add("Log in");
 		add("Log in as anonymous");
 		add("Quit");
 	}};
 
+	private List<String> languageOptions = new ArrayList<String>() {{
+		add("French");
+		add("English");
+		add("German");
+		add("Spanish");
+	}};
+
 	public Menu() {
 
 	}
 
-	public List<String> getOptions() {
-		return options;
+	public List<String> getMenuOptions() {
+		return menuOptions;
 	}
 
-	public void setOptions(List<String> options) {
-		this.options = options;
+	public void setMenuOptions(List<String> menuOptions) {
+		this.menuOptions = menuOptions;
+	}
+
+	public List<String> getLanguageOptions() {
+		return languageOptions;
+	}
+
+	public void setLanguageOptions(List<String> languageOptions) {
+		this.languageOptions = languageOptions;
 	}
 }

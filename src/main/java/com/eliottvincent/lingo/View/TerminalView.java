@@ -56,7 +56,8 @@ public class TerminalView extends ApplicationView {
 	}
 
 	public void showMainMenu() {
-		System.out.printf("Welcome to your account");
+		System.out.printf("-------------------------\n");
+		System.out.printf("     Welcome to Lingo    \n");
 	}
 
 	public void showLoginUserStepOne() {
@@ -74,5 +75,25 @@ public class TerminalView extends ApplicationView {
 
 	public void displayErrorMessage(String s) {
 		System.out.printf(s);
+	}
+
+	public void showCreateUserStepFour() {
+		System.out.printf("How old are you?\n");
+	}
+
+	public void showCreateUserStepFive() {
+		System.out.printf("Choose your gender (M/F):\n");
+	}
+
+	public void showCreateUserStepSix(List<String> languageOptions) {
+		System.out.printf("What\'s your mother tongue?:\n");
+
+		Iterator<String> optionsIterator = languageOptions.iterator();
+		int i = 1;
+		while (optionsIterator.hasNext()) {
+			System.out.println(i + ". " +  optionsIterator.next());
+			i++;
+		}
+
 	}
 }

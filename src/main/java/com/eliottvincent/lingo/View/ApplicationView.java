@@ -27,4 +27,10 @@ public abstract class ApplicationView {
 	public abstract void showLoginError();
 
 	public abstract void displayErrorMessage(String s);
+
+	public abstract void showCreateUserStepFour();
+
+	public abstract void showCreateUserStepFive();
+
+	public abstract void showCreateUserStepSix(List<String> languageOptions);
 }

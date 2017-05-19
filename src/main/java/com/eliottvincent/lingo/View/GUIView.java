@@ -49,5 +49,17 @@ public class GUIView extends ApplicationView {
 
 	}
 
+	public void showCreateUserStepFour() {
+
+	}
+
+	public void showCreateUserStepFive() {
+
+	}
+
+	public void showCreateUserStepSix(List<String> languageOptions) {
+
+	}
+
 	// TODO : extend JFrame
 }

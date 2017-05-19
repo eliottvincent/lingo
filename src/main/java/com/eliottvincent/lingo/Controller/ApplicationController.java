@@ -25,7 +25,7 @@ public class ApplicationController {
 
 	private void onStartup() {
 
-		this.applicationView.showStartupMenu(this.menuModel.getOptions());
+		this.applicationView.showStartupMenu(this.menuModel.getMenuOptions());
 		this.waitUserInputMenu();
 	}
 
@@ -33,7 +33,7 @@ public class ApplicationController {
 		Scanner sc = new Scanner(System.in);
 
 		while (!sc.hasNextInt()) {
-			System.out.println("You have to choose a number between 1 and " + this.menuModel.getOptions().size() + ".");
+			System.out.println("You have to choose a number between 1 and " + this.menuModel.getMenuOptions().size() + ".");
 			sc.next();
 		}
 		int i = sc.nextInt();
@@ -56,12 +56,24 @@ public class ApplicationController {
 		}
 	}
 
+	/**
+	 *
+	 * @param isAnonymous
+	 */
 	private void onLogin(boolean isAnonymous ) {
+
+		// if the user wants to log in as anonymous
 		if (isAnonymous) {
+
+			// then we don't have to verify his credentials
 			this.applicationView.showMainMenu();
 		}
 		else {
+
+			// displaying the login step one
 			this.applicationView.showLoginUserStepOne();
+
+			// waiting for input
 			this.waitUserInputLoginUserStepOne();
 		}
 	}
@@ -78,7 +90,7 @@ public class ApplicationController {
 		this.waitUserInputLoginUserStepTwo(userName);
 	}
 
-	private void waitUserInputLoginUserStepTwo(String userName) {
+	private void waitUserInputLoginUserStepTwo(String username) {
 
 		Scanner sc = new Scanner(System.in);
 
@@ -89,7 +101,7 @@ public class ApplicationController {
 
 		UserController userController = new UserController();
 
-		User tmpUser = userController.logIn(userName, password);
+		User tmpUser = userController.logIn(username, password, null, null, null);
 
 		if (tmpUser != null) {
 			this.currentUser = tmpUser;
@@ -145,19 +157,56 @@ public class ApplicationController {
 
 		if (password.equals(passwordBis)) {
 
-			UserController userController = new UserController();
-			userController.saveUser(username, password);
-			this.currentUser = userController.logIn(username, password);
-
-			this.applicationView.showMainMenu();
+			this.applicationView.showCreateUserStepFour();
+			this.waitUserInputCreateUserStepFour(username, password);
 		}
 		else {
 
 			this.applicationView.displayErrorMessage("Password don’t match. Please try again.");
-			this.applicationView.showCreateUserStepThree();
 			this.waitUserInputCreateUserStepThree(username, password);
 		}
 
+	}
+
+	private void waitUserInputCreateUserStepFour(String username, String password) {
+		Scanner sc = new Scanner(System.in);
+
+		while(!sc.hasNextInt()) {
+			sc.next();
+		}
+		Integer age = sc.nextInt();
+
+		this.applicationView.showCreateUserStepFive();
+		this.waitUserInputCreateUserStepFive(username, password, age);
+	}
+
+	private void waitUserInputCreateUserStepFive(String username, String password, Integer age) {
+
+		Scanner sc = new Scanner(System.in);
+
+		while(!sc.hasNextLine()) {
+			sc.next();
+		}
+		String gender = sc.nextLine();
+
+		this.applicationView.showCreateUserStepSix(this.menuModel.getLanguageOptions());
+		this.waitUserInputCreateUserStepSix(username, password, age, gender);
+	}
+
+	private void waitUserInputCreateUserStepSix(String username, String password, Integer age, String gender) {
+
+		Scanner sc = new Scanner(System.in);
+
+		while(!sc.hasNextLine()) {
+			sc.next();
+		}
+		String language = sc.nextLine();
+
+		UserController userController = new UserController();
+		userController.saveUser(username, password, age, gender, language);
+		this.currentUser = userController.logIn(username, password, age, gender, language);
+
+		this.applicationView.showMainMenu();
 	}
 
 	private void quitProgram() {
@@ -179,7 +228,7 @@ public class ApplicationController {
 
 	/**
 	 *
-	 * @return
+	 * @return menuModel
 	 */
 	public Menu getMenuModel() {
 		return menuModel;
