@@ -23,12 +23,18 @@ public class ApplicationController {
 		this.onStartup();
 	}
 
+	/**
+	 *
+	 */
 	private void onStartup() {
 
 		this.applicationView.showStartupMenu(this.menuModel.getMenuOptions());
 		this.waitUserInputMenu();
 	}
 
+	/**
+	 *
+	 */
 	private void waitUserInputMenu() {
 		Scanner sc = new Scanner(System.in);
 
@@ -56,6 +62,21 @@ public class ApplicationController {
 		}
 	}
 
+
+
+
+
+	/*
+	 *
+	 * STEPS WHEN LOGIN
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 */
 	/**
 	 *
 	 * @param isAnonymous
@@ -78,6 +99,9 @@ public class ApplicationController {
 		}
 	}
 
+	/**
+	 *
+	 */
 	private void waitUserInputLoginUserStepOne() {
 		Scanner sc = new Scanner(System.in);
 
@@ -90,6 +114,10 @@ public class ApplicationController {
 		this.waitUserInputLoginUserStepTwo(userName);
 	}
 
+	/**
+	 *
+	 * @param username
+	 */
 	private void waitUserInputLoginUserStepTwo(String username) {
 
 		Scanner sc = new Scanner(System.in);
@@ -114,12 +142,34 @@ public class ApplicationController {
 		}
 	}
 
+
+
+
+	/*
+	 *
+	 * STEPS WHEN CREATING A USER
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 */
+
+	/**
+	 *
+	 */
 	private void onCreateUser() {
 		this.applicationView.showCreateUserStepOne();
 
 		this.waitUserInputCreateUserStepOne();
 	}
 
+	/**
+	 *
+	 */
 	private void waitUserInputCreateUserStepOne() {
 		Scanner sc = new Scanner(System.in);
 
@@ -134,6 +184,10 @@ public class ApplicationController {
 		this.waitUserInputCreateUserStepTwo(userName);
 	}
 
+	/**
+	 *
+	 * @param username
+	 */
 	private void waitUserInputCreateUserStepTwo(String username) {
 		Scanner sc = new Scanner(System.in);
 
@@ -146,6 +200,11 @@ public class ApplicationController {
 		this.waitUserInputCreateUserStepThree(username, password);
 	}
 
+	/**
+	 *
+	 * @param username
+	 * @param password
+	 */
 	private void waitUserInputCreateUserStepThree(String username, String password) {
 
 		Scanner sc = new Scanner(System.in);
@@ -168,6 +227,11 @@ public class ApplicationController {
 
 	}
 
+	/**
+	 *
+	 * @param username
+	 * @param password
+	 */
 	private void waitUserInputCreateUserStepFour(String username, String password) {
 		Scanner sc = new Scanner(System.in);
 
@@ -180,6 +244,12 @@ public class ApplicationController {
 		this.waitUserInputCreateUserStepFive(username, password, age);
 	}
 
+	/**
+	 *
+	 * @param username
+	 * @param password
+	 * @param age
+	 */
 	private void waitUserInputCreateUserStepFive(String username, String password, Integer age) {
 
 		Scanner sc = new Scanner(System.in);
@@ -193,6 +263,13 @@ public class ApplicationController {
 		this.waitUserInputCreateUserStepSix(username, password, age, gender);
 	}
 
+	/**
+	 *
+	 * @param username
+	 * @param password
+	 * @param age
+	 * @param gender
+	 */
 	private void waitUserInputCreateUserStepSix(String username, String password, Integer age, String gender) {
 
 		Scanner sc = new Scanner(System.in);
@@ -209,6 +286,24 @@ public class ApplicationController {
 		this.applicationView.showMainMenu();
 	}
 
+
+
+	/*
+	 *
+	 * MISC FUNCTIONS
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 */
+
+	/**
+	 *
+	 */
 	private void quitProgram() {
 
 		this.applicationView.showQuit();
@@ -216,12 +311,31 @@ public class ApplicationController {
 	}
 
 
-	// GETTERS AND SETTERS
+	/*
+	 *
+	 * GETTERS AND SETTERS
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 */
 
+	/**
+	 *
+	 * @return
+	 */
 	public ApplicationView getApplicationView() {
 		return applicationView;
 	}
 
+	/**
+	 *
+	 * @param applicationView
+	 */
 	public void setApplicationView(ApplicationView applicationView) {
 		this.applicationView = applicationView;
 	}
@@ -242,10 +356,18 @@ public class ApplicationController {
 		this.menuModel = menuModel;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public User getCurrentUser() {
 		return currentUser;
 	}
 
+	/**
+	 *
+	 * @param currentUser
+	 */
 	public void setCurrentUser(User currentUser) {
 		this.currentUser = currentUser;
 	}
