@@ -45,5 +45,9 @@ public class GUIView extends ApplicationView {
 
 	}
 
+	public void displayErrorMessage(String s) {
+
+	}
+
 	// TODO : extend JFrame
 }

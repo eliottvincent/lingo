@@ -152,9 +152,10 @@ public class ApplicationController {
 			this.applicationView.showMainMenu();
 		}
 		else {
-			System.out.printf("invalid");
 
-			// TODO : display error message
+			this.applicationView.displayErrorMessage("Password don’t match. Please try again.");
+			this.applicationView.showCreateUserStepThree();
+			this.waitUserInputCreateUserStepThree(username, password);
 		}
 
 	}

@@ -25,4 +25,6 @@ public abstract class ApplicationView {
 	public abstract void showLoginUserStepTwo();
 
 	public abstract void showLoginError();
+
+	public abstract void displayErrorMessage(String s);
 }

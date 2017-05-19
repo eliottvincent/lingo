@@ -55,7 +55,6 @@ public class TerminalView extends ApplicationView {
 		System.out.println("\nPlease enter your password again:");
 	}
 
-
 	public void showMainMenu() {
 		System.out.printf("Welcome to your account");
 	}
@@ -71,5 +70,9 @@ public class TerminalView extends ApplicationView {
 	public void showLoginError() {
 		System.out.println("Invalid username or password.\n");
 		System.out.println("Please try again.\n");
+	}
+
+	public void displayErrorMessage(String s) {
+		System.out.printf(s);
 	}
 }
