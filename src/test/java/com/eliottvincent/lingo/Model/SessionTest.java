@@ -7,4 +7,7 @@ import junit.framework.TestCase;
  */
 public class SessionTest extends TestCase {
 
+	public void test() {
+		assertTrue(true);
+	}
 }

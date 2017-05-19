@@ -7,4 +7,7 @@ import junit.framework.TestCase;
  */
 public class UserControllerTest extends TestCase {
 
+	public void test() {
+		assertTrue(true);
+	}
 }

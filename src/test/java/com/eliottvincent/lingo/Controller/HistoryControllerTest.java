@@ -7,4 +7,7 @@ import junit.framework.TestCase;
  */
 public class HistoryControllerTest extends TestCase {
 
+	public void test() {
+		assertTrue(true);
+	}
 }

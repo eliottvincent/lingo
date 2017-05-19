@@ -8,4 +8,8 @@ public class Session {
 	private int id;
 
 
+
+	public Session() {
+
+	}
 }

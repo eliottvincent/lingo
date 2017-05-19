@@ -7,4 +7,7 @@ import junit.framework.TestCase;
  */
 public class HistoryTest extends TestCase {
 
+	public void test() {
+		assertTrue(true);
+	}
 }

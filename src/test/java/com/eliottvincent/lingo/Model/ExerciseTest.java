@@ -7,4 +7,8 @@ import junit.framework.TestCase;
  */
 public class ExerciseTest extends TestCase {
 
+	public void test() {
+		assertTrue(true);
+	}
+
 }
