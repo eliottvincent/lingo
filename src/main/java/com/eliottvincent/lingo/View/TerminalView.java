@@ -61,16 +61,15 @@ public class TerminalView extends ApplicationView {
 	}
 
 	public void showLoginUserStepOne() {
-
+		System.out.println("Login:\n");
 	}
 
 	public void showLoginUserStepTwo() {
-
+		System.out.println("Password:\n");
 	}
 
 	public void showLoginError() {
-		System.out.println("Invalid username or password.\n");
-		System.out.println("Please try again.\n");
+		System.out.println("Invalid username or password. Please try again.\n");
 	}
 
 	public void displayErrorMessage(String s) {

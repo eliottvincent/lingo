@@ -14,17 +14,17 @@ public class User {
 	private int id;
 	private String userName;
 	private String password;
-	private Gender gender;
 	private int age;
+	private Gender gender;
 	private Language language;
 	private Collection<Session> sessions;
 	private Collection<History> history;
 
-	public User(String userName, String password, Gender gender, int age, Language language) {
+	public User(String userName, String password, int age, Gender gender, Language language) {
 		this.userName = userName;
 		this.password = password;
-		this.gender = gender;
 		this.age = age;
+		this.gender = gender;
 		this.language = language;
 	}
 
@@ -91,4 +91,5 @@ public class User {
 	public void setHistory(Collection<History> history) {
 		this.history = history;
 	}
+
 }
