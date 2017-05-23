@@ -3,24 +3,27 @@ package com.eliottvincent.lingo.Controller;
 import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Helper.CSVHelper;
+import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Model.User;
 
-import org.apache.commons.csv.CSVRecord;
+import java.util.Arrays;
+import java.util.List;
+
 
 /**
  * Created by eliottvct on 23/05/17.
  */
-public class StorageController {
+class StorageController {
 
-	private CSVHelper CSV = new CSVHelper();
 
 	StorageController() {
 
 
 	}
 
-	public void saveUser(User user) {
+	void saveUser(User user) {
 
+		CSVHelper.writeCSV("src/main/java/com/eliottvincent/lingo/Helper/users.csv", ConverterHelper.userToStringArray(user));
 	}
 
 	User searchUser(String username, String password) {
@@ -29,46 +32,23 @@ public class StorageController {
 		User tmpUser = null;
 
 		// calling the CSV helper to read the file where the users are stored
-		Iterable<CSVRecord> records = CSV.readCSV("src/main/java/com/eliottvincent/lingo/Helper/users.csv");
+		List<String[]> users = CSVHelper.readCSV("src/main/java/com/eliottvincent/lingo/Helper/users.csv");
 
-		for (CSVRecord record : records) {
+		for(String[] row : users){
+			System.out.println(Arrays.toString(row));
+			if (row[0].equals(username) && row[1].equals(password)) {
 
-
-			System.out.printf(record.get("username"));
-			System.out.printf(record.get("password"));
-
-
-
-
-			// if the current record has the same username and password of the target
-			if (record.get("username").equals(username) && record.get("password").equals(password)) {
-
-				// we populate tmpUser
 				tmpUser = new User(
-					record.get("username"),
-					record.get("password"),
-					stringToGender(record.get("gender")),
-					stringToInteger(record.get("age")),
-					stringToLanguage(record.get("language"))
+					row[0],
+					row[1],
+					ConverterHelper.stringToInteger(row[2]),
+					ConverterHelper.stringToGender(row[3]),
+					ConverterHelper.stringToLanguage(row[4])
 				);
 			}
+
 		}
 
 		return tmpUser;
-	}
-
-	private Language stringToLanguage(String language) {
-
-		return Language.FRENCH;
-	}
-
-	private int stringToInteger(String s) {
-
-		return Integer.parseInt(s);
-	}
-
-	private Gender stringToGender(String s) {
-
-		return Gender.FEMALE;
 	}
 }

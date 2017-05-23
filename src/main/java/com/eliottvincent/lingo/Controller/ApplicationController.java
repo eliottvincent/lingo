@@ -80,7 +80,7 @@ public class ApplicationController {
 	 */
 	/**
 	 *
-	 * @param isAnonymous identifies whether the user wants to login anonymously or not
+	 * @param isAnonymous 	identifies whether the user wants to login anonymously or not
 	 */
 	private void onLogin(boolean isAnonymous) {
 
@@ -117,7 +117,7 @@ public class ApplicationController {
 
 	/**
 	 *
-	 * @param username the username fetched in the first step
+	 * @param username 	the username fetched in the first step
 	 */
 	private void waitUserInputLoginUserStepTwo(String username) {
 
@@ -184,7 +184,7 @@ public class ApplicationController {
 
 	/**
 	 *
-	 * @param username the username fetched in the first step
+	 * @param username 	the username fetched in the first step
 	 */
 	private void waitUserInputCreateUserStepTwo(String username) {
 		Scanner sc = new Scanner(System.in);
@@ -200,8 +200,8 @@ public class ApplicationController {
 
 	/**
 	 *
-	 * @param username the username fetched in previous steps
-	 * @param password the password fetched in previous steps
+	 * @param username 	the username fetched in previous steps
+	 * @param password 	the password fetched in previous steps
 	 */
 	private void waitUserInputCreateUserStepThree(String username, String password) {
 
@@ -227,8 +227,8 @@ public class ApplicationController {
 
 	/**
 	 *
-	 * @param username the username fetched in previous steps
-	 * @param password the password fetched in previous steps
+	 * @param username	the username fetched in previous steps
+	 * @param password	the password fetched in previous steps
 	 */
 	private void waitUserInputCreateUserStepFour(String username, String password) {
 		Scanner sc = new Scanner(System.in);
@@ -244,9 +244,9 @@ public class ApplicationController {
 
 	/**
 	 *
-	 * @param username the username fetched in previous steps
-	 * @param password the password fetched in previous steps
-	 * @param age the age fetched in previous steps
+	 * @param username 	the username fetched in previous steps
+	 * @param password 	the password fetched in previous steps
+	 * @param age 		the age fetched in previous steps
 	 */
 	private void waitUserInputCreateUserStepFive(String username, String password, Integer age) {
 
@@ -263,10 +263,10 @@ public class ApplicationController {
 
 	/**
 	 *
-	 * @param username the username fetched in previous steps
-	 * @param password the password fetched in previous steps
-	 * @param age the age fetched in previous steps
-	 * @param gender the gender fetched in previous steps
+	 * @param username 	the username fetched in previous steps
+	 * @param password 	the password fetched in previous steps
+	 * @param age 		the age fetched in previous steps
+	 * @param gender 	the gender fetched in previous steps
 	 */
 	private void waitUserInputCreateUserStepSix(String username, String password, Integer age, String gender) {
 
@@ -276,7 +276,7 @@ public class ApplicationController {
 			sc.next();
 		}
 		String language = sc.nextLine();
-
+		System.out.println(language);
 		UserController userController = new UserController();
 		this.currentUser = userController.saveUser(
 			username,

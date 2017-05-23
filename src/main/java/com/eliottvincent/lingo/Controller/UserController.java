@@ -1,5 +1,8 @@
 package com.eliottvincent.lingo.Controller;
 
+import com.eliottvincent.lingo.Data.Gender;
+import com.eliottvincent.lingo.Data.Language;
+import com.eliottvincent.lingo.Helper.CSVHelper;
 import com.eliottvincent.lingo.Model.*;
 
 /**
@@ -7,6 +10,7 @@ import com.eliottvincent.lingo.Model.*;
  */
 public class UserController {
 
+	private StorageController storageController = new StorageController();
 	UserController() {
 
 	}
@@ -15,10 +19,16 @@ public class UserController {
 
 	}
 
-	User logIn(String username, String password, Integer age, String gender, String language) {
+	/**
+	 *
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	User logIn(String username, String password) {
 		boolean exists = false;
 
-		User tmpUser = this.searchUser(gender, language);
+		User tmpUser = this.searchUser(username, password);
 
 		if (tmpUser != null) {
 			return tmpUser;
@@ -28,23 +38,38 @@ public class UserController {
 		}
 	}
 
-	User searchUser(String username, String password) {
-
-		return null;
+	/**
+	 *
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	private User searchUser(String username, String password) {
+		return storageController.searchUser(username, password);
 	}
 
+	/**
+	 *
+	 */
 	public void logOut() {
 		// TODO : log user out
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public Session getLastSession() {
 		// TODO : return last user's session
 		return new Session();
 	}
 
 
-	void saveUser(String username1, String s, Integer age, String username, String password) {
+	User saveUser(String username, String password, Integer age, Gender gender, Language language) {
 
-		System.out.printf("Il faut sauvegarder l\'utilisateur --------------------");
+		User userToSave = new User(username, password, age, gender, language);
+		storageController.saveUser(userToSave);
+
+		return userToSave;
 	}
 }
