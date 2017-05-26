@@ -1,5 +1,7 @@
 package com.eliottvincent.lingo.View;
 
+import com.eliottvincent.lingo.Data.Gender;
+import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Model.Menu;
 
 import java.util.ArrayList;
@@ -80,14 +82,21 @@ public class TerminalView extends ApplicationView {
 		System.out.printf("How old are you?\n");
 	}
 
-	public void showCreateUserStepFive() {
+	public void showCreateUserStepFive(List<Gender> genderOptions) {
 		System.out.printf("Choose your gender (M/F):\n");
+
+		Iterator<Gender> optionsIterator = genderOptions.iterator();
+		int i = 1;
+		while (optionsIterator.hasNext()) {
+			System.out.println(i + ". " +  optionsIterator.next());
+			i++;
+		}
 	}
 
-	public void showCreateUserStepSix(List<String> languageOptions) {
+	public void showCreateUserStepSix(List<Language> languageOptions) {
 		System.out.printf("What\'s your mother tongue?:\n");
 
-		Iterator<String> optionsIterator = languageOptions.iterator();
+		Iterator<Language> optionsIterator = languageOptions.iterator();
 		int i = 1;
 		while (optionsIterator.hasNext()) {
 			System.out.println(i + ". " +  optionsIterator.next());

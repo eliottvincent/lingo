@@ -1,6 +1,9 @@
 package com.eliottvincent.lingo.View;
 
 
+import com.eliottvincent.lingo.Data.Gender;
+import com.eliottvincent.lingo.Data.Language;
+
 import java.util.List;
 
 /**
@@ -53,11 +56,11 @@ public class GUIView extends ApplicationView {
 
 	}
 
-	public void showCreateUserStepFive() {
+	public void showCreateUserStepFive(List<Gender> genderOptions) {
 
 	}
 
-	public void showCreateUserStepSix(List<String> languageOptions) {
+	public void showCreateUserStepSix(List<Language> languageOptions) {
 
 	}
 

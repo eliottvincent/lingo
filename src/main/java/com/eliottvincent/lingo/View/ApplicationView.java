@@ -1,5 +1,8 @@
 package com.eliottvincent.lingo.View;
 
+import com.eliottvincent.lingo.Data.Gender;
+import com.eliottvincent.lingo.Data.Language;
+
 import java.util.List;
 
 /**
@@ -20,7 +23,7 @@ public abstract class ApplicationView {
 
 
 	/*
-	 *
+	 * MISCCCCCC FUNCS
 	 *
 	 */
 	public abstract void showCreateUserStepOne();
@@ -31,9 +34,9 @@ public abstract class ApplicationView {
 
 	public abstract void showCreateUserStepFour();
 
-	public abstract void showCreateUserStepFive();
+	public abstract void showCreateUserStepFive(List<Gender> genderOptions);
 
-	public abstract void showCreateUserStepSix(List<String> languageOptions);
+	public abstract void showCreateUserStepSix(List<Language> languageOptions);
 
 	public abstract void showLoginUserStepOne();
 

@@ -1,5 +1,8 @@
 package com.eliottvincent.lingo.Model;
 
+import com.eliottvincent.lingo.Data.Gender;
+import com.eliottvincent.lingo.Data.Language;
+
 import java.util.*;
 
 /**
@@ -15,12 +18,9 @@ public class Menu {
 		add("Quit");
 	}};
 
-	private List<String> languageOptions = new ArrayList<String>() {{
-		add("French");
-		add("English");
-		add("German");
-		add("Spanish");
-	}};
+	private List<Language> languageOptions = Arrays.asList(Language.values());
+
+	private List<Gender> genderOptions = Arrays.asList(Gender.values());
 
 	public Menu() {
 
@@ -34,11 +34,15 @@ public class Menu {
 		this.menuOptions = menuOptions;
 	}
 
-	public List<String> getLanguageOptions() {
+	public List<Language> getLanguageOptions() {
 		return languageOptions;
 	}
 
-	public void setLanguageOptions(List<String> languageOptions) {
+	public void setLanguageOptions(List<Language> languageOptions) {
 		this.languageOptions = languageOptions;
+	}
+
+	public List<Gender> getGenderOptions() {
+		return genderOptions;
 	}
 }

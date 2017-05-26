@@ -1,5 +1,7 @@
 package com.eliottvincent.lingo.Controller;
 
+import com.eliottvincent.lingo.Data.Gender;
+import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Model.*;
 import com.eliottvincent.lingo.View.*;
@@ -238,7 +240,7 @@ public class ApplicationController {
 		}
 		Integer age = sc.nextInt();
 
-		this.applicationView.showCreateUserStepFive();
+		this.applicationView.showCreateUserStepFive(this.menuModel.getGenderOptions());
 		this.waitUserInputCreateUserStepFive(username, password, age);
 	}
 
@@ -252,13 +254,14 @@ public class ApplicationController {
 
 		Scanner sc = new Scanner(System.in);
 
-		while(!sc.hasNextLine()) {
+		while(!sc.hasNextInt()) {
 			sc.next();
 		}
-		String gender = sc.nextLine();
+		Integer genderIndex = sc.nextInt();
+		Gender genderValue = Gender.values()[genderIndex - 1];
 
 		this.applicationView.showCreateUserStepSix(this.menuModel.getLanguageOptions());
-		this.waitUserInputCreateUserStepSix(username, password, age, gender);
+		this.waitUserInputCreateUserStepSix(username, password, age, genderValue);
 	}
 
 	/**
@@ -268,29 +271,26 @@ public class ApplicationController {
 	 * @param age 		the age fetched in previous steps
 	 * @param gender 	the gender fetched in previous steps
 	 */
-	private void waitUserInputCreateUserStepSix(String username, String password, Integer age, String gender) {
+	private void waitUserInputCreateUserStepSix(String username, String password, Integer age, Gender gender) {
 
 		Scanner sc = new Scanner(System.in);
 
-		while(!sc.hasNextLine()) {
+		while(!sc.hasNextInt()) {
 			sc.next();
 		}
-		String language = sc.nextLine();
-		System.out.println(language);
+		Integer languageIndex = sc.nextInt();
+		Language languageValue = Language.values()[languageIndex - 1];
+
 		UserController userController = new UserController();
 		this.currentUser = userController.saveUser(
 			username,
 			password,
 			age,
-			ConverterHelper.stringToGender(gender),
-			ConverterHelper.stringToLanguage(language)
+			gender,
+			languageValue
 		);
-
-
 		this.applicationView.showMainMenu();
 	}
-
-
 
 	/*
 	 *
