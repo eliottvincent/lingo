@@ -7,9 +7,23 @@
 <?import javafx.scene.control.TextField?>
 <GridPane fx:controller="com.eliottvincent.lingo.Controller.BasicController" xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
 
-	<Text text="sup" GridPane.rowIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER"/>
-	<Label text="name:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-<TextField GridPane.columnIndex="1" GridPane.rowIndex="1"></TextField>
-	<Button text="say sup" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.halignment="CENTER"/>
+	<Text text="sup"
+		  GridPane.rowIndex="0"
+		  GridPane.columnSpan="2"
+		  GridPane.halignment="CENTER"/>
+
+	<Label text="name:"
+		   GridPane.rowIndex="1"
+		   GridPane.columnIndex="0"/>
+
+	<TextField fx:id="name"
+		GridPane.columnIndex="1"
+		GridPane.rowIndex="1"/>
+
+	<Button text="say sup"
+			onAction="#handleSaySup"
+			GridPane.rowIndex="2"
+			GridPane.columnIndex="1"
+			GridPane.halignment="CENTER"/>
 
 </GridPane>
