@@ -7,10 +7,10 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="container" stylesheets="/com/eliottvincent/lingo/css/home.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.eliottvincent.lingo.Controller.HomeController">
+<VBox fx:id="container" stylesheets="/com/eliottvincent/lingo/css/home.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.eliottvincent.lingo.Controller.CreateAccountController">
 
 	<children>
-		<Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" text="Lingo" />
+		<Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" text="Lingo bis" />
 
 		<TextArea fx:id="username" maxWidth="400.0" minWidth="400.0" prefHeight="30.0" prefWidth="400.0" promptText="Username" />
 		<TextArea fx:id="password" maxWidth="400.0" minWidth="400.0" prefHeight="30.0" prefWidth="400.0" promptText="Password" />
@@ -25,21 +25,21 @@
 											 content="M1.6 17C1 17 0 16.2 0 15.6V1.3C0 .1 2.2-.4 3.1.4l8.2 6.4c.5.4.8 1 .8 1.7 0 .6-.3 1.2-.8 1.7l-8.2 6.4c-.5.2-1 .4-1.5.4z"/>
 								</HBox>
 								-->
-								<Button onAction="#handleLogin" text="Login" />
+								<Button onAction="#handleLogin" text="Log In" />
 							</children>
 						</StackPane>
 
 						<StackPane alignment="CENTER_RIGHT" styleClass="nested-action,login-anonymous">
 							<children>
 								<!--
-          <HBox styleClass="svg-container">
+          					<HBox styleClass="svg-container">
                                 <SVGPath styleClass="svg"
                                          content="M10.2 17c-1 0-1.8-.8-1.8-1.8V1.8c0-1 .8-1.8 1.8-1.8S12 .8 12 1.8v13.4c0 1-.8 1.8-1.8 1.8z" />
                                 <SVGPath styleClass="svg"
                                          content="M10.2 17c-1 0-1.8-.8-1.8-1.8V1.8c0-1 .8-1.8 1.8-1.8S12 .8 12 1.8v13.4c0 1-.8 1.8-1.8 1.8z" />
                             </HBox>
                             -->
-								<Button text="Anonymous" />
+								<Button text="Log as a guest" />
 							</children>
 						</StackPane>
 
@@ -54,6 +54,5 @@
         -->
 		<Button onAction="#handleCreateAccount" text="Create account" />
 
-		<Label fx:id="time" text="${controller.timerText}" />
 	</children>
 </VBox>
