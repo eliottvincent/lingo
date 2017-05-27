@@ -1,0 +1,96 @@
+* {
+	-fx-font-family: 'Varela Round';
+	-fx-alignment: center;
+	-fx-text-fill: #fff;
+}
+
+#container {
+	-fx-background: #35B55C;
+	-fx-pref-width: 500px;
+	-fx-padding: 75px;
+	-fx-spacing: 20px;
+}
+
+#title {
+	-fx-font-size: 31px;
+}
+
+#time {
+	-fx-content-display: center;
+	-fx-pref-width: 350px;
+	-fx-background-color: #202428;
+	-fx-font-size: 72px;
+	-fx-line-height: 80px;
+	-fx-border-radius: 8px;
+	-fx-letter-spacing: 10px;
+}
+
+.buttons {
+	-fx-spacing: 10px;
+}
+
+.button {
+	-fx-border-radius: 6px;
+	-fx-border-width: 2px;
+	-fx-border-style: solid;
+	-fx-border-color: #fff;
+	-fx-background-color: none;
+	-fx-text-fill: #fff;
+	-fx-fill-width: true;
+	-fx-cursor: pointer;
+	-fx-padding: 10px 10px 10px 37px;
+	-fx-font-size: 20px;
+}
+
+.nested-action {
+	-fx-padding: 0px;
+}
+
+.nested-action .button {
+
+}
+
+.svg-container {
+	-fx-padding: 0 0 0 17px;
+	-fx-alignment: center-left;
+}
+
+
+.create-account .button {
+	-fx-padding: 10px 10px 10px 43px;
+}
+
+.svg {
+	-fx-fill: #fff;
+	-fx-height: 15px;
+}
+
+.text-area {
+	-fx-pref-width: 300px;
+	-fx-pref-row-count: 3;
+	-fx-border-radius: 6px;
+	-fx-border-width: 2px;
+	-fx-border-color: #fff;
+	-fx-border-style: solid;
+	-fx-font-size: 20px;
+	-fx-text-fill: #000;
+}
+
+/* State based selectors */
+
+.login-anonymous .svg-container {
+	-fx-padding: 0 0 0 25px;
+	-fx-spacing: 5px;
+}
+
+.focus {
+	-fx-background-color: #2D3339;
+}
+
+.break {
+	-fx-background-color: #3F8ABF;
+}
+
+#pomodoro {
+	-fx-fit-height: 34px;
+}

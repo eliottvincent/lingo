@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -19,42 +20,11 @@ public class Main extends Application
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("fxml/sample.fxml"));
-
-		/*Group root = new Group();
-
-		// Text
-		Text txt = new Text();
-		txt.setText("Say sup!");
-		txt.setY(50);
-
-		// Text field
-		TextField txtField = new TextField();
-
-		// Label
-		Label lbl = new Label("Name:");
-
-		// Button
-		Button btn = new Button();
-		btn.setText("sup");
-		btn.setOnAction(evt -> System.out.printf("Sup %s!%n", txtField.getText()));
-
-		// GridPane
-		GridPane grid = new GridPane();
-		grid.setGridLinesVisible(true);
-		grid.add(lbl, 0, 0);
-		grid.add(txtField, 1, 0);
-		grid.setHgap(20);
-		grid.add(btn, 1, 1);
-
-		// Box
-		VBox box = new VBox();
-		box.getChildren().addAll(txt, grid);
-		root.getChildren().add(box);
-		*/
-
-		primaryStage.setTitle("Lingo");
-		primaryStage.setScene(new Scene(root, 300, 275));
+		// Load the font
+		//Font.loadFont(getClass().getResource("/fonts/VarelaRound-Regular.ttf").toExternalForm(), 10);
+		Parent root = FXMLLoader.load(getClass().getResource("fxml/home.fxml"));
+		primaryStage.setScene(new Scene(root, 1500, 750));
+		primaryStage.setResizable(false);
 		primaryStage.show();
 	}
 
