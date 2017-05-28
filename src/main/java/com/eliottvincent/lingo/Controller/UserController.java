@@ -2,6 +2,7 @@ package com.eliottvincent.lingo.Controller;
 
 import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
+import com.eliottvincent.lingo.Data.Status;
 import com.eliottvincent.lingo.Helper.CSVHelper;
 import com.eliottvincent.lingo.Model.*;
 
@@ -11,8 +12,10 @@ import com.eliottvincent.lingo.Model.*;
 public class UserController {
 
 	private StorageController storageController = new StorageController();
-	UserController() {
+	private User user;
 
+	public UserController(User user) {
+		this.user = user;
 	}
 
 	void createUser() {
@@ -21,32 +24,12 @@ public class UserController {
 
 	/**
 	 *
-	 * @param username
-	 * @param password
-	 * @return
+	 * @return boolean
 	 */
-	User logIn(String username, String password) {
-		boolean exists = false;
-
-		User tmpUser = this.searchUser(username, password);
-
-		if (tmpUser != null) {
-			return tmpUser;
-		}
-		else {
-			return null;
-		}
+	public User logIn() {
+		return storageController.searchUser(this.user.getUserName(), this.user.getPassword());
 	}
 
-	/**
-	 *
-	 * @param username
-	 * @param password
-	 * @return
-	 */
-	private User searchUser(String username, String password) {
-		return storageController.searchUser(username, password);
-	}
 
 	/**
 	 *
@@ -64,12 +47,13 @@ public class UserController {
 		return new Session();
 	}
 
+	/**
+	 *
+	 * @return
+	 */
+	public Status saveUser() {
 
-	User saveUser(String username, String password, Integer age, Gender gender, Language language) {
+		return storageController.saveUser(this.user);
 
-		User userToSave = new User(username, password, age, gender, language);
-		storageController.saveUser(userToSave);
-
-		return userToSave;
 	}
 }

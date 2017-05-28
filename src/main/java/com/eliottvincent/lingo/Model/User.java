@@ -17,8 +17,21 @@ public class User {
 	private int age;
 	private Gender gender;
 	private Language language;
+	private boolean isGuest;
 	private Collection<Session> sessions;
 	private Collection<History> history;
+
+	// TODO : abstract class User + GuestUser + NormalUser ??????
+
+	public User() {
+		this.isGuest = true;
+	}
+
+	public User(String userName, String password) {
+		this.userName = userName;
+		this.password = password;
+		this.isGuest = false;
+	}
 
 	public User(String userName, String password, int age, Gender gender, Language language) {
 		this.userName = userName;
@@ -26,7 +39,9 @@ public class User {
 		this.age = age;
 		this.gender = gender;
 		this.language = language;
+		this.isGuest = false;
 	}
+
 
 	public int getId() {
 		return id;
