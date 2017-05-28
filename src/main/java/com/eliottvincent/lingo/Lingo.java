@@ -12,16 +12,9 @@ import javafx.stage.Stage;
  */
 public class Lingo extends Application
 {
-    /*public static void main( String[] args )
-    {
-		new ApplicationController();
-    }*/
-
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// Load the font
-		//Font.loadFont(getClass().getResource("/fonts/VarelaRound-Regular.ttf").toExternalForm(), 10);
-
 		Parent root = FXMLLoader.load(getClass().getResource("fxml/login.fxml"));
 		Scene mScene = new Scene(root, 1500, 750);
 
