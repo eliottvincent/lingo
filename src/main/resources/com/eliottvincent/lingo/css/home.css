@@ -11,7 +11,7 @@
 	-fx-spacing: 20px;
 }
 
-#title {
+#titleLabel {
 	-fx-font-size: 31px;
 }
 
@@ -66,6 +66,17 @@
 }
 
 .text-area {
+	-fx-pref-width: 300px;
+	-fx-pref-row-count: 3;
+	-fx-border-radius: 6px;
+	-fx-border-width: 2px;
+	-fx-border-color: #fff;
+	-fx-border-style: solid;
+	-fx-font-size: 20px;
+	-fx-text-fill: #000;
+}
+
+.password-field {
 	-fx-pref-width: 300px;
 	-fx-pref-row-count: 3;
 	-fx-border-radius: 6px;
