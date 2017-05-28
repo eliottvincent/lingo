@@ -14,7 +14,6 @@ import java.util.Scanner;
 
 public class ApplicationController {
 
-	private ApplicationView applicationView;
 	private Menu menuModel;
 	private User currentUser;
 
@@ -22,7 +21,6 @@ public class ApplicationController {
 
 		this.menuModel = new Menu();
 
-		this.applicationView = new TerminalView();
 	}
 
 	/*
@@ -52,7 +50,6 @@ public class ApplicationController {
 		// TODO : validate userName
 		// TODO : check if username available or not
 
-		this.applicationView.showCreateUserStepTwo();
 		this.waitUserInputCreateUserStepTwo(userName);
 	}
 
@@ -68,7 +65,6 @@ public class ApplicationController {
 		}
 		String password = sc.nextLine();
 
-		this.applicationView.showCreateUserStepThree();
 		this.waitUserInputCreateUserStepThree(username, password);
 	}
 
@@ -88,12 +84,10 @@ public class ApplicationController {
 
 		if (password.equals(passwordBis)) {
 
-			this.applicationView.showCreateUserStepFour();
 			this.waitUserInputCreateUserStepFour(username, password);
 		}
 		else {
 
-			this.applicationView.displayErrorMessage("Password don’t match. Please try again.\n");
 			this.waitUserInputCreateUserStepThree(username, password);
 		}
 
@@ -112,7 +106,6 @@ public class ApplicationController {
 		}
 		Integer age = sc.nextInt();
 
-		this.applicationView.showCreateUserStepFive(this.menuModel.getGenderOptions());
 		this.waitUserInputCreateUserStepFive(username, password, age);
 	}
 
@@ -132,7 +125,6 @@ public class ApplicationController {
 		Integer genderIndex = sc.nextInt();
 		Gender genderValue = Gender.values()[genderIndex - 1];
 
-		this.applicationView.showCreateUserStepSix(this.menuModel.getLanguageOptions());
 		this.waitUserInputCreateUserStepSix(username, password, age, genderValue);
 	}
 
@@ -153,15 +145,7 @@ public class ApplicationController {
 		Integer languageIndex = sc.nextInt();
 		Language languageValue = Language.values()[languageIndex - 1];
 
-		UserController userController = new UserController();
-		this.currentUser = userController.saveUser(
-			username,
-			password,
-			age,
-			gender,
-			languageValue
-		);
-		this.applicationView.showMainMenu();
+
 	}
 
 	/*
@@ -182,69 +166,6 @@ public class ApplicationController {
 	 */
 	private void quitProgram() {
 
-		this.applicationView.showQuit();
 		System.exit(0);
-	}
-
-
-	/*
-	 *
-	 * GETTERS AND SETTERS
-	 *
-	 *
-	 *
-	 *
-	 *
-	 *
-	 *
-	 *
-	 */
-
-	/**
-	 *
-	 * @return ApplicationView
-	 */
-	public ApplicationView getApplicationView() {
-		return applicationView;
-	}
-
-	/**
-	 *
-	 * @param applicationView
-	 */
-	public void setApplicationView(ApplicationView applicationView) {
-		this.applicationView = applicationView;
-	}
-
-	/**
-	 *
-	 * @return menuModel
-	 */
-	public Menu getMenuModel() {
-		return menuModel;
-	}
-
-	/**
-	 *
-	 * @param menuModel
-	 */
-	public void setMenuModel(Menu menuModel) {
-		this.menuModel = menuModel;
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public User getCurrentUser() {
-		return currentUser;
-	}
-
-	/**
-	 *
-	 * @param currentUser
-	 */
-	public void setCurrentUser(User currentUser) {
-		this.currentUser = currentUser;
 	}
 }
