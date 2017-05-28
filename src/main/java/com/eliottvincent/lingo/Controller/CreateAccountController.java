@@ -26,9 +26,13 @@ public class CreateAccountController {
 
 	}
 
-	public void handleCreateAccount(ActionEvent actionEvent) throws IOException {
+	public void handleCreateAccount(ActionEvent actionEvent) {
 
-		this.screenController.addScreen("login", FXMLLoader.load(getClass().getResource( "../fxml/login.fxml" )));
+		try {
+			this.screenController.addScreen("login", FXMLLoader.load(getClass().getResource( "../fxml/login.fxml" )));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = ((Node) actionEvent.getSource()).getScene();
@@ -37,6 +41,15 @@ public class CreateAccountController {
 
 	public void handleCancel(ActionEvent actionEvent) {
 
+		try {
+			this.screenController.addScreen("login", FXMLLoader.load(getClass().getResource( "../fxml/login.fxml" )));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// need to cast to (Node) in order to use the getScene() method
+		Scene scene = ((Node) actionEvent.getSource()).getScene();
+		screenController.activate(scene, "login");
 
 	}
 }
