@@ -43,11 +43,11 @@ public class LoginController {
 	 */
 	public void handleCreateAccount(ActionEvent actionEvent) throws IOException {
 
-		this.screenController.addScreen("createAccount", FXMLLoader.load(getClass().getResource( "../fxml/bis.fxml" )));
+		this.screenController.addScreen("accountCreation", FXMLLoader.load(getClass().getResource( "../fxml/accountCreation.fxml" )));
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = ((Node) actionEvent.getSource()).getScene();
-		screenController.activate(scene, "createAccount");
+		screenController.activate(scene, "accountCreation");
 	}
 
 	/**
