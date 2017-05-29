@@ -25,13 +25,24 @@ public class ScreenController {
 		screenMap.remove(name);
 	}
 
-	public void activate(Scene scene, String name) {
+	public void activate(Scene scene, String name, Stage stage) {
+		Stage mStage;
+
 		scene.setRoot(screenMap.get(name));
 
-		Stage stage = (Stage) scene.getWindow();
-		stage.setScene(scene);
-		stage.setResizable(false);
-		stage.show();
+		// if the developer wants to override the Stage object
+		if (stage != null) {
+			mStage = stage;
+		}
+
+		// else we get the Stage from the scene
+		else {
+			mStage = (Stage) scene.getWindow();
+		}
+
+		mStage.setScene(scene);
+		mStage.setResizable(false);
+		mStage.show();
 	}
 
 }

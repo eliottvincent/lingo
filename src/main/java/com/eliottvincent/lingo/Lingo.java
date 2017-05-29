@@ -1,10 +1,15 @@
 package com.eliottvincent.lingo;
 
+import com.eliottvincent.lingo.Controller.ScreenController;
+import com.eliottvincent.lingo.View.LoginView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  * Hello world!
@@ -12,18 +17,52 @@ import javafx.stage.Stage;
  */
 public class Lingo extends Application
 {
-	
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("fxml/login.fxml"));
-		Scene mScene = new Scene(root, 1500, 750);
 
-		primaryStage.setScene(mScene);
-		primaryStage.setResizable(false);
-		primaryStage.show();
+	//================================================================================
+	// Other properties
+	//================================================================================
+
+	//================================================================================
+	// Main and initialization
+	//================================================================================
+
+	/**
+	 *
+	 * @param primaryStage
+	 */
+	@Override
+	public void start(Stage primaryStage) {
+
+		// we need to instantiate the ScreenController
+		ScreenController screenController = new ScreenController();
+
+		// then we create an instance of loginView
+		// this instance is going to be the controller of our FXML template
+		LoginView loginView = new LoginView();
+
+		try {
+			// create a loader with our login.fxml as template
+			FXMLLoader loader = new FXMLLoader(getClass().getResource( "fxml/login.fxml" ));
+
+			// setting loginView (created above) as controller of this loader
+			loader.setController(loginView);
+
+			// "converting" the loader to a Panel object
+			Pane loaderToPane = loader.load();
+			screenController.addScreen("loginBis", loaderToPane);
+
+			Scene mScene = new Scene(loaderToPane, 1500, 750);
+			screenController.activate(mScene, "loginBis", primaryStage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
-
+	/**
+	 *
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

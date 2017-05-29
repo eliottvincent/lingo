@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -113,8 +114,7 @@ public class AccountCreationView {
 
 		// listening for passwordFieldBis value changes
 		// lambda expression from Java 8
-		passwordBisField.textProperty().addListener(
-			(observable, oldValue, newValue) -> {
+		passwordBisField.textProperty().addListener((observable, oldValue, newValue) -> {
 				if (!passwordBisField.getText().equals(passwordField.getText())) {
 					statusLabel.setText("Passwords don\'t match");
 				}
@@ -125,7 +125,7 @@ public class AccountCreationView {
 		);
 
 		// the default focus is on the first text area
-		// we this Runnable (encapsulated in a lambda function) to focus on the container
+		// we use this Runnable (encapsulated in a lambda function) to focus on the container
 		Platform.runLater(() -> container.requestFocus());
 
 	}
@@ -188,8 +188,7 @@ public class AccountCreationView {
 								Status saveUserStatus = userController.saveUser();
 								if (saveUserStatus == Status.OK) {
 
-									statusLabel.setText("Congratttts");
-
+									System.out.println("cool");
 								}
 								else {
 									switch (saveUserStatus) {
@@ -239,7 +238,7 @@ public class AccountCreationView {
 		}
 	}
 
-	private void cancelAction(Node node) {
+	private void cancelActionBackup(Node node) {
 		try {
 			this.screenController.addScreen("login", FXMLLoader.load(getClass().getResource( "../fxml/login.fxml" )));
 		} catch (IOException e) {
@@ -248,7 +247,23 @@ public class AccountCreationView {
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();
-		screenController.activate(scene, "login");
+		this.screenController.activate(scene, "login", null);
+	}
+
+	private void cancelAction(Node node) {
+		LoginView loginView = new LoginView("testtttttt");
+
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource( "../fxml/login.fxml" ));
+			loader.setController(loginView);
+			Pane loaderToPane = (Pane) loader.load();
+			this.screenController.addScreen("loginBis", loaderToPane);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Scene scene = node.getScene();
+		this.screenController.activate(scene, "loginBis", null);
 	}
 
 }

@@ -3,8 +3,6 @@ package com.eliottvincent.lingo.View;
 import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Controller.UserController;
 import com.eliottvincent.lingo.Model.User;
-import com.sun.javafx.scene.control.skin.TextAreaSkin;
-import com.sun.javafx.scene.control.skin.TextFieldSkin;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -59,14 +57,29 @@ public class LoginView {
 
 	private ScreenController screenController;
 
+	private String statusText;
 
 	//================================================================================
 	// Constructor and initialization
 	//================================================================================
 
+	/**
+	 *
+	 */
 	public LoginView() {
 		this.screenController = new ScreenController();
 		// TODO : find a way to load FXML files here rather than in handlers
+	}
+
+	/**
+	 *
+	 * @param status
+	 */
+	public LoginView(String status) {
+		this.screenController = new ScreenController();
+		if (status != null) {
+			this.statusText = status;
+		}
 	}
 
 	@FXML
@@ -74,26 +87,13 @@ public class LoginView {
 
 
 		// the default focus is on the first text area
-		// we this Runnable (encapsulated in a lambda function) to focus on the container
-		Platform.runLater(() -> container.requestFocus());
-
-
-
-		// focus
-		usernameTextField.focusedProperty().addListener((arg0, oldPropertyValue, newPropertyValue) -> {
-            if (newPropertyValue)
-            {
-                System.out.println("Textfield on focus");
-            }
-            else
-            {
-                System.out.println("Textfield out focus");
-            }
-        });
+		// we use this Runnable (encapsulated in a lambda function) to focus on the container
+		Platform.runLater(() -> {
+			container.requestFocus();
+		});
 
 		// ENTER key = login
 		// using lambda function 💪
-
 		container.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 
 			// if the TAB key was pressed
@@ -106,6 +106,12 @@ public class LoginView {
                 event.consume();
             }
         });
+
+		// if the controller has been instantiated with a "status" in parameters
+		// then we set the text of the statusLabel
+		if (this.statusText != null) {
+			this.statusLabel.setText(this.statusText);
+		}
 	}
 
 
@@ -161,7 +167,7 @@ public class LoginView {
 			}
 
 			Scene scene = node.getScene();
-			screenController.activate(scene, "home");
+			screenController.activate(scene, "home", null);
 		}
 		else {
 			statusLabel.setText("Incorrect username or password");
@@ -181,7 +187,7 @@ public class LoginView {
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();
-		screenController.activate(scene, "home");
+		screenController.activate(scene, "home", null);
 	}
 
 	/**
@@ -197,6 +203,6 @@ public class LoginView {
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();
-		screenController.activate(scene, "accountCreation");
+		screenController.activate(scene, "accountCreation", null);
 	}
 }
