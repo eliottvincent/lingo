@@ -6,19 +6,14 @@ import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Data.Status;
 import com.eliottvincent.lingo.Model.User;
-import javafx.beans.InvalidationListener;
-import javafx.beans.WeakInvalidationListener;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -61,9 +56,7 @@ public class AccountCreationView {
 		this.screenController = new ScreenController();
 	}
 
-	/**
-	 *
-	 */
+	@FXML
 	public void initialize() {
 
 		// populating the gender combo
@@ -110,14 +103,16 @@ public class AccountCreationView {
 			(observable, oldValue, newValue) -> {
 				if (!passwordBisField.getText().equals(passwordField.getText())) {
 					errorLabel.setText("Passwords don\'t match");
-					errorLabel.setTextFill(Color.RED);
 				}
 				else {
 					errorLabel.setText("");
-					errorLabel.setTextFill(Color.WHITE);
 				}
 			}
 		);
+
+		// the default focus is on the first text area
+		// we this Runnable (encapsulated in a lambda function) to focus on the container
+		Platform.runLater(() -> container.requestFocus());
 
 	}
 
