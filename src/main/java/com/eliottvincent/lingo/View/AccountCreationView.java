@@ -35,7 +35,7 @@ public class AccountCreationView {
 	private Label errorLabel;
 
 	@FXML
-	private TextArea usernameTextArea;
+	private TextField usernameTextField;
 
 	@FXML
 	private PasswordField passwordField;
@@ -119,9 +119,9 @@ public class AccountCreationView {
 	public void handleCreateAccount(ActionEvent actionEvent) {
 
 		// TODO : move this logic to UserController (or User)
-		if (usernameTextArea.getText() != null
-			&& !Objects.equals(usernameTextArea.getText(), "")
-			&& !Objects.equals(usernameTextArea.getText(), " ")) {
+		if (usernameTextField.getText() != null
+			&& !Objects.equals(usernameTextField.getText(), "")
+			&& !Objects.equals(usernameTextField.getText(), " ")) {
 
 			if (passwordField.getText() != null
 				&& !Objects.equals(passwordField.getText(), "")
@@ -142,7 +142,7 @@ public class AccountCreationView {
 
 
 							User tmpUser = new User(
-								usernameTextArea.getText(),
+								usernameTextField.getText(),
 								passwordField.getText(),
 								(Integer) ageSpinner.getValue(),
 								genderComboBox.getValue(),

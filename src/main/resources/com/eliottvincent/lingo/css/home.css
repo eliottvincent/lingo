@@ -54,7 +54,7 @@
 	-fx-max-width: 32px;
 }
 
-.text-area {
+.text-field {
 	-fx-pref-width: 300px;
 	-fx-pref-row-count: 3;
 	-fx-border-radius: 6px;
@@ -63,6 +63,11 @@
 	-fx-border-style: solid;
 	-fx-font-size: 20px;
 	-fx-text-fill: #000;
+	-fx-alignment: center-left;
+}
+
+.text-field *.text {
+	-fx-text-alignment: left;
 }
 
 .password-field {
@@ -73,7 +78,8 @@
 	-fx-border-color: #fff;
 	-fx-border-style: solid;
 	-fx-font-size: 20px;
-	-fx-text-fill: #000;
+	-fx-text-fill: #636363;
+	-fx-alignment: center-left;
 }
 
 /* State based selectors */
