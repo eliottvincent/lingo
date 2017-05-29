@@ -23,7 +23,9 @@ import java.util.Objects;
  */
 public class AccountCreationView {
 
-	private ScreenController screenController;
+	//================================================================================
+	// JavaFX Elements
+	//================================================================================
 
 	@FXML
 	private VBox container;
@@ -32,7 +34,7 @@ public class AccountCreationView {
 	private Label titleLabel;
 
 	@FXML
-	private Label errorLabel;
+	private Label statusLabel;
 
 	@FXML
 	private TextField usernameTextField;
@@ -51,6 +53,18 @@ public class AccountCreationView {
 
 	@FXML
 	private ComboBox<Language> languageComboBox;
+
+
+	//================================================================================
+	// Other properties
+	//================================================================================
+
+	private ScreenController screenController;
+
+
+	//================================================================================
+	// Constructor and initialization
+	//================================================================================
 
 	public AccountCreationView() {
 		this.screenController = new ScreenController();
@@ -102,10 +116,10 @@ public class AccountCreationView {
 		passwordBisField.textProperty().addListener(
 			(observable, oldValue, newValue) -> {
 				if (!passwordBisField.getText().equals(passwordField.getText())) {
-					errorLabel.setText("Passwords don\'t match");
+					statusLabel.setText("Passwords don\'t match");
 				}
 				else {
-					errorLabel.setText("");
+					statusLabel.setText("");
 				}
 			}
 		);
@@ -116,7 +130,27 @@ public class AccountCreationView {
 
 	}
 
+
+	//================================================================================
+	// Event Handlers
+	//================================================================================
+
 	public void handleCreateAccount(ActionEvent actionEvent) {
+
+		this.createAccountAction();
+	}
+
+	public void handleCancel(ActionEvent actionEvent) {
+
+		this.cancelAction((Node) actionEvent.getSource());
+	}
+
+
+	//================================================================================
+	// Event Actions
+	//================================================================================
+
+	private void createAccountAction() {
 
 		// TODO : move this logic to UserController (or User)
 		if (usernameTextField.getText() != null
@@ -141,12 +175,12 @@ public class AccountCreationView {
 							if (languageComboBox.getValue() != null) {
 
 
-							User tmpUser = new User(
-								usernameTextField.getText(),
-								passwordField.getText(),
-								(Integer) ageSpinner.getValue(),
-								genderComboBox.getValue(),
-								languageComboBox.getValue()
+								User tmpUser = new User(
+									usernameTextField.getText(),
+									passwordField.getText(),
+									(Integer) ageSpinner.getValue(),
+									genderComboBox.getValue(),
+									languageComboBox.getValue()
 								);
 
 								UserController userController = new UserController(tmpUser);
@@ -154,59 +188,58 @@ public class AccountCreationView {
 								Status saveUserStatus = userController.saveUser();
 								if (saveUserStatus == Status.OK) {
 
-									errorLabel.setText("Congratttts");
+									statusLabel.setText("Congratttts");
 
 								}
 								else {
 									switch (saveUserStatus) {
 										case USER_ALREADY_EXISTS:
-											errorLabel.setText("User already exists");
+											statusLabel.setText("User already exists");
 											break;
 										case PASSWORD_TOO_SHORT:
-											errorLabel.setText("Password too short");
+											statusLabel.setText("Password too short");
 											break;
 										case USERNAME_NOT_AVAILABLE:
-											errorLabel.setText("Username not available");
+											statusLabel.setText("Username not available");
 											break;
 										default:
-											errorLabel.setText("An error occurred");
+											statusLabel.setText("An error occurred");
 									}
 								}
 							}
 							else {
 
-								errorLabel.setText("Please choose a valid language");
+								statusLabel.setText("Please choose a valid language");
 							}
 						}
 						else {
 
-							errorLabel.setText("Please choose a valid gender");
+							statusLabel.setText("Please choose a valid gender");
 						}
 					}
 					else {
 
-						errorLabel.setText("Please enter a valid age");
+						statusLabel.setText("Please enter a valid age");
 					}
 				}
 				else {
 
-					errorLabel.setText("Passwords don\'t match");
+					statusLabel.setText("Passwords don\'t match");
 				}
 			}
 			else {
 
-				errorLabel.setText("Please choose a password");
+				statusLabel.setText("Please choose a password");
 			}
 		}
 		else {
 
-			errorLabel.setText("Please choose a username");
+			statusLabel.setText("Please choose a username");
 
 		}
 	}
 
-	public void handleCancel(ActionEvent actionEvent) {
-
+	private void cancelAction(Node node) {
 		try {
 			this.screenController.addScreen("login", FXMLLoader.load(getClass().getResource( "../fxml/login.fxml" )));
 		} catch (IOException e) {
@@ -214,7 +247,8 @@ public class AccountCreationView {
 		}
 
 		// need to cast to (Node) in order to use the getScene() method
-		Scene scene = ((Node) actionEvent.getSource()).getScene();
+		Scene scene = node.getScene();
 		screenController.activate(scene, "login");
 	}
+
 }

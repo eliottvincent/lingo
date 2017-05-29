@@ -3,15 +3,17 @@ package com.eliottvincent.lingo.View;
 import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Controller.UserController;
 import com.eliottvincent.lingo.Model.User;
+import com.sun.javafx.scene.control.skin.TextAreaSkin;
+import com.sun.javafx.scene.control.skin.TextFieldSkin;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -21,6 +23,11 @@ import java.io.IOException;
  */
 public class LoginView {
 
+
+	//================================================================================
+	// JavaFX Elements
+	//================================================================================
+
 	@FXML
 	private VBox container;
 
@@ -28,10 +35,10 @@ public class LoginView {
 	public Label titleLabel;
 
 	@FXML
-	private Button guestLoginButton;
+	public Label statusLabel;
 
 	@FXML
-	private TextArea usernameTextArea;
+	private TextField usernameTextField;
 
 	@FXML
 	private PasswordField passwordField;
@@ -40,9 +47,22 @@ public class LoginView {
 	private Button loginButton;
 
 	@FXML
+	private Button guestLoginButton;
+
+	@FXML
 	private Button createAccountButton;
 
+
+	//================================================================================
+	// Other properties
+	//================================================================================
+
 	private ScreenController screenController;
+
+
+	//================================================================================
+	// Constructor and initialization
+	//================================================================================
 
 	public LoginView() {
 		this.screenController = new ScreenController();
@@ -59,7 +79,39 @@ public class LoginView {
 
 
 
+		// focus
+		usernameTextField.focusedProperty().addListener((arg0, oldPropertyValue, newPropertyValue) -> {
+            if (newPropertyValue)
+            {
+                System.out.println("Textfield on focus");
+            }
+            else
+            {
+                System.out.println("Textfield out focus");
+            }
+        });
+
+		// ENTER key = login
+		// using lambda function 💪
+
+		container.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+
+			// if the TAB key was pressed
+            if (event.getCode().equals(KeyCode.ENTER)) {
+
+                //Node node = (Node) event.getSource();
+                this.loginAction((Node) event.getSource());
+
+                // avoid memory leak
+                event.consume();
+            }
+        });
 	}
+
+
+	//================================================================================
+	// Event Handlers
+	//================================================================================
 
 	/**
 	 *
@@ -67,15 +119,8 @@ public class LoginView {
 	 */
 	public void handleCreateAccount(ActionEvent actionEvent) {
 
-		try {
-			this.screenController.addScreen("accountCreation", FXMLLoader.load(getClass().getResource( "../fxml/accountCreation.fxml" )));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
-		// need to cast to (Node) in order to use the getScene() method
-		Scene scene = ((Node) actionEvent.getSource()).getScene();
-		screenController.activate(scene, "accountCreation");
+		this.createAccountAction((Node) actionEvent.getSource());
 	}
 
 	/**
@@ -84,7 +129,28 @@ public class LoginView {
 	 */
 	public void handleLogin(ActionEvent actionEvent) {
 
-		UserController userController = new UserController(new User(usernameTextArea.getText(), passwordField.getText()));
+		this.loginAction((Node) actionEvent.getSource());
+	}
+
+	/**
+	 *
+	 * @param actionEvent
+	 */
+	public void handleGuestLogin(ActionEvent actionEvent) {
+		this.guestLoginAction((Node) actionEvent.getSource());
+	}
+
+
+	//================================================================================
+	// Event Actions
+	//================================================================================
+
+	/**
+	 *
+	 * @param node
+	 */
+	private void loginAction(Node node) {
+		UserController userController = new UserController(new User(usernameTextField.getText(), passwordField.getText()));
 
 		User tmpUser = userController.logIn();
 		if (tmpUser != null) {
@@ -94,17 +160,19 @@ public class LoginView {
 				e.printStackTrace();
 			}
 
-			// need to cast to (Node) in order to use the getScene() method
-			Scene scene = ((Node) actionEvent.getSource()).getScene();
+			Scene scene = node.getScene();
 			screenController.activate(scene, "home");
 		}
 		else {
-			// TODO :
-			System.out.printf("not logged in :(");
+			statusLabel.setText("Incorrect username or password");
 		}
 	}
 
-	public void handleGuestLogin(ActionEvent actionEvent) {
+	/**
+	 *
+	 * @param node
+	 */
+	private void guestLoginAction(Node node) {
 		try {
 			this.screenController.addScreen("home", FXMLLoader.load(getClass().getResource( "../fxml/home.fxml" )));
 		} catch (IOException e) {
@@ -112,8 +180,23 @@ public class LoginView {
 		}
 
 		// need to cast to (Node) in order to use the getScene() method
-		Scene scene = ((Node) actionEvent.getSource()).getScene();
+		Scene scene = node.getScene();
 		screenController.activate(scene, "home");
+	}
 
+	/**
+	 *
+	 * @param node
+	 */
+	private void createAccountAction(Node node) {
+		try {
+			this.screenController.addScreen("accountCreation", FXMLLoader.load(getClass().getResource( "../fxml/accountCreation.fxml" )));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// need to cast to (Node) in order to use the getScene() method
+		Scene scene = node.getScene();
+		screenController.activate(scene, "accountCreation");
 	}
 }
