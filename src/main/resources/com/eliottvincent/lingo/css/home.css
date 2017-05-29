@@ -15,14 +15,8 @@
 	-fx-font-size: 31px;
 }
 
-#time {
-	-fx-content-display: center;
-	-fx-pref-width: 350px;
-	-fx-background-color: #202428;
-	-fx-font-size: 72px;
-	-fx-line-height: 80px;
-	-fx-border-radius: 8px;
-	-fx-letter-spacing: 10px;
+#errorLabel {
+	-fx-text-fill: red;
 }
 
 .buttons {
@@ -85,7 +79,6 @@
 /* State based selectors */
 
 .login-anonymous .png-container {
-	-fx-padding: 0 0 0 25px;
 	-fx-spacing: 5px;
 }
 
@@ -95,8 +88,4 @@
 
 .break {
 	-fx-background-color: #3F8ABF;
-}
-
-#pomodoro {
-	-fx-fit-height: 34px;
 }
