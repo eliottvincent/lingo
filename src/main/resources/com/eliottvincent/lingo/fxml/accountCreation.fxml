@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.PasswordField?>
 <VBox fx:id="container" stylesheets="/com/eliottvincent/lingo/css/home.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.eliottvincent.lingo.View.AccountCreationView">
 
 	<children>
@@ -17,8 +18,8 @@
 		<Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" />
 
 		<TextArea fx:id="usernameTextArea" maxWidth="400.0" minWidth="400.0" prefHeight="30.0" prefWidth="400.0" promptText="Username" />
-		<TextArea fx:id="passwordTextArea" maxWidth="400.0" minWidth="400.0" prefHeight="30.0" prefWidth="400.0" promptText="Password" />
-		<TextArea fx:id="passwordBisTextArea" maxWidth="400.0" minWidth="400.0" prefHeight="30.0" prefWidth="400.0" promptText="Password again" />
+		<PasswordField fx:id="passwordField" maxWidth="400.0" minWidth="400.0" prefHeight="30.0" prefWidth="400.0" promptText="Password" />
+		<PasswordField fx:id="passwordBisField" maxWidth="400.0" minWidth="400.0" prefHeight="30.0" prefWidth="400.0" promptText="Password again" />
 
 		<Spinner fx:id="ageSpinner" max="77" min="5" prefHeight="30.0" prefWidth="400.0" />
 		<ComboBox fx:id="genderComboBox" prefHeight="30.0" prefWidth="400.0" promptText="gender" />

@@ -6,16 +6,19 @@ import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Data.Status;
 import com.eliottvincent.lingo.Model.User;
+import javafx.beans.InvalidationListener;
+import javafx.beans.WeakInvalidationListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -40,10 +43,10 @@ public class AccountCreationView {
 	private TextArea usernameTextArea;
 
 	@FXML
-	private TextArea passwordTextArea;
+	private PasswordField passwordField;
 
 	@FXML
-	private TextArea passwordBisTextArea;
+	private PasswordField passwordBisField;
 
 	@FXML
 	private Spinner ageSpinner;
@@ -73,6 +76,49 @@ public class AccountCreationView {
 		languageComboBox.getItems().addAll(
 			Language.values()
 		);
+
+		/*
+		 * old listener that used to look focusOut on passwordBisField
+		 *
+		 * there are risks of a memory leak when using the addListener() method on the PasswordField
+		 * either we save the listener object and remove it in a finalize() overridden method or use a WeakInvalidationListener
+		 * in the code bellow we use a WeakInvalidationListener because it doesn't require the extra follow up code
+		 *
+		 */
+		// adding an event handler on the password bis field
+		// lambda expression from Java 8
+		/*InvalidationListener pfConfStorepassListener = (evt) -> {
+			if( !passwordBisField.isFocused() ) {
+				if (!passwordBisField.getText().equals(passwordField.getText())) {
+					errorLabel.setText("Passwords don\'t match");
+					errorLabel.setTextFill(Color.RED);
+				}
+				else {
+					errorLabel.setText("");
+					errorLabel.setTextFill(Color.WHITE);
+				}
+			}
+		};
+		passwordBisField.focusedProperty().addListener(
+			new WeakInvalidationListener(pfConfStorepassListener)
+		);*/
+
+
+		// listening for passwordFieldBis value changes
+		// lambda expression from Java 8
+		passwordBisField.textProperty().addListener(
+			(observable, oldValue, newValue) -> {
+				if (!passwordBisField.getText().equals(passwordField.getText())) {
+					errorLabel.setText("Passwords don\'t match");
+					errorLabel.setTextFill(Color.RED);
+				}
+				else {
+					errorLabel.setText("");
+					errorLabel.setTextFill(Color.WHITE);
+				}
+			}
+		);
+
 	}
 
 	public void handleCreateAccount(ActionEvent actionEvent) {
@@ -82,14 +128,14 @@ public class AccountCreationView {
 			&& !Objects.equals(usernameTextArea.getText(), "")
 			&& !Objects.equals(usernameTextArea.getText(), " ")) {
 
-			if (passwordTextArea.getText() != null
-				&& !Objects.equals(passwordTextArea.getText(), "")
-				&& !Objects.equals(passwordTextArea.getText(), " ")) {
+			if (passwordField.getText() != null
+				&& !Objects.equals(passwordField.getText(), "")
+				&& !Objects.equals(passwordField.getText(), " ")) {
 
-				if (passwordBisTextArea.getText() != null
-					&& !Objects.equals(passwordBisTextArea.getText(), "")
-					&& !Objects.equals(passwordBisTextArea.getText(), " ")
-					&& Objects.equals(passwordTextArea.getText(), passwordBisTextArea.getText())) {
+				if (passwordBisField.getText() != null
+					&& !Objects.equals(passwordBisField.getText(), "")
+					&& !Objects.equals(passwordBisField.getText(), " ")
+					&& Objects.equals(passwordField.getText(), passwordBisField.getText())) {
 
 					if (ageSpinner.getValue() != null
 						&& !Objects.equals(ageSpinner.getValue(), "")
@@ -102,7 +148,7 @@ public class AccountCreationView {
 
 							User tmpUser = new User(
 								usernameTextArea.getText(),
-								passwordTextArea.getText(),
+								passwordField.getText(),
 								(Integer) ageSpinner.getValue(),
 								genderComboBox.getValue(),
 								languageComboBox.getValue()
