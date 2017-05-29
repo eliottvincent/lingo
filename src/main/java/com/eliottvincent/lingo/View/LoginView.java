@@ -3,14 +3,19 @@ package com.eliottvincent.lingo.View;
 import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Controller.UserController;
 import com.eliottvincent.lingo.Model.User;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -18,6 +23,12 @@ import java.io.IOException;
  * Created by eliottvct on 27/05/17.
  */
 public class LoginView {
+
+	@FXML
+	private VBox container;
+
+	@FXML
+	public Label titleLabel;
 
 	@FXML
 	private Button guestLoginButton;
@@ -36,9 +47,21 @@ public class LoginView {
 
 	private ScreenController screenController;
 
-	public LoginView() throws IOException {
+	public LoginView() {
 		this.screenController = new ScreenController();
 		// TODO : find a way to load FXML files here rather than in handlers
+	}
+
+	@FXML
+	public void initialize() {
+
+
+		// the default focus is on the first text area
+		// we this Runnable (encapsulated in a lambda function) to focus on the container
+		Platform.runLater(() -> container.requestFocus());
+
+
+
 	}
 
 	/**
