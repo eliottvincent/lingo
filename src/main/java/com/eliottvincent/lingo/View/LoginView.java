@@ -160,11 +160,7 @@ public class LoginView {
 
 		User tmpUser = userController.logIn();
 		if (tmpUser != null) {
-			try {
-				this.screenController.addScreen("home", FXMLLoader.load(getClass().getResource( "../fxml/home.fxml" )));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			this.screenController.addScreen("home", "../fxml/home.fxml" , null);
 
 			Scene scene = node.getScene();
 			screenController.activate(scene, "home", null);
@@ -179,11 +175,7 @@ public class LoginView {
 	 * @param node
 	 */
 	private void guestLoginAction(Node node) {
-		try {
-			this.screenController.addScreen("home", FXMLLoader.load(getClass().getResource( "../fxml/home.fxml" )));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.screenController.addScreen("home", "../fxml/home.fxml", null);
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();
@@ -195,11 +187,7 @@ public class LoginView {
 	 * @param node
 	 */
 	private void createAccountAction(Node node) {
-		try {
-			this.screenController.addScreen("accountCreation", FXMLLoader.load(getClass().getResource( "../fxml/accountCreation.fxml" )));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.screenController.addScreen("accountCreation", "../fxml/accountCreation.fxml", null);
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();

@@ -1,9 +1,11 @@
 package com.eliottvincent.lingo.Controller;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -17,8 +19,23 @@ public class ScreenController {
 
 	}
 
-	public void addScreen(String name, Pane pane){
-		screenMap.put(name, pane);
+	public void addScreen(String name, String pathToFXML, Object controller) {
+
+		// create a loader with our pathToFXML as template
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(pathToFXML));
+
+		// setting loginView (created above) as controller of this loader
+		if (controller != null) {
+			loader.setController(controller);
+		}
+
+		// "converting" the loader to a Panel object
+		try {
+			Pane loaderToPane = loader.load();
+			screenMap.put(name, loaderToPane);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void removeScreen(String name){

@@ -239,11 +239,7 @@ public class AccountCreationView {
 	}
 
 	private void cancelActionBackup(Node node) {
-		try {
-			this.screenController.addScreen("login", FXMLLoader.load(getClass().getResource( "../fxml/login.fxml" )));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.screenController.addScreen("login", "../fxml/login.fxml", null);
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();
@@ -253,14 +249,7 @@ public class AccountCreationView {
 	private void cancelAction(Node node) {
 		LoginView loginView = new LoginView("testtttttt");
 
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource( "../fxml/login.fxml" ));
-			loader.setController(loginView);
-			Pane loaderToPane = (Pane) loader.load();
-			this.screenController.addScreen("loginBis", loaderToPane);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.screenController.addScreen("loginBis", "../fxml/login.fxml", loginView);
 
 		Scene scene = node.getScene();
 		this.screenController.activate(scene, "loginBis", null);
