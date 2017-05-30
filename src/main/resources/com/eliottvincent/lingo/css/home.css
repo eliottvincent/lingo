@@ -1,0 +1,91 @@
+* {
+	-fx-font-family: 'Varela Round';
+	-fx-alignment: center;
+	-fx-text-fill: #fff;
+}
+
+#container {
+	-fx-background: #3F8ABF;
+	-fx-pref-width: 500px;
+	-fx-padding: 75px;
+	-fx-spacing: 20px;
+}
+
+#titleLabel {
+	-fx-font-size: 31px;
+}
+
+#statusLabel {
+	-fx-text-fill: red;
+}
+
+.buttons {
+	-fx-spacing: 10px;
+}
+
+.button {
+	-fx-border-radius: 6px;
+	-fx-border-width: 2px;
+	-fx-border-style: solid;
+	-fx-border-color: #fff;
+	-fx-background-color: none;
+	-fx-text-fill: #fff;
+	-fx-fill-width: true;
+	-fx-cursor: pointer;
+	-fx-padding: 10px 10px 10px 55px;
+	-fx-font-size: 20px;
+}
+
+.png-container {
+	-fx-padding: 0 0 0 15px;
+	-fx-alignment: center-left;
+}
+
+.png {
+	-fx-pref-height: 32px;
+	-fx-pref-width: 32px;
+	-fx-max-height: 32px;
+	-fx-max-width: 32px;
+}
+
+.text-field {
+	-fx-pref-width: 300px;
+	-fx-pref-row-count: 3;
+	-fx-border-radius: 6px;
+	-fx-border-width: 2px;
+	-fx-border-color: #fff;
+	-fx-border-style: solid;
+	-fx-font-size: 20px;
+	-fx-text-fill: #000;
+	-fx-alignment: center-left;
+}
+
+.text-field *.text {
+	-fx-text-alignment: left;
+}
+
+.password-field {
+	-fx-pref-width: 300px;
+	-fx-pref-row-count: 3;
+	-fx-border-radius: 6px;
+	-fx-border-width: 2px;
+	-fx-border-color: #fff;
+	-fx-border-style: solid;
+	-fx-font-size: 20px;
+	-fx-text-fill: #636363;
+	-fx-alignment: center-left;
+}
+
+/* State based selectors */
+
+.login-anonymous .png-container {
+	-fx-spacing: 5px;
+}
+
+.focus {
+	-fx-background-color: #2D3339;
+}
+
+.break {
+	-fx-background-color: #3F8ABF;
+}
