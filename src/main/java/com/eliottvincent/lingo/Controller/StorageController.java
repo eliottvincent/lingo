@@ -29,7 +29,7 @@ class StorageController {
 		// first we need to search if the username is available
 
 		// calling the CSV helper to read the file where the users are stored
-		List<String[]> users = CSVHelper.readCSV("src/main/java/com/eliottvincent/lingo/Helper/users.csv");
+		List<String[]> users = CSVHelper.readCSV("src/main/java/com/eliottvincent/lingo/Data/users.csv");
 
 		for(String[] row : users){
 			System.out.println(Arrays.toString(row));
@@ -49,7 +49,7 @@ class StorageController {
 		// we write in the file
 		// only if the status hasn't been modified by the loop
 		if (status.equals(Status.OK)) {
-			CSVHelper.writeCSV("src/main/java/com/eliottvincent/lingo/Helper/users.csv", ConverterHelper.userToStringArray(user));
+			CSVHelper.writeCSV("src/main/java/com/eliottvincent/lingo/Data/users.csv", ConverterHelper.userToStringArray(user));
 		}
 
 		return status;
@@ -61,7 +61,7 @@ class StorageController {
 		User tmpUser = null;
 
 		// calling the CSV helper to read the file where the users are stored
-		List<String[]> users = CSVHelper.readCSV("src/main/java/com/eliottvincent/lingo/Helper/users.csv");
+		List<String[]> users = CSVHelper.readCSV("src/main/java/com/eliottvincent/lingo/Data/users.csv");
 
 		for(String[] row : users){
 			System.out.println(Arrays.toString(row));

@@ -6,15 +6,12 @@ import com.eliottvincent.lingo.Model.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-
-import java.io.IOException;
 
 /**
  * Created by eliottvct on 27/05/17.
@@ -124,7 +121,7 @@ public class LoginView {
 	 *
 	 * @param actionEvent
 	 */
-	public void handleCreateAcount(ActionEvent actionEvent) {
+	public void handleCreateAccount(ActionEvent actionEvent) {
 
 
 		this.createAccountAction((Node) actionEvent.getSource());
@@ -161,7 +158,8 @@ public class LoginView {
 
 		User tmpUser = userController.logIn();
 		if (tmpUser != null) {
-			this.screenController.addScreen("home", "../fxml/home.fxml" , null);
+			HomeView homeView = new HomeView();
+			this.screenController.addScreen("home", "../fxml/home.fxml" , homeView);
 
 			Scene scene = node.getScene();
 			screenController.activate(scene, "home", null);
@@ -176,7 +174,9 @@ public class LoginView {
 	 * @param node
 	 */
 	private void guestLoginAction(Node node) {
-		this.screenController.addScreen("home", "../fxml/home.fxml", null);
+
+		HomeView homeView = new HomeView();
+		this.screenController.addScreen("home", "../fxml/home.fxml", homeView);
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();
@@ -188,7 +188,9 @@ public class LoginView {
 	 * @param node
 	 */
 	private void createAccountAction(Node node) {
-		this.screenController.addScreen("accountCreation", "../fxml/accountCreation.fxml", null);
+
+		AccountCreationView accountCreationView = new AccountCreationView();
+		this.screenController.addScreen("accountCreation", "../fxml/accountCreation.fxml", accountCreationView);
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();

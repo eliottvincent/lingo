@@ -13,10 +13,10 @@ import java.util.HashMap;
  */
 public class ScreenController {
 
-	private HashMap<String, Pane> screenMap = new HashMap<>();
+	private HashMap<String, Pane> screenMap;
 
 	public ScreenController() {
-
+		this.screenMap = new HashMap<>();
 	}
 
 	public void addScreen(String name, String pathToFXML, Object controller) {
@@ -61,5 +61,4 @@ public class ScreenController {
 		mStage.setResizable(false);
 		mStage.show();
 	}
-
 }

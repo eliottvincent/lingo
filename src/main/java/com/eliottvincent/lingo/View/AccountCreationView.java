@@ -237,7 +237,9 @@ public class AccountCreationView {
 	}
 
 	private void cancelActionBackup(Node node) {
-		this.screenController.addScreen("login", "../fxml/login.fxml", null);
+
+		LoginView loginView = new LoginView("cancel");
+		this.screenController.addScreen("login", "../fxml/login.fxml", loginView);
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();
