@@ -15,7 +15,7 @@
 	-fx-font-size: 31px;
 }
 
-#errorLabel {
+#statusLabel {
 	-fx-text-fill: red;
 }
 

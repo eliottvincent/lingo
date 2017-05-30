@@ -17,7 +17,7 @@
 	<children>
 		<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" text="Account creation" />
 
-		<Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" />
+		<Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" />
 
 		<TextField fx:id="usernameTextField" maxWidth="400.0" minWidth="400.0" prefHeight="30.0" prefWidth="400.0" promptText="Username" />
 		<PasswordField fx:id="passwordField" maxWidth="400.0" minWidth="400.0" prefHeight="30.0" prefWidth="400.0" promptText="Password" />
