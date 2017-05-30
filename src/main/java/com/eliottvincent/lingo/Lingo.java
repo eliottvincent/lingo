@@ -29,7 +29,6 @@ public class Lingo extends Application
 	 */
 	@Override
 	public void start(Stage primaryStage) {
-
 		// we need to instantiate the ScreenController
 		ScreenController screenController = new ScreenController();
 
@@ -37,11 +36,13 @@ public class Lingo extends Application
 		// this instance is going to be the controller of our FXML template
 		LoginView loginView = new LoginView();
 
-		screenController.addScreen("loginTer", "../fxml/login.fxml", loginView);
+		// we add a screen in our ScreenController
+		// named "login", template from "../fxml/login.fxml", loginView as controller
+		screenController.addScreen("login", "../fxml/login.fxml", loginView);
 
 		Group root = new Group();
-		Scene terScene = new Scene(root, 1500, 750);
-		screenController.activate(terScene, "loginTer", primaryStage);
+		Scene scene = new Scene(root, 1500, 750);
+		screenController.activate(scene, "login", primaryStage);
 	}
 
 	/**

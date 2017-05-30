@@ -59,6 +59,7 @@ public class LoginView {
 
 	private String statusText;
 
+
 	//================================================================================
 	// Constructor and initialization
 	//================================================================================
@@ -123,7 +124,7 @@ public class LoginView {
 	 *
 	 * @param actionEvent
 	 */
-	public void handleCreateAccount(ActionEvent actionEvent) {
+	public void handleCreateAcount(ActionEvent actionEvent) {
 
 
 		this.createAccountAction((Node) actionEvent.getSource());

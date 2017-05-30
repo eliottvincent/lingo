@@ -9,20 +9,18 @@ import com.eliottvincent.lingo.Model.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
 import java.util.Objects;
 
 /**
  * Created by eliottvct on 28/05/17.
  */
 public class AccountCreationView {
+
 
 	//================================================================================
 	// JavaFX Elements

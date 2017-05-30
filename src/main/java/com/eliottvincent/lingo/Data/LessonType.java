@@ -5,5 +5,8 @@ package com.eliottvincent.lingo.Data;
  */
 
 public enum LessonType {
-	CONJUGATION, GRAMMAR, VOCABULARY, SPELLING
+	CONJUGATION,
+	GRAMMAR,
+	VOCABULARY,
+	SPELLING
 }
