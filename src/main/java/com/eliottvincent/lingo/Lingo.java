@@ -37,28 +37,11 @@ public class Lingo extends Application
 		// this instance is going to be the controller of our FXML template
 		LoginView loginView = new LoginView();
 
-/*
-        // create a loader with our login.fxml as template
-        FXMLLoader loader = new FXMLLoader(getClass().getResource( "fxml/login.fxml" ));
-
-        // setting loginView (created above) as controller of this loader
-        loader.setController(loginView);
-
-        // "converting" the loader to a Panel object
-        Pane loaderToPane = loader.load();
-        screenController.addScreen("loginBis", loaderToPane);
-
-        Scene mScene = new Scene(loaderToPane, 1500, 750);
-        screenController.activate(mScene, "loginBis", primaryStage);
-*/
-
-
 		screenController.addScreen("loginTer", "../fxml/login.fxml", loginView);
 
 		Group root = new Group();
 		Scene terScene = new Scene(root, 1500, 750);
 		screenController.activate(terScene, "loginTer", primaryStage);
-
 	}
 
 	/**
