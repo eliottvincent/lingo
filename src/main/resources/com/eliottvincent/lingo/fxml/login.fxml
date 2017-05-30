@@ -10,7 +10,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.TextField?>
 
-<VBox fx:id="container" stylesheets="/com/eliottvincent/lingo/css/home.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<?import java.net.URL?>
+<VBox fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+
+	<stylesheets>
+		<URL value="@../css/home.css"/>
+	</stylesheets>
 
 	<children>
 		<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" text="Lingo" />
