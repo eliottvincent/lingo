@@ -4,8 +4,6 @@ import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Controller.UserController;
 import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
-import com.eliottvincent.lingo.Data.Status;
-import com.eliottvincent.lingo.Model.History;
 import com.eliottvincent.lingo.Model.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -15,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
-import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -156,15 +153,19 @@ public class AccountCreationController {
 	 */
 	private void createAccountAction(Node node) {
 
-		// TODO : move this logic to UserController (or User)
+		// TODO : move this logic to UserController (or User) ??
+
+		// the user entered some text in the username field
 		if (usernameTextField.getText() != null
 			&& !Objects.equals(usernameTextField.getText(), "")
 			&& !Objects.equals(usernameTextField.getText(), " ")) {
 
+			// the user entered some text in the first password field
 			if (passwordField.getText() != null
 				&& !Objects.equals(passwordField.getText(), "")
 				&& !Objects.equals(passwordField.getText(), " ")) {
 
+				// the user entered
 				if (passwordBisField.getText() != null
 					&& !Objects.equals(passwordBisField.getText(), "")
 					&& !Objects.equals(passwordBisField.getText(), " ")
@@ -178,36 +179,36 @@ public class AccountCreationController {
 
 							if (languageComboBox.getValue() != null) {
 
+								// all values were filed, we can instantiate the userController
 								UserController userController = new UserController();
 
-								Status createUserStatus = userController.createUser(usernameTextField.getText(),
-									passwordField.getText(),
-									(Integer) ageSpinner.getValue(),
-									genderComboBox.getValue(),
-									languageComboBox.getValue()
-								);
+								// if the username isn't already used
+								if (!userController.usernameAlreadyExist(usernameTextField.getText())) {
 
-								if (createUserStatus == Status.OK) {
+									User createdUser = userController.createUser(usernameTextField.getText(),
+										passwordField.getText(),
+										(Integer) ageSpinner.getValue(),
+										genderComboBox.getValue(),
+										languageComboBox.getValue()
+									);
 
-									statusLabel.setText("");
+									if (createdUser != null) {
 
-									// redirecting the user to the home
-									displayHome(tmpUser, node);
+										statusLabel.setText("");
+
+										// redirecting the user to the home
+										displayHome(createdUser, node);
+									}
+
+									else {
+
+										statusLabel.setText("An error occurred");
+									}
+
 								}
 								else {
-									switch (createUserStatus) {
-										case USER_ALREADY_EXISTS:
-											statusLabel.setText("User already exists");
-											break;
-										case PASSWORD_TOO_SHORT:
-											statusLabel.setText("Password too short");
-											break;
-										case USERNAME_NOT_AVAILABLE:
-											statusLabel.setText("Username not available");
-											break;
-										default:
-											statusLabel.setText("An error occurred");
-									}
+
+									statusLabel.setText("The username is already taken, please choose another one.");
 								}
 							}
 							else {
