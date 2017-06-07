@@ -19,6 +19,9 @@ public class HomeController {
 	@FXML
 	Label titleLabel;
 
+	@FXML
+	Label sessionLabel;
+
 
 	//================================================================================
 	// Other properties
@@ -42,9 +45,12 @@ public class HomeController {
 	@FXML
 	public void initialize() {
 
-		if (currentUser != null) {
-			titleLabel.setText("Hello " + this.currentUser.getUserName() + "!");
-		}
+		assert this.currentUser != null;
+
+		titleLabel.setText("Hello " + this.currentUser.getUserName() + "!");
+		sessionLabel.setText("Historique : " + this.currentUser.getHistory());
+
+		statusLabel.setText("Le reste de l'interface est en cours de développement");
 
 
 

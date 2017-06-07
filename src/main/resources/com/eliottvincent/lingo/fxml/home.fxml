@@ -14,6 +14,6 @@
 	<children>
 		<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" text="Welcome to Lingo!" />
 		<Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" text=""/>
-
+		<Label fx:id="sessionLabel" alignment="CENTER" contentDisplay="CENTER" text=""/>
 	</children>
 </VBox>
