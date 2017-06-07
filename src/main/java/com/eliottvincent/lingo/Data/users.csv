@@ -1,9 +1,2 @@
-username,password,age,gender,language
-"eliott","eliott","21","MALE","FRENCH"
-"bis","bis","34","FEMALE","ENGLISH"
-"12","12","12","MALE","SPANISH"
-"jj","jj","5","FEMALE","FRENCH"
-"brenda","eliot","5","OTHER","FRENCH"
-"ermjt","eml","34","MALE","SPANISH"
-"jean","jean","21","FEMALE","FRENCH"
-"julien","julien","10","OTHER","GERMAN"
+username,password,age,gender,language,history
+"elt","elt","5","FEMALE","FRENCH","1"

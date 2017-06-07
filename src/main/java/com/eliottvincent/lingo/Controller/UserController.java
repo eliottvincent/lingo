@@ -28,10 +28,10 @@ public class UserController {
 		newUser.setAge(age);
 		newUser.setGender(gender);
 		newUser.setLanguage(language);
+		newUser.setHistory(new History());
 
 		this.saveUser(newUser);
 
-		// TODO : save user in storage
 		return newUser;
 	}
 
@@ -58,7 +58,7 @@ public class UserController {
 	 */
 	public Session getLastSession() {
 		// TODO : return last user's session
-		return new Session();
+		return new Session("ahah");
 	}
 
 	/**
@@ -70,5 +70,15 @@ public class UserController {
 
 		storageController.saveUser(newUser);
 
+	}
+
+	/**
+	 *
+	 * @param username
+	 * @return
+	 */
+	public boolean usernameAlreadyExist(String username) {
+
+		return storageController.usernameAlreadyExist(username);
 	}
 }

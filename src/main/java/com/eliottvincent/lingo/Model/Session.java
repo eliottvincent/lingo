@@ -5,11 +5,28 @@ package com.eliottvincent.lingo.Model;
  */
 public class Session {
 
-	private int id;
+
+	private String action;
 
 
+	public Session(String action) {
 
-	public Session() {
+		this.action = action;
+	}
 
+	/**
+	 *
+	 * @return
+	 */
+	public String getAction() {
+		return action;
+	}
+
+	/**
+	 *
+	 * @param action
+	 */
+	public void setAction(String action) {
+		this.action = action;
 	}
 }
