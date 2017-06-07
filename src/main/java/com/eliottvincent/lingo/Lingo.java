@@ -1,16 +1,11 @@
 package com.eliottvincent.lingo;
 
 import com.eliottvincent.lingo.Controller.ScreenController;
-import com.eliottvincent.lingo.View.LoginView;
+import com.eliottvincent.lingo.View.LoginController;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 /**
  * Hello world!
@@ -29,16 +24,17 @@ public class Lingo extends Application
 	 */
 	@Override
 	public void start(Stage primaryStage) {
+
 		// we need to instantiate the ScreenController
 		ScreenController screenController = new ScreenController();
 
-		// then we create an instance of loginView
+		// then we create an instance of loginController
 		// this instance is going to be the controller of our FXML template
-		LoginView loginView = new LoginView();
+		LoginController loginController = new LoginController();
 
 		// we add a screen in our ScreenController
-		// named "login", template from "../fxml/login.fxml", loginView as controller
-		screenController.addScreen("login", "../fxml/login.fxml", loginView);
+		// named "login", template from "../fxml/login.fxml", loginController as controller
+		screenController.addScreen("login", "../fxml/login.fxml", loginController);
 
 		Group root = new Group();
 		Scene scene = new Scene(root, 1500, 750);

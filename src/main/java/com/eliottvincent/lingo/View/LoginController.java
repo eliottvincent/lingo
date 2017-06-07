@@ -3,6 +3,7 @@ package com.eliottvincent.lingo.View;
 import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Controller.UserController;
 import com.eliottvincent.lingo.Model.User;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,12 +12,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
+
+import java.util.Vector;
 
 /**
  * Created by eliottvct on 27/05/17.
  */
-public class LoginView {
+public class LoginController {
 
 
 	//================================================================================
@@ -56,6 +65,8 @@ public class LoginView {
 
 	private String statusText;
 
+	private Vector<StackPane> mCards = new Vector<StackPane>();
+
 
 	//================================================================================
 	// Constructor and initialization
@@ -64,16 +75,18 @@ public class LoginView {
 	/**
 	 *
 	 */
-	public LoginView() {
+	public LoginController() {
+
 		this.screenController = new ScreenController();
-		// TODO : find a way to load FXML files here rather than in handlers
+		// TODO : find a way to load FXML files here rather than in handlers (<-- ??)
 	}
 
 	/**
 	 *
 	 * @param status
 	 */
-	public LoginView(String status) {
+	public LoginController(String status) {
+
 		this.screenController = new ScreenController();
 		if (status != null) {
 			this.statusText = status;
@@ -83,24 +96,22 @@ public class LoginView {
 	@FXML
 	public void initialize() {
 
-
 		// the default focus is on the first text area
 		// we use this Runnable (encapsulated in a lambda function) to focus on the container
 		Platform.runLater(() -> {
 			container.requestFocus();
 		});
 
-		// ENTER key = login
-		// using lambda function 💪
+		// handling key presses thanks to this lambda function 💪
 		container.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 
-			// if the TAB key was pressed
+			// if the ENTER key was pressed
             if (event.getCode().equals(KeyCode.ENTER)) {
 
-                //Node node = (Node) event.getSource();
                 this.loginAction((Node) event.getSource());
 
-                // avoid memory leak
+                // using .consume() so the event will not be dispatched to any further event listeners
+				// it's also useful to avoid memory leak
                 event.consume();
             }
         });
@@ -110,6 +121,7 @@ public class LoginView {
 		if (this.statusText != null) {
 			this.statusLabel.setText(this.statusText);
 		}
+
 	}
 
 
@@ -158,8 +170,8 @@ public class LoginView {
 
 		User tmpUser = userController.logIn();
 		if (tmpUser != null) {
-			HomeView homeView = new HomeView();
-			this.screenController.addScreen("home", "../fxml/home.fxml" , homeView);
+			HomeController homeController = new HomeController(tmpUser);
+			this.screenController.addScreen("home", "../fxml/home.fxml" , homeController);
 
 			Scene scene = node.getScene();
 			screenController.activate(scene, "home", null);
@@ -175,8 +187,8 @@ public class LoginView {
 	 */
 	private void guestLoginAction(Node node) {
 
-		HomeView homeView = new HomeView();
-		this.screenController.addScreen("home", "../fxml/home.fxml", homeView);
+		HomeController homeController = new HomeController();
+		this.screenController.addScreen("home", "../fxml/home.fxml", homeController);
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();
@@ -189,8 +201,8 @@ public class LoginView {
 	 */
 	private void createAccountAction(Node node) {
 
-		AccountCreationView accountCreationView = new AccountCreationView();
-		this.screenController.addScreen("accountCreation", "../fxml/accountCreation.fxml", accountCreationView);
+		AccountCreationController accountCreationController = new AccountCreationController();
+		this.screenController.addScreen("accountCreation", "../fxml/accountCreation.fxml", accountCreationController);
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();

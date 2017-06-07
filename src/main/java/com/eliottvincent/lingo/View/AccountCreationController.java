@@ -5,6 +5,7 @@ import com.eliottvincent.lingo.Controller.UserController;
 import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Data.Status;
+import com.eliottvincent.lingo.Model.History;
 import com.eliottvincent.lingo.Model.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -14,12 +15,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import java.util.Collection;
 import java.util.Objects;
 
 /**
  * Created by eliottvct on 28/05/17.
  */
-public class AccountCreationView {
+public class AccountCreationController {
 
 
 	//================================================================================
@@ -65,7 +67,7 @@ public class AccountCreationView {
 	// Constructor and initialization
 	//================================================================================
 
-	public AccountCreationView() {
+	public AccountCreationController() {
 		this.screenController = new ScreenController();
 	}
 
@@ -135,7 +137,7 @@ public class AccountCreationView {
 
 	public void handleCreateAccount(ActionEvent actionEvent) {
 
-		this.createAccountAction();
+		this.createAccountAction((Node) actionEvent.getSource());
 	}
 
 	public void handleCancel(ActionEvent actionEvent) {
@@ -148,7 +150,11 @@ public class AccountCreationView {
 	// Event Actions
 	//================================================================================
 
-	private void createAccountAction() {
+	/**
+	 *
+	 * @param node
+	 */
+	private void createAccountAction(Node node) {
 
 		// TODO : move this logic to UserController (or User)
 		if (usernameTextField.getText() != null
@@ -172,24 +178,24 @@ public class AccountCreationView {
 
 							if (languageComboBox.getValue() != null) {
 
+								UserController userController = new UserController();
 
-								User tmpUser = new User(
-									usernameTextField.getText(),
+								Status createUserStatus = userController.createUser(usernameTextField.getText(),
 									passwordField.getText(),
 									(Integer) ageSpinner.getValue(),
 									genderComboBox.getValue(),
 									languageComboBox.getValue()
 								);
 
-								UserController userController = new UserController(tmpUser);
+								if (createUserStatus == Status.OK) {
 
-								Status saveUserStatus = userController.saveUser();
-								if (saveUserStatus == Status.OK) {
+									statusLabel.setText("");
 
-									System.out.println("cool");
+									// redirecting the user to the home
+									displayHome(tmpUser, node);
 								}
 								else {
-									switch (saveUserStatus) {
+									switch (createUserStatus) {
 										case USER_ALREADY_EXISTS:
 											statusLabel.setText("User already exists");
 											break;
@@ -238,8 +244,8 @@ public class AccountCreationView {
 
 	private void cancelActionBackup(Node node) {
 
-		LoginView loginView = new LoginView("cancel");
-		this.screenController.addScreen("login", "../fxml/login.fxml", loginView);
+		LoginController loginController = new LoginController("cancel");
+		this.screenController.addScreen("login", "../fxml/login.fxml", loginController);
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();
@@ -247,12 +253,27 @@ public class AccountCreationView {
 	}
 
 	private void cancelAction(Node node) {
-		LoginView loginView = new LoginView("testtttttt");
+		LoginController loginController = new LoginController("testtttttt");
 
-		this.screenController.addScreen("loginBis", "../fxml/login.fxml", loginView);
+		this.screenController.addScreen("loginBis", "../fxml/login.fxml", loginController);
 
 		Scene scene = node.getScene();
 		this.screenController.activate(scene, "loginBis", null);
+	}
+
+
+	//================================================================================
+	// Calls to display methods
+	//================================================================================
+
+	public void displayHome(User user, Node node) {
+
+
+		HomeController homeController = new HomeController(user);
+		this.screenController.addScreen("home", "../fxml/home.fxml" , homeController);
+
+		Scene scene = node.getScene();
+		screenController.activate(scene, "home", null);
 	}
 
 }
