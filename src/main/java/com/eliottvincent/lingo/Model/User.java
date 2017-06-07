@@ -3,6 +3,7 @@ package com.eliottvincent.lingo.Model;
 import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
 
+import java.awt.*;
 import java.util.Collection;
 
 /**
@@ -18,8 +19,7 @@ public class User {
 	private Gender gender;
 	private Language language;
 	private boolean isGuest;
-	private Collection<Session> sessions;
-	private Collection<History> history;
+	private History history;
 
 	// TODO : abstract class User + GuestUser + NormalUser ??????
 
@@ -33,13 +33,14 @@ public class User {
 		this.isGuest = false;
 	}
 
-	public User(String userName, String password, int age, Gender gender, Language language) {
+	public User(String userName, String password, int age, Gender gender, Language language, History history) {
 		this.userName = userName;
 		this.password = password;
 		this.age = age;
 		this.gender = gender;
 		this.language = language;
 		this.isGuest = false;
+		this.history = history;
 	}
 
 
@@ -91,20 +92,19 @@ public class User {
 		this.language = language;
 	}
 
-	public Collection<Session> getSessions() {
-		return sessions;
+	public boolean isGuest() {
+		return isGuest;
 	}
 
-	public void setSessions(Collection<Session> sessions) {
-		this.sessions = sessions;
+	public void setGuest(boolean guest) {
+		isGuest = guest;
 	}
 
-	public Collection<History> getHistory() {
+	public History getHistory() {
 		return history;
 	}
 
-	public void setHistory(Collection<History> history) {
+	public void setHistory(History history) {
 		this.history = history;
 	}
-
 }

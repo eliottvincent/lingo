@@ -1,8 +1,5 @@
 package com.eliottvincent.lingo.Controller;
 
-import com.eliottvincent.lingo.Data.Gender;
-import com.eliottvincent.lingo.Data.Language;
-import com.eliottvincent.lingo.Data.Status;
 import com.eliottvincent.lingo.Helper.CSVHelper;
 import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Model.User;
