@@ -30,4 +30,9 @@ public class History {
 	public void setSessions(Collection<Session> sessions) {
 		this.sessions = sessions;
 	}
+
+	public void addSession(Session session) {
+
+		this.sessions.add(session);
+	}
 }
