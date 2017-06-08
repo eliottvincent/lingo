@@ -5,6 +5,7 @@ import com.eliottvincent.lingo.Data.Language;
 
 import java.awt.*;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by eliottvct on 17/05/17.
@@ -15,8 +16,8 @@ public class User {
 	private int id;
 	private String userName;
 	private String password;
-	private int age;
 	private Gender gender;
+	private Date birthdate;
 	private Language language;
 	private boolean isGuest;
 	private History history;
@@ -33,10 +34,10 @@ public class User {
 		this.isGuest = false;
 	}
 
-	public User(String userName, String password, int age, Gender gender, Language language, History history) {
+	public User(String userName, String password, Date birthdate, Gender gender, Language language, History history) {
 		this.userName = userName;
 		this.password = password;
-		this.age = age;
+		this.birthdate = birthdate;
 		this.gender = gender;
 		this.language = language;
 		this.isGuest = false;
@@ -76,14 +77,6 @@ public class User {
 		this.gender = gender;
 	}
 
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
 	public Language getLanguage() {
 		return language;
 	}
@@ -106,5 +99,13 @@ public class User {
 
 	public void setHistory(History history) {
 		this.history = history;
+	}
+
+	public Date getBirthdate() {
+		return birthdate;
+	}
+
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
 	}
 }
