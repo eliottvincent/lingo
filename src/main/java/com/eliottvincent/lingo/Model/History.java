@@ -1,10 +1,7 @@
 package com.eliottvincent.lingo.Model;
 
-import com.eliottvincent.lingo.Controller.StorageController;
-
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 /**
  * Created by eliottvct on 17/05/17.
@@ -15,19 +12,17 @@ public class History {
 
 	private Collection<Session> sessions = new ArrayList<>();
 
-	private StorageController storageController = new StorageController();
+	private Integer userId;
 
 	public History() {
 
-		// we need to search what will be the next id
-		// this will be removed once we move to JDBC + sqlite3 💪 (auto-increment id)
-		this.setId(storageController.getNumberOfUsers() + 1);
 	}
 
-	public History(Integer id, Collection<Session> sessions) {
+	public History(Integer id, Collection<Session> sessions, Integer userId) {
 
 		this.id = id;
 		this.sessions = sessions;
+		this.userId = userId;
 
 	}
 
@@ -50,5 +45,13 @@ public class History {
 	public void addSession(Session session) {
 
 		this.sessions.add(session);
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 }
