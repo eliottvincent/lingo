@@ -3,22 +3,23 @@ package com.eliottvincent.lingo.Controller;
 /**
  * Created by eliottvincent on 08/06/2017.
  */
-import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by eliottvincent on 06/06/2017.
  */
-public class QueryApp {
+public class DatabaseController {
 
 	private static Connection connection = null;
 
-	public QueryApp() {
+	public DatabaseController() {
 
 		loadDriver();
-		this.connection = getConnection(connection);
+		connection = getConnection(connection);
 	}
 
 	private static void loadDriver() {
@@ -29,7 +30,7 @@ public class QueryApp {
 		}
 	}
 
-	public static Connection getConnection(Connection connection) {
+	private static Connection getConnection(Connection connection) {
 
 		if (connection == null) {
 
@@ -54,7 +55,7 @@ public class QueryApp {
 			Statement statement = connection.createStatement();
 			statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
-			/*if (query.startsWith("select") || query.startsWith("SELECT")) {
+			if (query.startsWith("select") || query.startsWith("SELECT")) {
 
 				ResultSet rs = statement.executeQuery(query);
 
@@ -117,11 +118,105 @@ public class QueryApp {
 				}
 
 
-			}*/
+			}
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public List executeSelectQuery(String query) {
+
+		List<Map<String, Object>> statementsList = new ArrayList<>();
+
+		System.out.println(query);
+
+		try {
+			Statement statement = connection.createStatement();
+			statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+			ResultSet rs = statement.executeQuery(query);
+
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+
+			while (rs.next()) {
+
+				Map<String, Object> statementMap = new HashMap<>();
+
+				for (int i = 1; i <= columnsNumber; i++) {
+
+					int columnType = rsmd.getColumnType(i);
+
+					switch (columnType) {
+						case Types.VARCHAR:
+							statementMap.put(rsmd.getColumnLabel(i), rs.getString(i));
+							break;
+						case Types.NULL:
+							statementMap.put(rsmd.getColumnLabel(i), "null");
+							break;
+						case Types.CHAR:
+							statementMap.put(rsmd.getColumnLabel(i), rs.getString(i));
+							break;
+						case Types.TIMESTAMP:
+							statementMap.put(rsmd.getColumnLabel(i), rs.getTimestamp(i));
+							break;
+						case Types.DOUBLE:
+							statementMap.put(rsmd.getColumnLabel(i), rs.getDouble(i));
+							break;
+						case Types.INTEGER:
+							statementMap.put(rsmd.getColumnLabel(i), rs.getString(i));
+							break;
+						case Types.SMALLINT:
+							statementMap.put(rsmd.getColumnLabel(i), rs.getInt(i));
+							break;
+						case Types.DECIMAL:
+							statementMap.put(rsmd.getColumnLabel(i), rs.getBigDecimal(i));
+							break;
+						default:
+							statementMap.put(rsmd.getColumnLabel(i), rs.getString(i));
+							break;
+					}
+				}
+
+				statementsList.add(statementMap);
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return statementsList;
+	}
+
+	Integer executeCreateQuery(String query) {
+
+		Integer insertId = 0;
+
+		PreparedStatement pstmt = null;
+
+		try {
+			pstmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			pstmt.executeUpdate();
+
+			ResultSet keys = pstmt.getGeneratedKeys();
+			keys.next();
+			insertId = keys.getInt(1);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return insertId;
+
+	}
+
+	public void excuteInsertQuery(String query) {
+
+	}
+
+	public void executeUpdateQuery(String query) {
+
 	}
 
 }
