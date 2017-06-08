@@ -4,12 +4,17 @@ import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Model.*;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
+
 /**
  * Created by eliottvct on 17/05/17.
  */
 public class UserController {
 
-	private StorageController storageController = new StorageController();
+
+	private DatabaseLayer databaseLayer = new DatabaseLayer();
+
 	private User user;
 
 	public UserController() {
@@ -20,18 +25,28 @@ public class UserController {
 		this.user = user;
 	}
 
-	public User createUser(String username, String password, Integer age, Gender gender, Language language) {
+	public User createUser(String username, String password, Date birthdate, Gender gender, Language language) {
 
+		// creating the user object
 		User newUser = new User();
 		newUser.setUserName(username);
 		newUser.setPassword(password);
-		newUser.setAge(age);
+		newUser.setBirthdate(birthdate);
 		newUser.setGender(gender);
 		newUser.setLanguage(language);
-		newUser.setHistory(new History());
 
-		this.saveUser(newUser);
+		// saving it in the database and getting the id of the statement
+		Integer userId = this.saveUser(newUser);
 
+		// instantiating a new HistoryController
+		HistoryController historyController = new HistoryController();
+		// we use the userId to create a new History object
+		History history = historyController.createHistory(userId);
+
+		// we set the newly created history to the user
+		newUser.setHistory(history);
+
+		// finally, we return the complete user object
 		return newUser;
 	}
 
@@ -41,9 +56,8 @@ public class UserController {
 	 */
 	public User logIn() {
 
-		return storageController.searchUser(this.user.getUserName(), this.user.getPassword());
+		return databaseLayer.searchUser(this.user.getUserName(), this.user.getPassword());
 	}
-
 
 	/**
 	 *
@@ -51,6 +65,7 @@ public class UserController {
 	public void logOut() {
 		// TODO : log user out
 	}
+
 
 	/**
 	 *
@@ -66,10 +81,18 @@ public class UserController {
 	 * @return
 	 * @param newUser
 	 */
-	public void saveUser(User newUser) {
+	public Integer saveUser(User newUser) {
 
-		storageController.saveUser(newUser);
+		return this.databaseLayer.saveUser(newUser);
+	}
 
+	/**
+	 *
+	 * @param user
+	 */
+	private void updateUser(User user) {
+
+		this.databaseLayer.updateUser(user);
 	}
 
 	/**
@@ -79,6 +102,6 @@ public class UserController {
 	 */
 	public boolean usernameAlreadyExist(String username) {
 
-		return storageController.usernameAlreadyExist(username);
+		return databaseLayer.usernameAlreadyExist(username);
 	}
 }
