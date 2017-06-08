@@ -54,15 +54,6 @@ public class QueryApp {
 			Statement statement = connection.createStatement();
 			statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
-			statement = connection.createStatement();
-			String sql = "CREATE TABLE Users " +
-				"(ID INT PRIMARY KEY     NOT NULL," +
-				" NAME           TEXT    NOT NULL, " +
-				" AGE            INT     NOT NULL, " +
-				" LANGUAGE        CHAR(50))";
-			statement.executeUpdate(sql);
-			statement.close();
-			connection.close();
 			/*if (query.startsWith("select") || query.startsWith("SELECT")) {
 
 				ResultSet rs = statement.executeQuery(query);

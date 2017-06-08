@@ -3,7 +3,6 @@ package com.eliottvincent.lingo.View;
 import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Controller.UserController;
 import com.eliottvincent.lingo.Model.User;
-import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,13 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.util.Duration;
 
 import java.util.Vector;
 
@@ -79,6 +73,7 @@ public class LoginController {
 
 		this.screenController = new ScreenController();
 		// TODO : find a way to load FXML files here rather than in handlers (<-- ??)
+
 	}
 
 	/**

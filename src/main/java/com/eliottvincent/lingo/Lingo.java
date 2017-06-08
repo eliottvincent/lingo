@@ -1,5 +1,6 @@
 package com.eliottvincent.lingo;
 
+import com.eliottvincent.lingo.Controller.QueryApp;
 import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.View.LoginController;
 import javafx.application.Application;
@@ -46,6 +47,9 @@ public class Lingo extends Application
 	 * @param args
 	 */
 	public static void main(String[] args) {
+
+		QueryApp queryApp = new QueryApp();
+		queryApp.executeQuery("select * from actor");
 		launch(args);
 	}
 
