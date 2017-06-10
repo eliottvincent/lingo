@@ -162,9 +162,9 @@ public class LoginController {
 	 */
 	private void loginAction(Node node) {
 
-		UserController userController = new UserController(new User(usernameTextField.getText(), passwordField.getText()));
+		UserController userController = new UserController();
 
-		User tmpUser = userController.logIn();
+		User tmpUser = userController.getUserByCredentials(usernameTextField.getText(), passwordField.getText());
 
 		if (tmpUser != null) {
 			HomeController homeController = new HomeController(tmpUser);
