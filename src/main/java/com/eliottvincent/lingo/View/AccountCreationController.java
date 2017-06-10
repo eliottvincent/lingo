@@ -2,6 +2,7 @@ package com.eliottvincent.lingo.View;
 
 import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Controller.UserController;
+import com.eliottvincent.lingo.ConverterHelper;
 import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Model.User;
@@ -13,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -44,7 +46,7 @@ public class AccountCreationController {
 	private PasswordField passwordBisField;
 
 	@FXML
-	private Spinner ageSpinner;
+	private DatePicker birthdatePicker;
 
 	@FXML
 	private ComboBox<Gender> genderComboBox;
@@ -125,6 +127,9 @@ public class AccountCreationController {
 		// we use this Runnable (encapsulated in a lambda function) to focus on the container
 		Platform.runLater(() -> container.requestFocus());
 
+
+		// removing week numbers in the birthdatePicker
+		birthdatePicker.setShowWeekNumbers(false);
 	}
 
 
@@ -171,9 +176,9 @@ public class AccountCreationController {
 					&& !Objects.equals(passwordBisField.getText(), " ")
 					&& Objects.equals(passwordField.getText(), passwordBisField.getText())) {
 
-					if (ageSpinner.getValue() != null
-						&& !Objects.equals(ageSpinner.getValue(), "")
-						&& !Objects.equals(ageSpinner.getValue(), " ")) {
+					if (birthdatePicker.getValue() != null
+						&& !Objects.equals(birthdatePicker.getValue(), "")
+						&& !Objects.equals(birthdatePicker.getValue(), " ")) {
 
 						if (genderComboBox.getValue() != null) {
 
@@ -187,7 +192,7 @@ public class AccountCreationController {
 
 									User createdUser = userController.createUser(usernameTextField.getText(),
 										passwordField.getText(),
-										(Integer) ageSpinner.getValue(),
+										ConverterHelper.localeDateToDate(birthdatePicker.getValue()),
 										genderComboBox.getValue(),
 										languageComboBox.getValue()
 									);

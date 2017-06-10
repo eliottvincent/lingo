@@ -161,9 +161,11 @@ public class LoginController {
 	 * @param node
 	 */
 	private void loginAction(Node node) {
+
 		UserController userController = new UserController(new User(usernameTextField.getText(), passwordField.getText()));
 
 		User tmpUser = userController.logIn();
+
 		if (tmpUser != null) {
 			HomeController homeController = new HomeController(tmpUser);
 			this.screenController.addScreen("home", "../fxml/home.fxml" , homeController);
