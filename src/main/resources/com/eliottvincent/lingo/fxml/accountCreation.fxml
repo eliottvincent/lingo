@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ChoiceBox?>
 <VBox fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
 
 	<stylesheets>
@@ -28,7 +29,14 @@
 		<PasswordField fx:id="passwordField" maxWidth="400.0" minWidth="400.0" prefHeight="30.0" prefWidth="400.0" promptText="Password" />
 		<PasswordField fx:id="passwordBisField" maxWidth="400.0" minWidth="400.0" prefHeight="30.0" prefWidth="400.0" promptText="Password again" />
 
-		<DatePicker fx:id="birthdatePicker" prefHeight="30.0" prefWidth="400.0" />
+		<HBox fx:id="birthdate">
+			<children>
+
+				<ChoiceBox fx:id="dayChoiceBox" prefHeight="30.0"/>
+				<ChoiceBox fx:id="monthChoiceBox" prefHeight="30.0"/>
+				<ChoiceBox fx:id="yearChoiceBox" prefHeight="30.0"/>
+			</children>
+		</HBox>
 		<ComboBox fx:id="genderComboBox" prefHeight="30.0" prefWidth="400.0" promptText="gender" />
 		<ComboBox fx:id="languageComboBox" prefHeight="30.0" prefWidth="400.0" promptText="language" />
 
