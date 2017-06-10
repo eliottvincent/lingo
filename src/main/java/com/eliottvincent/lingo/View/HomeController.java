@@ -47,7 +47,7 @@ public class HomeController {
 
 		assert this.currentUser != null;
 
-		titleLabel.setText("Hello " + this.currentUser.getUserName() + "!");
+		titleLabel.setText("Hello " + this.currentUser.getUsername() + "!");
 		sessionLabel.setText("Historique : " + this.currentUser.getHistory());
 
 		statusLabel.setText("Le reste de l'interface est en cours de développement");

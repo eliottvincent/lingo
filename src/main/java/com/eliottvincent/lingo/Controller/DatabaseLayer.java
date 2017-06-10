@@ -25,9 +25,10 @@ class DatabaseLayer {
 	 */
 	Integer saveUser(User newUser) {
 
+		// preparing the query
 		String query = "INSERT INTO Users (username, password, birthdate, gender, language) " +
 			"VALUES (" +
-			"'"		+	newUser.getUserName() 	+	 "', " 	+
+			"'"		+	newUser.getUsername() 	+	 "', " 	+
 			"'"		+	newUser.getPassword() 	+	 "', "	+
 			"'"		+	newUser.getBirthdate() 	+	 "', " 	+
 			"'"		+	newUser.getGender() 	+	 "', " 	+
@@ -46,10 +47,15 @@ class DatabaseLayer {
 		return databaseController.executeCreateQuery(query);
 	}
 
+	/**
+	 *
+	 * @param user
+	 */
 	void updateUser(User user) {
 
+		// preparing the query
 		String query = "UPDATE Users " +
-			"SET username = '" + user.getUserName() + "', " +
+			"SET username = '" + user.getUsername() + "', " +
 			"password = '" + user.getPassword() + "', " +
 			"birthdate = '" + user.getBirthdate() + "', " +
 			"gender = '" + user.getGender() + "', " +

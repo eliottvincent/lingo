@@ -4,7 +4,6 @@ import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Model.*;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 /**
@@ -29,7 +28,7 @@ public class UserController {
 
 		// creating the user object
 		User newUser = new User();
-		newUser.setUserName(username);
+		newUser.setUsername(username);
 		newUser.setPassword(password);
 		newUser.setBirthdate(birthdate);
 		newUser.setGender(gender);
@@ -56,7 +55,7 @@ public class UserController {
 	 */
 	public User logIn() {
 
-		return databaseLayer.searchUser(this.user.getUserName(), this.user.getPassword());
+		return databaseLayer.searchUser(this.user.getUsername(), this.user.getPassword());
 	}
 
 	/**

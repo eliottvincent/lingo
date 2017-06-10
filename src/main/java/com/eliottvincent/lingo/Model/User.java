@@ -3,8 +3,6 @@ package com.eliottvincent.lingo.Model;
 import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
 
-import java.awt.*;
-import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -14,7 +12,7 @@ import java.util.Date;
 public class User {
 
 	private int id;
-	private String userName;
+	private String username;
 	private String password;
 	private Gender gender;
 	private Date birthdate;
@@ -28,14 +26,14 @@ public class User {
 		this.isGuest = true;
 	}
 
-	public User(String userName, String password) {
-		this.userName = userName;
+	public User(String username, String password) {
+		this.username = username;
 		this.password = password;
 		this.isGuest = false;
 	}
 
-	public User(String userName, String password, Date birthdate, Gender gender, Language language, History history) {
-		this.userName = userName;
+	public User(String username, String password, Date birthdate, Gender gender, Language language, History history) {
+		this.username = username;
 		this.password = password;
 		this.birthdate = birthdate;
 		this.gender = gender;
@@ -53,12 +51,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
