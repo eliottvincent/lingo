@@ -3,6 +3,7 @@ package com.eliottvincent.lingo.Model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by eliottvct on 17/05/17.
@@ -17,7 +18,7 @@ public class Session {
 
 	private Date endDate;
 
-	private Collection<Action> actions = new ArrayList<>();
+	private List<Action> actions = new ArrayList<>();
 
 	public Session() {
 
@@ -72,7 +73,7 @@ public class Session {
 	 *
 	 * @return
 	 */
-	public Collection<Action> getActions() {
+	public List<Action> getActions() {
 		return actions;
 	}
 
@@ -80,7 +81,7 @@ public class Session {
 	 *
 	 * @param actions
 	 */
-	public void setActions(Collection<Action> actions) {
+	public void setActions(List<Action> actions) {
 		this.actions = actions;
 	}
 
