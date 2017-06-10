@@ -4,7 +4,7 @@
 * {
 	-fx-font-family: 'Varela Round';
 	-fx-alignment: center;
-	-fx-text-fill: #fff;
+	-fx-text-fill: #000000;
 }
 
 #container {
@@ -16,6 +16,7 @@
 
 #titleLabel {
 	-fx-font-size: 31px;
+	-fx-text-fill: white;
 }
 
 #statusLabel {
@@ -91,4 +92,9 @@
 
 .break {
 	-fx-background-color: #3F8ABF;
+}
+
+#birthdatePicker {
+
+	-fx-text-fill: black;
 }
