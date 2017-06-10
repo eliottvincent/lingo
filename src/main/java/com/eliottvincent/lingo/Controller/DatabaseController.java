@@ -4,10 +4,7 @@ package com.eliottvincent.lingo.Controller;
  * Created by eliottvincent on 08/06/2017.
  */
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by eliottvincent on 06/06/2017.
@@ -16,7 +13,7 @@ public class DatabaseController {
 
 	private static Connection connection = null;
 
-	public DatabaseController() {
+	DatabaseController() {
 
 		loadDriver();
 		connection = getConnection(connection);
@@ -47,85 +44,12 @@ public class DatabaseController {
 		return connection;
 	}
 
-	public void executeQuery(String query) {
-
-		System.out.println(query);
-		try {
-
-			Statement statement = connection.createStatement();
-			statement.setQueryTimeout(30);  // set timeout to 30 sec.
-
-			if (query.startsWith("select") || query.startsWith("SELECT")) {
-
-				ResultSet rs = statement.executeQuery(query);
-
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int columnsNumber = rsmd.getColumnCount();
-
-				for (int i = 1; i <= columnsNumber; i++) {
-					System.out.println(rsmd.getColumnLabel(i) + "\t");
-				}
-				System.out.println("\n");
-
-				while (rs.next()) {
-
-					for (int i = 1; i <= columnsNumber; i++) {
-
-						int columnType = rsmd.getColumnType(i);
-
-						switch (columnType) {
-							case Types.VARCHAR:
-								System.out.println(rs.getString(i) + "\t");
-								break;
-							case Types.NULL:
-								System.out.println("null");
-								break;
-							case Types.CHAR:
-								System.out.println(rs.getString(i) + "\t");
-								break;
-							case Types.TIMESTAMP:
-								System.out.println(rs.getTimestamp(i) + "\t");
-								break;
-							case Types.DOUBLE:
-								System.out.println(rs.getDouble(i) + "\t");
-								break;
-							case Types.INTEGER:
-								System.out.println(rs.getString(i) + "\t");
-								break;
-							case Types.SMALLINT:
-								System.out.println(rs.getInt(i) + "\t");
-								break;
-							case Types.DECIMAL:
-								System.out.println(rs.getBigDecimal(i) + "\t");
-								break;
-							default:
-								System.out.println(rs.getString(i) + "\t");
-								break;
-						}
-					}
-					System.out.println("\n");
-				}
-
-			}
-			else {
-
-				try {
-					int numberOfColumnsUpdate = statement.executeUpdate(query);
-					System.out.println(numberOfColumnsUpdate + " columns updated\n");
-				}
-				catch (SQLException e) {
-					System.out.println(e.getMessage() + "\n");
-				}
-
-
-			}
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public List executeSelectQuery(String query) {
+	/**
+	 *
+	 * @param query
+	 * @return
+	 */
+	List<Map<String,Object>> executeSelectQuery(String query) {
 
 		List<Map<String, Object>> statementsList = new ArrayList<>();
 
@@ -153,7 +77,7 @@ public class DatabaseController {
 							statementMap.put(rsmd.getColumnLabel(i), rs.getString(i));
 							break;
 						case Types.NULL:
-							statementMap.put(rsmd.getColumnLabel(i), "null");
+							statementMap.put(rsmd.getColumnLabel(i), null);
 							break;
 						case Types.CHAR:
 							statementMap.put(rsmd.getColumnLabel(i), rs.getString(i));
@@ -189,7 +113,7 @@ public class DatabaseController {
 		return statementsList;
 	}
 
-	Integer executeCreateQuery(String query) {
+	Integer executeInsertQuery(String query) {
 
 		Integer insertId = 0;
 
