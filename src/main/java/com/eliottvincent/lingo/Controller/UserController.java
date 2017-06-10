@@ -122,7 +122,27 @@ public class UserController {
 	 */
 	List<User> getUsers() {
 
+		String query = "SELECT * FROM Users";
+
+		List<Map<String, Object>> usersList = databaseController.executeSelectQuery(query);
 		List<User> users = new ArrayList<User>();
+
+		for (Map<String, Object> userMap : usersList) {
+
+			User tmpUser = new User();
+			tmpUser.setId(ConverterHelper.stringToInteger((String) userMap.get("id")));
+			tmpUser.setUsername((String) userMap.get("username"));
+			tmpUser.setPassword((String) userMap.get("password"));
+			tmpUser.setBirthdate(ConverterHelper.stringToDate((String) userMap.get("birthdate")));
+			tmpUser.setGender(ConverterHelper.stringToGender((String) userMap.get("gender")));
+			tmpUser.setLanguage(ConverterHelper.stringToLanguage((String) userMap.get("language")));
+
+			// we need to populate the user's history
+			HistoryController historyController = new HistoryController();
+			tmpUser.setHistory(historyController.getHistory(tmpUser.getId()));
+
+			users.add(tmpUser);
+		}
 
 		return users;
 	}
