@@ -49,13 +49,7 @@ public class AccountCreationController {
 	private PasswordField passwordBisField;
 
 	@FXML
-	private ChoiceBox dayChoiceBox;
-
-	@FXML
-	private ChoiceBox monthChoiceBox;
-
-	@FXML
-	private ChoiceBox yearChoiceBox;
+	private DatePicker birthdatePicker;
 
 	@FXML
 	private ComboBox<Gender> genderComboBox;
@@ -136,21 +130,8 @@ public class AccountCreationController {
 		// we use this Runnable (encapsulated in a lambda function) to focus on the container
 		Platform.runLater(() -> container.requestFocus());
 
-		// populating the choice boxes
-		dayChoiceBox.setItems(FXCollections.observableArrayList(
-			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
-			)
-		);
-
-		monthChoiceBox.setItems(FXCollections.observableArrayList(
-			"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"
-			)
-		);
-
-		yearChoiceBox.setItems(FXCollections.observableArrayList(
-			1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017
-			)
-		);
+		// removing week numbers
+		birthdatePicker.setShowWeekNumbers(false);
 	}
 
 
@@ -197,9 +178,7 @@ public class AccountCreationController {
 					&& !Objects.equals(passwordBisField.getText(), " ")
 					&& Objects.equals(passwordField.getText(), passwordBisField.getText())) {
 
-					if (dayChoiceBox.getValue() != null
-						&& !Objects.equals(dayChoiceBox.getValue(), "")
-						&& !Objects.equals(dayChoiceBox.getValue(), " ")) {
+					if (birthdatePicker.getValue() != null) {
 
 						if (genderComboBox.getValue() != null) {
 
@@ -215,7 +194,7 @@ public class AccountCreationController {
 
 									User createdUser = accountController.createNewAccount(usernameTextField.getText(),
 										passwordField.getText(),
-										new Date(),
+										ConverterHelper.localeDateToDate(birthdatePicker.getValue()),
 										genderComboBox.getValue(),
 										languageComboBox.getValue()
 									);

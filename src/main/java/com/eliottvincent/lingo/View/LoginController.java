@@ -163,7 +163,6 @@ public class LoginController {
 	private void loginAction(Node node) {
 
 		UserController userController = new UserController();
-
 		User tmpUser = userController.getUserByCredentials(usernameTextField.getText(), passwordField.getText());
 
 		if (tmpUser != null) {
