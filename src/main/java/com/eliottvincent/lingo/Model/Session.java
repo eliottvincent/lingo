@@ -1,32 +1,102 @@
 package com.eliottvincent.lingo.Model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+
 /**
  * Created by eliottvct on 17/05/17.
  */
 public class Session {
 
+	private Integer id;
 
-	private String action;
+	private Integer historyId;
+
+	private Date startDate;
+
+	private Date endDate;
+
+	private Collection<Action> actions = new ArrayList<>();
+
+	public Session() {
+
+	}
 
 
-	public Session(String action) {
+	/**
+	 *
+	 * @return
+	 */
+	public Integer getId() {
+		return id;
+	}
 
-		this.action = action;
+	/**
+	 *
+	 * @param id
+	 */
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	/**
 	 *
 	 * @return
 	 */
-	public String getAction() {
-		return action;
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
 	/**
 	 *
-	 * @param action
+	 * @return
 	 */
-	public void setAction(String action) {
-		this.action = action;
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	/**
+	 *
+	 * @param endDate
+	 */
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public Collection<Action> getActions() {
+		return actions;
+	}
+
+	/**
+	 *
+	 * @param actions
+	 */
+	public void setActions(Collection<Action> actions) {
+		this.actions = actions;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public Integer getHistoryId() {
+		return historyId;
+	}
+
+	/**
+	 *
+	 * @param historyId
+	 */
+	public void setHistoryId(Integer historyId) {
+		this.historyId = historyId;
 	}
 }
