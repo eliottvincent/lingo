@@ -4,20 +4,19 @@ package com.eliottvincent.lingo;
  * Created by eliottvincent on 09/06/2017.
  */
 
-import com.eliottvincent.lingo.Data.Language;
+import com.eliottvincent.lingo.Data.ActionType;
 import com.eliottvincent.lingo.Data.Gender;
+import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Model.History;
 import com.eliottvincent.lingo.Model.User;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Locale;
+import java.util.Map;
 
 public class ConverterHelper {
 
@@ -50,6 +49,16 @@ public class ConverterHelper {
 	public static Gender stringToGender(String gender) {
 
 		return Gender.valueOf(gender);
+	}
+
+	/**
+	 *
+	 * @param actionType
+	 * @return
+	 */
+	public static ActionType stringToActionType(String actionType) {
+
+		return ActionType.valueOf(actionType);
 	}
 
 	/**
@@ -159,5 +168,23 @@ public class ConverterHelper {
 	 */
 	public static LocalDateTime dateToLocalDateTime(Date date) {
 		return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+	}
+
+	/**
+	 *
+	 * @param userMap
+	 * @return
+	 */
+	public static User mapToUser(Map<String, Object> userMap) {
+
+		User user = new User();
+		user.setId(ConverterHelper.stringToInteger((String) userMap.get("id")));
+		user.setUsername((String) userMap.get("username"));
+		user.setPassword((String) userMap.get("password"));
+		user.setBirthdate(ConverterHelper.stringToDate((String) userMap.get("birthdate")));
+		user.setGender(ConverterHelper.stringToGender((String) userMap.get("gender")));
+		user.setLanguage(ConverterHelper.stringToLanguage((String) userMap.get("language")));
+
+		return user;
 	}
 }
