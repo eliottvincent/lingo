@@ -1,5 +1,6 @@
 package com.eliottvincent.lingo.View;
 
+import com.eliottvincent.lingo.Controller.AdminController;
 import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Controller.UserController;
 import com.eliottvincent.lingo.Model.User;
@@ -162,18 +163,27 @@ public class LoginController {
 	 */
 	private void loginAction(Node node) {
 
-		UserController userController = new UserController();
-		User tmpUser = userController.getUserByCredentials(usernameTextField.getText(), passwordField.getText());
+		if (usernameTextField.getText().equals("admin") &&
+			passwordField.getText().equals("admin")) {
+			AdminController adminController = new AdminController();
+			this.screenController.addScreen("admin", "../fxml/admin.fxml", adminController);
 
-		if (tmpUser != null) {
-			HomeController homeController = new HomeController(tmpUser);
-			this.screenController.addScreen("home", "../fxml/home.fxml" , homeController);
-
-			Scene scene = node.getScene();
-			screenController.activate(scene, "home", null);
+			screenController.activate(node.getScene(), "admin", null);
 		}
 		else {
-			statusLabel.setText("Incorrect username or password");
+
+			UserController userController = new UserController();
+			User tmpUser = userController.getUserByCredentials(usernameTextField.getText(), passwordField.getText());
+
+			if (tmpUser != null) {
+				HomeController homeController = new HomeController(tmpUser);
+				this.screenController.addScreen("home", "../fxml/home.fxml" , homeController);
+
+				screenController.activate(node.getScene(), "home", null);
+			}
+			else {
+				statusLabel.setText("Incorrect username or password");
+			}
 		}
 	}
 

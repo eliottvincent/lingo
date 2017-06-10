@@ -8,7 +8,6 @@ import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Model.User;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -16,8 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -69,7 +66,7 @@ public class AccountCreationController {
 	// Constructor and initialization
 	//================================================================================
 
-	public AccountCreationController() {
+	AccountCreationController() {
 		this.screenController = new ScreenController();
 	}
 
