@@ -1,50 +1,123 @@
 package com.eliottvincent.lingo.Controller;
 
+import com.eliottvincent.lingo.ConverterHelper;
 import com.eliottvincent.lingo.Model.History;
+import com.eliottvincent.lingo.Model.Session;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by eliottvct on 17/05/17.
  */
-public class HistoryController {
+class HistoryController {
 
-	private DatabaseLayer databaseLayer = new DatabaseLayer();
+	//================================================================================
+	// Properties
+	//================================================================================
 
-	public HistoryController() {
+	private DatabaseController databaseController = new DatabaseController();
+
+
+	//================================================================================
+	// Constructor
+	//================================================================================
+
+	HistoryController() {
 
 	}
 
-	public History createHistory(Integer userId) {
 
+	//================================================================================
+	// GETTERS
+	//================================================================================
+
+	/**
+	 *
+	 * @param userId
+	 * @return
+	 */
+	History getHistory(Integer userId) {
+
+		String historiesQuery = "SELECT * FROM Histories " 	+
+			"WHERE user_id LIKE '" 		+ 	userId	+ 	"'";
+
+		List<Map<String, Object>> historiesList = databaseController.executeSelectQuery(historiesQuery);
+
+		if (historiesList.size() == 1) {
+
+			Map<String, Object> historyMap = historiesList.get(0);
+
+			History tmpHistory = new History();
+			tmpHistory.setId(ConverterHelper.stringToInteger((String) historyMap.get("id")));
+			tmpHistory.setUserId(ConverterHelper.stringToInteger((String) historyMap.get("user_id")));
+
+			// for history's sessions, we need to query the database
+			SessionController sessionController = new SessionController();
+			List<Session> sessions = sessionController.getSessions(tmpHistory.getId());
+			tmpHistory.setSessions(sessions);
+
+			return tmpHistory;
+		}
+
+		else {
+
+			return null;
+		}
+	}
+
+
+	//================================================================================
+	// CREATE
+	//================================================================================
+
+	/**
+	 *
+	 * @param userId
+	 * @return
+	 */
+	Integer createNewHistory(Integer userId) {
 
 		History newHistory = new History();
 		newHistory.setUserId(userId);
 
-		// saving it in the database and getting the id of the statement
-		Integer id = this.saveHistory(newHistory);
-
-		// updating the History object with the id
-		newHistory.setId(id);
-
-		return newHistory;
+		// saving it in the database and returning the id of the saved statement
+		return this.saveHistory(newHistory);
 	}
+
+	/**
+	 *
+	 * @param newHistory
+	 * @return
+	 */
+	private Integer saveHistory(History newHistory) {
+
+		// preparing the query
+		String query = 	"INSERT INTO Histories (user_id) " +
+			"VALUES ("	+
+			"'"			+	newHistory.getUserId()	+	"'" 	+
+			")";
+
+		return databaseController.executeInsertQuery(query);
+	}
+
+
+	//================================================================================
+	// UPDATE
+	//================================================================================
 
 	/**
 	 *
 	 * @param history
 	 */
-	private void updateHistory(History history) {
+	void updateHistory(History history) {
 
-		this.databaseLayer.updateHistory(history);
-	}
+		// preparing the query
+		String query = 	"UPDATE Histories " +
+			"SET id = '"		+	history.getId()		+ 	"', "	+
+			"SET user_id = '" 	+	history.getUserId() + 	"' " 	+
+			"WHERE id LIKE " 	+ 	history.getId() 	+ 	"";
 
-
-	/**
-	 *
-	 * @return
-	 * @param newHistory
-	 */
-	public Integer saveHistory(History newHistory) {
-
-		return this.databaseLayer.saveHistory(newHistory);
+		databaseController.executeUpdateQuery(query);
 	}
 }
