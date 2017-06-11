@@ -1,5 +1,7 @@
-package com.eliottvincent.lingo.Controller;
+package com.eliottvincent.lingo.ViewController;
 
+import com.eliottvincent.lingo.Controller.ScreenController;
+import com.eliottvincent.lingo.Controller.UserController;
 import com.eliottvincent.lingo.Model.Action;
 import com.eliottvincent.lingo.Model.Session;
 import com.eliottvincent.lingo.Model.User;
@@ -19,7 +21,7 @@ import java.util.List;
 /**
  * Created by eliottvincent on 10/06/2017.
  */
-public class AdminController {
+public class AdminViewController {
 
 
 	//================================================================================
@@ -62,7 +64,7 @@ public class AdminController {
 	/**
 	 *
 	 */
-	public AdminController() {
+	public AdminViewController() {
 
 		this.screenController = ScreenController.getInstance();
 	}

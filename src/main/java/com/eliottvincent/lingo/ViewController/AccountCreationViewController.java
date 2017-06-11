@@ -269,20 +269,14 @@ public class AccountCreationViewController {
 	private void cancelActionBackup(Node node) {
 
 		LoginViewController loginViewController = new LoginViewController("cancel");
-		this.screenController.addScreen("login", "../fxml/login.fxml", loginViewController);
 
-		// need to cast to (Node) in order to use the getScene() method
-		Scene scene = node.getScene();
-		this.screenController.activate(scene, "login", null);
+		this.screenController.activate(node.getScene(), "login", null, loginViewController);
 	}
 
 	private void cancelAction(Node node) {
 		LoginViewController loginViewController = new LoginViewController("testtttttt");
 
-		this.screenController.addScreen("loginBis", "../fxml/login.fxml", loginViewController);
-
-		Scene scene = node.getScene();
-		this.screenController.activate(scene, "loginBis", null);
+		this.screenController.activate(node.getScene(), "loginBis", null, loginViewController);
 	}
 
 
@@ -294,10 +288,8 @@ public class AccountCreationViewController {
 
 
 		HomeViewController homeViewController = new HomeViewController(user);
-		this.screenController.addScreen("home", "../fxml/home.fxml" , homeViewController);
 
-		Scene scene = node.getScene();
-		screenController.activate(scene, "home", null);
+		screenController.activate(node.getScene(), "home", null, homeViewController);
 	}
 
 }

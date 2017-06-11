@@ -15,11 +15,11 @@ import java.util.HashMap;
  */
 public class ScreenController {
 
-	private HashMap<String, Pane> screenMap;
+	private HashMap<String, FXMLLoader> screenMap;
 
 	private static ScreenController instance;
 
-	ScreenController() {
+	private ScreenController() {
 
 		this.screenMap = new HashMap<>();
 	}
@@ -32,33 +32,43 @@ public class ScreenController {
 		return instance;
 	}
 
-	public void addScreen(String name, String pathToFXML, Object controller) {
+	/**
+	 *  @param name
+	 * @param pathToFXML
+	 */
+	public void addScreen(String name, String pathToFXML) {
 
 		// create a loader with our pathToFXML as template
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(pathToFXML));
 
-		// setting loginView (created above) as controller of this loader
+		screenMap.put(name, loader);
+	}
+
+	/**
+	 *
+	 * @param scene
+	 * @param name
+	 * @param stage
+	 * @param controller
+	 */
+	public void activate(Scene scene, String name, Stage stage, Object controller) {
+		Stage mStage;
+
+		FXMLLoader loader = screenMap.get(name);
+
+		// setting the controller as controller of this loader
 		if (controller != null) {
 			loader.setController(controller);
 		}
 
-		// "converting" the loader to a Panel object
+		Pane loaderToPane = null;
 		try {
-			Pane loaderToPane = loader.load();
-			screenMap.put(name, loaderToPane);
+			loaderToPane = loader.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
 
-	public void removeScreen(String name){
-		screenMap.remove(name);
-	}
-
-	public void activate(Scene scene, String name, Stage stage) {
-		Stage mStage;
-
-		scene.setRoot(screenMap.get(name));
+		scene.setRoot(loaderToPane);
 
 		// if the developer wants to override the Stage object
 		if (stage != null) {

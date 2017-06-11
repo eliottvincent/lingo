@@ -20,7 +20,7 @@ public class UserController {
 	// Properties
 	//================================================================================
 
-	private DatabaseController databaseController = new DatabaseController();
+	private DatabaseController databaseController = DatabaseController.getInstance();
 
 
 	//================================================================================
@@ -120,7 +120,7 @@ public class UserController {
 	 *
 	 * @return
 	 */
-	List<User> getUsers() {
+	public List<User> getUsers() {
 
 		String query = "SELECT * FROM Users";
 

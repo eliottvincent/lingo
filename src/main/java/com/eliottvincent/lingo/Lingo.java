@@ -34,11 +34,19 @@ public class Lingo extends Application
 
 		// we add a screen in our ScreenController
 		// named "login", template from "../fxml/login.fxml", loginViewController as controller
-		screenController.addScreen("login", "../fxml/login.fxml", loginViewController);
+		screenController.addScreen("login", "../fxml/login.fxml");
+		screenController.addScreen("loginBis", "../fxml/login.fxml");
+		screenController.addScreen("home", "../fxml/home.fxml");
+		screenController.addScreen("lesson", "../fxml/lesson.fxml");
+		screenController.addScreen("accountCreation", "../fxml/accountCreation.fxml");
+		screenController.addScreen("admin", "../fxml/admin.fxml");
+
+
+		// TODO : add les autres
 
 		Group root = new Group();
 		Scene scene = new Scene(root, 1500, 750);
-		screenController.activate(scene, "login", primaryStage);
+		screenController.activate(scene, "login", primaryStage, loginViewController);
 	}
 
 	/**

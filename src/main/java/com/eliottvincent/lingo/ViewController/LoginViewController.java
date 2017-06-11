@@ -1,6 +1,5 @@
 package com.eliottvincent.lingo.ViewController;
 
-import com.eliottvincent.lingo.Controller.AdminController;
 import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Controller.UserController;
 import com.eliottvincent.lingo.Model.User;
@@ -164,10 +163,9 @@ public class LoginViewController {
 
 		if (usernameTextField.getText().equals("admin") &&
 			passwordField.getText().equals("admin")) {
-			AdminController adminController = new AdminController();
-			this.screenController.addScreen("admin", "../fxml/admin.fxml", adminController);
+			AdminViewController adminViewController = new AdminViewController();
 
-			screenController.activate(node.getScene(), "admin", null);
+			screenController.activate(node.getScene(), "admin", null, adminViewController);
 		}
 		else {
 
@@ -176,9 +174,8 @@ public class LoginViewController {
 
 			if (tmpUser != null) {
 				HomeViewController homeViewController = new HomeViewController(tmpUser);
-				this.screenController.addScreen("home", "../fxml/home.fxml" , homeViewController);
 
-				screenController.activate(node.getScene(), "home", null);
+				screenController.activate(node.getScene(), "home", null, homeViewController);
 			}
 			else {
 				statusLabel.setText("Incorrect username or password");
@@ -193,11 +190,10 @@ public class LoginViewController {
 	private void guestLoginAction(Node node) {
 
 		HomeViewController homeViewController = new HomeViewController(null);
-		this.screenController.addScreen("home", "../fxml/home.fxml", homeViewController);
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();
-		screenController.activate(scene, "home", null);
+		screenController.activate(scene, "home", null, homeViewController);
 	}
 
 	/**
@@ -207,10 +203,9 @@ public class LoginViewController {
 	private void createAccountAction(Node node) {
 
 		AccountCreationViewController accountCreationViewController = new AccountCreationViewController();
-		this.screenController.addScreen("accountCreation", "../fxml/accountCreation.fxml", accountCreationViewController);
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();
-		screenController.activate(scene, "accountCreation", null);
+		screenController.activate(scene, "accountCreation", null, accountCreationViewController);
 	}
 }

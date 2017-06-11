@@ -133,11 +133,8 @@ public class HomeViewController {
 	private void handleLessonCardClick(Node node, Lesson lesson, Language language) {
 
 		LessonViewController lessonViewController = new LessonViewController();
-		this.screenController.addScreen("lesson", "../fxml/lesson.fxml", lessonViewController);
 
-		// need to cast to (Node) in order to use the getScene() method
-		Scene scene = node.getScene();
-		this.screenController.activate(scene, "lesson", null);
+		this.screenController.activate(node.getScene(), "lesson", null, lessonViewController);
 
 	}
 
