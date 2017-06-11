@@ -4,28 +4,37 @@ import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Data.LessonType;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by eliottvct on 17/05/17.
  */
-public abstract class Lesson {
+public class Lesson {
 
-	private int id;
-	private Collection<Exercise> exercises;
+	private Integer id;
+
+	private List<Exercise> exercises;
+
 	private Language language;
+
 	private LessonType type;
 
-	public Lesson(Collection<Exercise> exercises, Language language, LessonType type) {
+	public Lesson() {
+	}
+
+	public Lesson(Integer id, List<Exercise> exercises, Language language, LessonType type) {
+
+		this.id = id;
 		this.exercises = exercises;
 		this.language = language;
 		this.type = type;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -33,7 +42,7 @@ public abstract class Lesson {
 		return exercises;
 	}
 
-	public void setExercises(Collection<Exercise> exercises) {
+	public void setExercises(List<Exercise> exercises) {
 		this.exercises = exercises;
 	}
 
