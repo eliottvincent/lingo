@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import java.net.URL?>
-<VBox fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
 
+<BorderPane fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
 
 	<stylesheets>
 		<URL value="@../css/home.css" />
 	</stylesheets>
 
 	<children>
-		<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" text="Welcome to Lingo!" />
-		<Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" text=""/>
-		<Label fx:id="sessionLabel" alignment="CENTER" contentDisplay="CENTER" text=""/>
+		<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" text=""/>
+
+		<HBox fx:id="cardsHBox" />
 	</children>
-</VBox>
+</BorderPane>
