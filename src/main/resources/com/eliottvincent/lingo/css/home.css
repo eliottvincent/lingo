@@ -2,13 +2,12 @@
  Other properties
 ================================================================================*/
 * {
-	-fx-font-family: 'Varela Round';
 	-fx-alignment: center;
-	-fx-text-fill: #000000;
+	-fx-font-family: "Roboto";
 }
 
+
 #container {
-	-fx-background: #3F8ABF;
 	-fx-pref-width: 500px;
 	-fx-padding: 75px;
 	-fx-spacing: 20px;
@@ -16,7 +15,6 @@
 
 #titleLabel {
 	-fx-font-size: 31px;
-	-fx-text-fill: white;
 }
 
 #statusLabel {
@@ -27,40 +25,8 @@
 	-fx-spacing: 10px;
 }
 
-.button {
-	-fx-border-radius: 6px;
-	-fx-border-width: 2px;
-	-fx-border-style: solid;
-	-fx-border-color: #fff;
-	-fx-background-color: none;
-	-fx-text-fill: #fff;
-	-fx-fill-width: true;
-	-fx-cursor: pointer;
-	-fx-padding: 10px 10px 10px 55px;
-	-fx-font-size: 20px;
-}
-
-.png-container {
-	-fx-padding: 0 0 0 15px;
-	-fx-alignment: center-left;
-}
-
-.png {
-	-fx-pref-height: 32px;
-	-fx-pref-width: 32px;
-	-fx-max-height: 32px;
-	-fx-max-width: 32px;
-}
-
 .text-field {
-	-fx-pref-width: 300px;
-	-fx-pref-row-count: 3;
-	-fx-border-radius: 6px;
-	-fx-border-width: 2px;
-	-fx-border-color: #fff;
-	-fx-border-style: solid;
 	-fx-font-size: 20px;
-	-fx-text-fill: #000;
 	-fx-alignment: center-left;
 }
 
@@ -69,32 +35,16 @@
 }
 
 .password-field {
-	-fx-pref-width: 300px;
-	-fx-pref-row-count: 3;
-	-fx-border-radius: 6px;
-	-fx-border-width: 2px;
-	-fx-border-color: #fff;
-	-fx-border-style: solid;
 	-fx-font-size: 20px;
 	-fx-text-fill: #636363;
 	-fx-alignment: center-left;
 }
 
-/* State based selectors */
-
-.login-anonymous .png-container {
-	-fx-spacing: 5px;
-}
-
-.focus {
-	-fx-background-color: #2D3339;
-}
-
-.break {
-	-fx-background-color: #3F8ABF;
-}
-
-#birthdatePicker {
-
-	-fx-text-fill: black;
+.button-raised{
+	-fx-padding: 0.7em 0.57em;
+	-fx-font-size: 14px;
+	-jfx-button-type: RAISED;
+	-fx-background-color: rgb(77,102,204);
+	-fx-pref-width: 200;
+	-fx-text-fill: WHITE;
 }
