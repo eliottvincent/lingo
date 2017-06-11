@@ -1,12 +1,17 @@
-package com.eliottvincent.lingo.View;
+package com.eliottvincent.lingo.ViewController;
 
 import com.eliottvincent.lingo.Controller.AccountController;
 import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Controller.UserController;
-import com.eliottvincent.lingo.ConverterHelper;
+import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Model.User;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,7 +25,7 @@ import java.util.Objects;
 /**
  * Created by eliottvct on 28/05/17.
  */
-public class AccountCreationController {
+public class AccountCreationViewController {
 
 
 	//================================================================================
@@ -37,22 +42,22 @@ public class AccountCreationController {
 	private Label statusLabel;
 
 	@FXML
-	private TextField usernameTextField;
+	private JFXTextField usernameTextField;
 
 	@FXML
-	private PasswordField passwordField;
+	private JFXPasswordField passwordField;
 
 	@FXML
-	private PasswordField passwordBisField;
+	private JFXPasswordField passwordBisField;
 
 	@FXML
-	private DatePicker birthdatePicker;
+	private JFXDatePicker birthdatePicker;
 
 	@FXML
-	private ComboBox<Gender> genderComboBox;
+	private JFXComboBox<Gender> genderComboBox;
 
 	@FXML
-	private ComboBox<Language> languageComboBox;
+	private JFXComboBox<Language> languageComboBox;
 
 
 	//================================================================================
@@ -66,7 +71,7 @@ public class AccountCreationController {
 	// Constructor and initialization
 	//================================================================================
 
-	AccountCreationController() {
+	AccountCreationViewController() {
 		this.screenController = new ScreenController();
 	}
 
@@ -129,6 +134,20 @@ public class AccountCreationController {
 
 		// removing week numbers
 		birthdatePicker.setShowWeekNumbers(false);
+
+
+
+
+
+		usernameTextField.setLabelFloat(true);
+		usernameTextField.setPromptText("With Validation..");
+		RequiredFieldValidator validator = new RequiredFieldValidator();
+		validator.setMessage("Input Required");
+		//validator.setAwsomeIcon(new Info(AwesomeIcon.WARNING,"2em",";","error"));
+		usernameTextField.getValidators().add(validator);
+		usernameTextField.focusedProperty().addListener((o,oldVal,newVal)->{
+			if(!newVal) usernameTextField.validate();
+		});
 	}
 
 
@@ -248,8 +267,8 @@ public class AccountCreationController {
 
 	private void cancelActionBackup(Node node) {
 
-		LoginController loginController = new LoginController("cancel");
-		this.screenController.addScreen("login", "../fxml/login.fxml", loginController);
+		LoginViewController loginViewController = new LoginViewController("cancel");
+		this.screenController.addScreen("login", "../fxml/login.fxml", loginViewController);
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();
@@ -257,9 +276,9 @@ public class AccountCreationController {
 	}
 
 	private void cancelAction(Node node) {
-		LoginController loginController = new LoginController("testtttttt");
+		LoginViewController loginViewController = new LoginViewController("testtttttt");
 
-		this.screenController.addScreen("loginBis", "../fxml/login.fxml", loginController);
+		this.screenController.addScreen("loginBis", "../fxml/login.fxml", loginViewController);
 
 		Scene scene = node.getScene();
 		this.screenController.activate(scene, "loginBis", null);
@@ -273,8 +292,8 @@ public class AccountCreationController {
 	public void displayHome(User user, Node node) {
 
 
-		HomeController homeController = new HomeController(user);
-		this.screenController.addScreen("home", "../fxml/home.fxml" , homeController);
+		HomeViewController homeViewController = new HomeViewController(user);
+		this.screenController.addScreen("home", "../fxml/home.fxml" , homeViewController);
 
 		Scene scene = node.getScene();
 		screenController.activate(scene, "home", null);
