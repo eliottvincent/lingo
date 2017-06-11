@@ -19,7 +19,7 @@ public class ScreenController {
 
 	private static ScreenController instance;
 
-	public ScreenController() {
+	ScreenController() {
 
 		this.screenMap = new HashMap<>();
 	}

@@ -19,7 +19,7 @@ class ActionController {
 	// Properties
 	//================================================================================
 
-	private DatabaseController databaseController = new DatabaseController();
+	private DatabaseController databaseController = DatabaseController.getInstance();
 
 
 	//================================================================================

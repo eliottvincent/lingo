@@ -20,8 +20,8 @@ public class LessonController {
 	// Properties
 	//================================================================================
 
-	private DatabaseController databaseController = new DatabaseController();
-
+	private DatabaseController databaseController = DatabaseController.getInstance();
+	
 
 	//================================================================================
 	// Constructor

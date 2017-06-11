@@ -3,6 +3,7 @@ package com.eliottvincent.lingo.Controller;
 /**
  * Created by eliottvincent on 08/06/2017.
  */
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.*;
 
@@ -13,10 +14,20 @@ public class DatabaseController {
 
 	private static Connection connection = null;
 
+	private static DatabaseController instance;
+
 	DatabaseController() {
 
 		loadDriver();
 		connection = getConnection(connection);
+	}
+
+	static DatabaseController getInstance(){
+
+		if(instance == null) {
+			instance = new DatabaseController();
+		}
+		return instance;
 	}
 
 	private static void loadDriver() {
