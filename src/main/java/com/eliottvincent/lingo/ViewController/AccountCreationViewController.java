@@ -72,7 +72,8 @@ public class AccountCreationViewController {
 	//================================================================================
 
 	AccountCreationViewController() {
-		this.screenController = new ScreenController();
+
+		this.screenController = ScreenController.getInstance();
 	}
 
 	@FXML

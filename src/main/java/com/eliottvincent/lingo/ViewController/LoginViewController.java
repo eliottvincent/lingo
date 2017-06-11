@@ -72,7 +72,7 @@ public class LoginViewController {
 	 */
 	public LoginViewController() {
 
-		this.screenController = new ScreenController();
+		this.screenController = ScreenController.getInstance();
 		// TODO : find a way to load FXML files here rather than in handlers (<-- ??)
 
 	}
@@ -83,7 +83,7 @@ public class LoginViewController {
 	 */
 	public LoginViewController(String status) {
 
-		this.screenController = new ScreenController();
+		this.screenController = ScreenController.getInstance();
 		if (status != null) {
 			this.statusText = status;
 		}

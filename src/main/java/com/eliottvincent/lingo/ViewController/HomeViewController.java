@@ -64,7 +64,7 @@ public class HomeViewController {
 
 	HomeViewController() {
 
-		this.screenController = new ScreenController();
+		this.screenController = ScreenController.getInstance();
 
 	}
 
@@ -72,7 +72,7 @@ public class HomeViewController {
 
 		this.currentUser = currentUser;
 
-		this.screenController = new ScreenController();
+		this.screenController = ScreenController.getInstance();
 
 	}
 

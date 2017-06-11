@@ -17,8 +17,19 @@ public class ScreenController {
 
 	private HashMap<String, Pane> screenMap;
 
+	private static ScreenController instance;
+
 	public ScreenController() {
+
 		this.screenMap = new HashMap<>();
+	}
+
+	public static ScreenController getInstance(){
+
+		if(instance == null) {
+			instance = new ScreenController();
+		}
+		return instance;
 	}
 
 	public void addScreen(String name, String pathToFXML, Object controller) {

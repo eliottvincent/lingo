@@ -63,7 +63,8 @@ public class AdminController {
 	 *
 	 */
 	public AdminController() {
-		this.screenController = new ScreenController();
+
+		this.screenController = ScreenController.getInstance();
 	}
 
 	/**

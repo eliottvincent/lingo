@@ -26,7 +26,7 @@ public class Lingo extends Application
 	public void start(Stage primaryStage) {
 
 		// we need to instantiate the ScreenController
-		ScreenController screenController = new ScreenController();
+		ScreenController screenController = ScreenController.getInstance();
 
 		// then we create an instance of loginViewController
 		// this instance is going to be the controller of our FXML template
