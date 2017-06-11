@@ -6,27 +6,53 @@ package com.eliottvincent.lingo.Model;
 
 public class Exercise {
 
-	private int id;
-	private int number;
 
-	public Exercise(int number) {
-		this.id = id;
-		this.number = number;
+	private Integer id;
+
+	private Integer lessonId;
+
+	private Integer points;
+
+
+	/**
+	 *
+	 */
+	public Exercise() {
 	}
 
-	public int getId() {
+	/**
+	 *
+	 * @param id
+	 * @param lessonId
+	 * @param points
+	 */
+	public Exercise(Integer id, Integer lessonId, Integer points) {
+		this.id = id;
+		this.lessonId = lessonId;
+		this.points = points;
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getNumber() {
-		return number;
+	public Integer getLessonId() {
+		return lessonId;
 	}
 
-	public void setNumber(int number) {
-		this.number = number;
+	public void setLessonId(Integer lessonId) {
+		this.lessonId = lessonId;
+	}
+
+	public Integer getPoints() {
+		return points;
+	}
+
+	public void setPoints(Integer points) {
+		this.points = points;
 	}
 }
