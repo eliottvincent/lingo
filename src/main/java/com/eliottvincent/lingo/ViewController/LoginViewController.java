@@ -1,4 +1,4 @@
-package com.eliottvincent.lingo.View;
+package com.eliottvincent.lingo.ViewController;
 
 import com.eliottvincent.lingo.Controller.AdminController;
 import com.eliottvincent.lingo.Controller.ScreenController;
@@ -20,7 +20,7 @@ import java.util.Vector;
 /**
  * Created by eliottvct on 27/05/17.
  */
-public class LoginController {
+public class LoginViewController {
 
 
 	//================================================================================
@@ -70,7 +70,7 @@ public class LoginController {
 	/**
 	 *
 	 */
-	public LoginController() {
+	public LoginViewController() {
 
 		this.screenController = new ScreenController();
 		// TODO : find a way to load FXML files here rather than in handlers (<-- ??)
@@ -81,7 +81,7 @@ public class LoginController {
 	 *
 	 * @param status
 	 */
-	public LoginController(String status) {
+	public LoginViewController(String status) {
 
 		this.screenController = new ScreenController();
 		if (status != null) {
@@ -131,7 +131,6 @@ public class LoginController {
 	 */
 	public void handleCreateAccount(ActionEvent actionEvent) {
 
-
 		this.createAccountAction((Node) actionEvent.getSource());
 	}
 
@@ -176,8 +175,8 @@ public class LoginController {
 			User tmpUser = userController.getUserByCredentials(usernameTextField.getText(), passwordField.getText());
 
 			if (tmpUser != null) {
-				HomeController homeController = new HomeController(tmpUser);
-				this.screenController.addScreen("home", "../fxml/home.fxml" , homeController);
+				HomeViewController homeViewController = new HomeViewController(tmpUser);
+				this.screenController.addScreen("home", "../fxml/home.fxml" , homeViewController);
 
 				screenController.activate(node.getScene(), "home", null);
 			}
@@ -193,8 +192,8 @@ public class LoginController {
 	 */
 	private void guestLoginAction(Node node) {
 
-		HomeController homeController = new HomeController();
-		this.screenController.addScreen("home", "../fxml/home.fxml", homeController);
+		HomeViewController homeViewController = new HomeViewController(null);
+		this.screenController.addScreen("home", "../fxml/home.fxml", homeViewController);
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();
@@ -207,8 +206,8 @@ public class LoginController {
 	 */
 	private void createAccountAction(Node node) {
 
-		AccountCreationController accountCreationController = new AccountCreationController();
-		this.screenController.addScreen("accountCreation", "../fxml/accountCreation.fxml", accountCreationController);
+		AccountCreationViewController accountCreationViewController = new AccountCreationViewController();
+		this.screenController.addScreen("accountCreation", "../fxml/accountCreation.fxml", accountCreationViewController);
 
 		// need to cast to (Node) in order to use the getScene() method
 		Scene scene = node.getScene();

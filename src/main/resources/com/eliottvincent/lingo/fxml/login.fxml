@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
-
+<?import java.net.URL?>
 <VBox fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
 
 	<stylesheets>
@@ -22,51 +15,19 @@
 		<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" text="Lingo" />
 		<Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" text="" />
 
-		<TextField fx:id="usernameTextField" maxHeight="60.0" maxWidth="400.0" minHeight="60.0" minWidth="400.0" prefHeight="60.0" prefWidth="400.0" promptText="Username" />
-		<PasswordField fx:id="passwordField" maxHeight="60.0" maxWidth="400.0" minHeight="60.0" minWidth="400.0" prefHeight="60.0" prefWidth="400.0" promptText="Password" />
+		<JFXTextField fx:id="usernameTextField" maxHeight="60.0" maxWidth="400.0" minHeight="60.0" minWidth="400.0" prefHeight="60.0" prefWidth="400.0" promptText="Username" />
+		<JFXPasswordField fx:id="passwordField" maxHeight="60.0" maxWidth="400.0" minHeight="60.0" minWidth="400.0" prefHeight="60.0" prefWidth="400.0" promptText="Password" />
 
 		<HBox styleClass="buttons">
 			<children>
-				<StackPane alignment="CENTER_LEFT" styleClass="nested-action,login">
-					<children>
-						<HBox styleClass="png-container">
-							<ImageView fitHeight="32.0" fitWidth="32.0" styleClass="png">
-								<image>
-									<Image url="@../images/login.png" />
-								</image>
-							</ImageView>
-						</HBox>
-						<Button fx:id="loginButton" onAction="#handleLogin" text="Log In" />
-					</children>
-				</StackPane>
-
-				<StackPane alignment="CENTER_RIGHT" styleClass="nested-action,login-anonymous">
-					<children>
-						<HBox styleClass="png-container">
-							<ImageView fitHeight="32.0" fitWidth="32.0" styleClass="png">
-								<image>
-									<Image url="@../images/mask.png" />
-								</image>
-							</ImageView>
-						</HBox>
-						<Button fx:id="guestLoginButton" onAction="#handleGuestLogin" text="Log as a guest" />
-					</children>
-				</StackPane>
+				<JFXButton fx:id="loginButton" styleClass="button-raised" onAction="#handleLogin" text="Log In" />
+				<JFXButton fx:id="guestLoginButton" styleClass="button-raised" onAction="#handleGuestLogin" text="Log as a guest" />
 			</children>
 		</HBox>
 
 		<HBox styleClass="buttons">
 			<children>
-				<StackPane alignment="CENTER" styleClass="nested-action,login-anonymous">
-					<children>
-						<HBox styleClass="png-container">
-							<ImageView fitHeight="32.0" fitWidth="32.0" styleClass="png">
-								<Image url="@../images/add.png" />
-							</ImageView>
-						</HBox>
-						<Button fx:id="createAccountButton" onAction="#handleCreateAccount" text="Register" />
-					</children>
-				</StackPane>
+				<JFXButton fx:id="createAccountButton" styleClass="button-raised" onAction="#handleCreateAccount" text="Register" />
 			</children>
 		</HBox>
 	</children>
