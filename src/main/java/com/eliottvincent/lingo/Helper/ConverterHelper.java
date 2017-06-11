@@ -1,4 +1,4 @@
-package com.eliottvincent.lingo;
+package com.eliottvincent.lingo.Helper;
 
 /**
  * Created by eliottvincent on 09/06/2017.
@@ -7,6 +7,7 @@ package com.eliottvincent.lingo;
 import com.eliottvincent.lingo.Data.ActionType;
 import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
+import com.eliottvincent.lingo.Data.LessonType;
 import com.eliottvincent.lingo.Model.History;
 import com.eliottvincent.lingo.Model.User;
 
@@ -59,6 +60,16 @@ public class ConverterHelper {
 	public static ActionType stringToActionType(String actionType) {
 
 		return ActionType.valueOf(actionType);
+	}
+
+	/**
+	 *
+	 * @param lessonType
+	 * @return
+	 */
+	public static LessonType stringToLessonType(String lessonType) {
+
+		return LessonType.valueOf(lessonType);
 	}
 
 	/**

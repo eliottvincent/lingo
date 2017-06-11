@@ -1,5 +1,7 @@
 package com.eliottvincent.lingo.Controller;
 
+import com.eliottvincent.lingo.Lingo;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -56,6 +58,10 @@ public class ScreenController {
 		else {
 			mStage = (Stage) scene.getWindow();
 		}
+
+		// fonts
+		final ObservableList<String> stylesheets = scene.getStylesheets();
+		stylesheets.addAll(Lingo.class.getResource("css/fonts.css").toExternalForm());
 
 		mStage.setScene(scene);
 		mStage.setResizable(false);

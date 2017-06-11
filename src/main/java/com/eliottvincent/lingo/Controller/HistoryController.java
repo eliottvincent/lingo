@@ -1,6 +1,6 @@
 package com.eliottvincent.lingo.Controller;
 
-import com.eliottvincent.lingo.ConverterHelper;
+import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Model.History;
 import com.eliottvincent.lingo.Model.Session;
 
@@ -11,6 +11,7 @@ import java.util.Map;
  * Created by eliottvct on 17/05/17.
  */
 class HistoryController {
+
 
 	//================================================================================
 	// Properties
@@ -40,7 +41,7 @@ class HistoryController {
 	History getHistory(Integer userId) {
 
 		String historiesQuery = "SELECT * FROM Histories " 	+
-			"WHERE user_id LIKE '" 		+ 	userId	+ 	"'";
+								"WHERE user_id LIKE '" 		+ 	userId	+ 	"'";
 
 		List<Map<String, Object>> historiesList = databaseController.executeSelectQuery(historiesQuery);
 

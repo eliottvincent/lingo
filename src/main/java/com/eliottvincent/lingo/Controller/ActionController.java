@@ -1,6 +1,6 @@
 package com.eliottvincent.lingo.Controller;
 
-import com.eliottvincent.lingo.ConverterHelper;
+import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Data.ActionType;
 import com.eliottvincent.lingo.Model.Action;
 

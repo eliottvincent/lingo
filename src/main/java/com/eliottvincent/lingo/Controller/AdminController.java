@@ -1,16 +1,15 @@
 package com.eliottvincent.lingo.Controller;
 
-import com.eliottvincent.lingo.ConverterHelper;
 import com.eliottvincent.lingo.Model.Action;
 import com.eliottvincent.lingo.Model.Session;
 import com.eliottvincent.lingo.Model.User;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.ComboBoxListCell;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
