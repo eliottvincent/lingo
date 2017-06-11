@@ -1,4 +1,4 @@
-package com.eliottvincent.lingo.View;
+package com.eliottvincent.lingo.ViewController;
 
 import junit.framework.TestCase;
 
