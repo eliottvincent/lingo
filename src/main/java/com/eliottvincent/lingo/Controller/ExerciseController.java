@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by eliottvct on 17/05/17.
  */
-class ExerciseController {
+public class ExerciseController {
 
 	//================================================================================
 	// Properties
@@ -26,7 +26,7 @@ class ExerciseController {
 	/**
 	 *
 	 */
-	ExerciseController() {
+	public ExerciseController() {
 
 
 	}
@@ -73,7 +73,7 @@ class ExerciseController {
 	 * @param lessonId
 	 * @return
 	 */
-	List<Exercise> getExercises(Integer lessonId) {
+	public List<Exercise> getExercises(Integer lessonId) {
 
 		List<Exercise> exercises = new ArrayList<>();
 
