@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Label?>
+<?import com.jfoenix.controls.JFXTabPane?>
+
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDialog?>
+<BorderPane fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+
+	<stylesheets>
+		<URL value="@../css/home.css" />
+	</stylesheets>
+
+	<children>
+		<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" text=""/>
+
+		<JFXTabPane fx:id="exercisesTabPane"/>
+
+	<JFXDialog fx:id="dialog" maxHeight="100.0" maxWidth="600.0" minHeight="100.0" minWidth="600.0" prefHeight="100.0" prefWidth="600.0">
+		<JFXDialogLayout>
+			<heading>
+				<Label>Finish lesson</Label>
+			</heading>
+			<body>
+				<Label>Congratulations! You finished this lesson. You can stay in this lesson or go back home.
+				</Label>
+			</body>
+			<actions>
+				<JFXButton fx:id="stayButton" styleClass="dialog-accept">Stay
+				</JFXButton>
+				<JFXButton fx:id="leaveButton" styleClass="dialog-accept">Leave
+				</JFXButton>
+			</actions>
+		</JFXDialogLayout>
+	</JFXDialog>
+
+	</children>
+</BorderPane>
