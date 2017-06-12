@@ -1,7 +1,9 @@
 package com.eliottvincent.lingo.ViewController;
 
+import com.eliottvincent.lingo.Controller.ActionController;
 import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Controller.UserController;
+import com.eliottvincent.lingo.Data.ActionType;
 import com.eliottvincent.lingo.Model.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
@@ -17,6 +19,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import java.util.Date;
 import java.util.Vector;
 
 /**
@@ -33,10 +36,10 @@ public class LoginViewController {
 	private VBox container;
 
 	@FXML
-	public Label titleLabel;
+	private Label titleLabel;
 
 	@FXML
-	public Label statusLabel;
+	private Label statusLabel;
 
 	@FXML
 	private JFXTextField usernameTextField;
@@ -86,9 +89,7 @@ public class LoginViewController {
 
 		// the default focus is on the first text area
 		// we use this Runnable (encapsulated in a lambda function) to focus on the container
-		Platform.runLater(() -> {
-			container.requestFocus();
-		});
+		Platform.runLater(() -> container.requestFocus());
 
 		// handling key presses thanks to this lambda function 💪
 		container.addEventFilter(KeyEvent.KEY_PRESSED, event -> {

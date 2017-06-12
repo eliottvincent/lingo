@@ -1,13 +1,17 @@
 package com.eliottvincent.lingo.ViewController;
 
+import com.eliottvincent.lingo.Controller.ActionController;
 import com.eliottvincent.lingo.Controller.LessonController;
 import com.eliottvincent.lingo.Controller.ScreenController;
+import com.eliottvincent.lingo.Data.ActionType;
 import com.eliottvincent.lingo.Data.Language;
+import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Model.Lesson;
 import com.eliottvincent.lingo.Model.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.svg.SVGGlyph;
+import com.sun.tools.javac.util.Convert;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -18,13 +22,13 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static javafx.animation.Interpolator.EASE_BOTH;
@@ -53,9 +57,11 @@ public class HomeViewController {
 	// Other properties
 	//================================================================================
 
-	private User currentUser;
+	private User user;
 
 	private ScreenController screenController;
+
+	private ActionController actionController;
 
 
 	//================================================================================
@@ -68,22 +74,23 @@ public class HomeViewController {
 
 	}
 
-	HomeViewController(User currentUser) {
+	HomeViewController(User user) {
 
-		this.currentUser = currentUser;
+		this.user = user;
 
 		this.screenController = ScreenController.getInstance();
+
+		this.actionController = new ActionController();
 
 	}
 
 	@FXML
 	public void initialize() {
 
-		if (this.currentUser != null) {
-			titleLabel.setText("Hello " + this.currentUser.getUsername() + "!");
+		if (this.user != null) {
+			titleLabel.setText("Hello " + this.user.getUsername() + "!");
 		}
 		else {
-
 			titleLabel.setText("Hello guest!");
 		}
 
@@ -260,7 +267,7 @@ public class HomeViewController {
 		);
 
 		return generateCard(
-			lesson.getType().toString(),
+			ConverterHelper.lessonTypeToString(lesson.getType()),
 			eventHandler,
 			widthValue,
 			headerHeight,

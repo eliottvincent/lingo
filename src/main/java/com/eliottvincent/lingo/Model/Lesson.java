@@ -38,7 +38,7 @@ public class Lesson {
 		this.id = id;
 	}
 
-	public Collection<Exercise> getExercises() {
+	public List<Exercise> getExercises() {
 		return exercises;
 	}
 
