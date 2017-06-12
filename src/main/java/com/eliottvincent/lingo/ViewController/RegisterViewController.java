@@ -25,7 +25,7 @@ import java.util.Objects;
 /**
  * Created by eliottvct on 28/05/17.
  */
-public class AccountCreationViewController {
+public class RegisterViewController {
 
 
 	//================================================================================
@@ -71,7 +71,7 @@ public class AccountCreationViewController {
 	// Constructor and initialization
 	//================================================================================
 
-	AccountCreationViewController() {
+	RegisterViewController() {
 
 		this.screenController = ScreenController.getInstance();
 	}
@@ -266,17 +266,10 @@ public class AccountCreationViewController {
 		}
 	}
 
-	private void cancelActionBackup(Node node) {
-
-		LoginViewController loginViewController = new LoginViewController("cancel");
+	private void cancelAction(Node node) {
+		LoginViewController loginViewController = new LoginViewController();
 
 		this.screenController.activate(node.getScene(), "login", null, loginViewController);
-	}
-
-	private void cancelAction(Node node) {
-		LoginViewController loginViewController = new LoginViewController("testtttttt");
-
-		this.screenController.activate(node.getScene(), "loginBis", null, loginViewController);
 	}
 
 
