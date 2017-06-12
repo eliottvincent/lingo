@@ -35,10 +35,9 @@ public class Lingo extends Application
 		// we add a screen in our ScreenController
 		// named "login", template from "../fxml/login.fxml", loginViewController as controller
 		screenController.addScreen("login", "../fxml/login.fxml");
-		screenController.addScreen("loginBis", "../fxml/login.fxml");
 		screenController.addScreen("home", "../fxml/home.fxml");
 		screenController.addScreen("lesson", "../fxml/lesson.fxml");
-		screenController.addScreen("accountCreation", "../fxml/accountCreation.fxml");
+		screenController.addScreen("register", "../fxml/register.fxml");
 		screenController.addScreen("admin", "../fxml/admin.fxml");
 
 

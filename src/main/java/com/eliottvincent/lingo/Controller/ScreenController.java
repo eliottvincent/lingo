@@ -4,6 +4,7 @@ import com.eliottvincent.lingo.Lingo;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -15,7 +16,7 @@ import java.util.HashMap;
  */
 public class ScreenController {
 
-	private HashMap<String, FXMLLoader> screenMap;
+	private HashMap<String, String> screenMap;
 
 	private static ScreenController instance;
 
@@ -38,10 +39,8 @@ public class ScreenController {
 	 */
 	public void addScreen(String name, String pathToFXML) {
 
-		// create a loader with our pathToFXML as template
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(pathToFXML));
 
-		screenMap.put(name, loader);
+		screenMap.put(name, pathToFXML);
 	}
 
 	/**
@@ -54,7 +53,11 @@ public class ScreenController {
 	public void activate(Scene scene, String name, Stage stage, Object controller) {
 		Stage mStage;
 
-		FXMLLoader loader = screenMap.get(name);
+		// getting the corresponding path in ScreenMap
+		String pathToFXML = screenMap.get(name);
+
+		// create a loader with our pathToFXML as template
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(pathToFXML));
 
 		// setting the controller as controller of this loader
 		if (controller != null) {
@@ -81,8 +84,8 @@ public class ScreenController {
 		}
 
 		// fonts
-		final ObservableList<String> stylesheets = scene.getStylesheets();
-		stylesheets.addAll(Lingo.class.getResource("css/fonts.css").toExternalForm());
+		//final ObservableList<String> stylesheets = sceneBis.getStylesheets();
+		//stylesheets.addAll(Lingo.class.getResource("css/fonts.css").toExternalForm());
 
 		mStage.setScene(scene);
 		mStage.setResizable(false);

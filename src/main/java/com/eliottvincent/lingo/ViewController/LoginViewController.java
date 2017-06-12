@@ -3,6 +3,9 @@ package com.eliottvincent.lingo.ViewController;
 import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Controller.UserController;
 import com.eliottvincent.lingo.Model.User;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,19 +39,19 @@ public class LoginViewController {
 	public Label statusLabel;
 
 	@FXML
-	private TextField usernameTextField;
+	private JFXTextField usernameTextField;
 
 	@FXML
-	private PasswordField passwordField;
+	private JFXPasswordField passwordField;
 
 	@FXML
-	private Button loginButton;
+	private JFXButton loginButton;
 
 	@FXML
-	private Button guestLoginButton;
+	private JFXButton guestLoginButton;
 
 	@FXML
-	private Button createAccountButton;
+	private JFXButton createAccountButton;
 
 
 	//================================================================================
@@ -72,21 +75,9 @@ public class LoginViewController {
 	public LoginViewController() {
 
 		this.screenController = ScreenController.getInstance();
-		// TODO : find a way to load FXML files here rather than in handlers (<-- ??)
 
 	}
 
-	/**
-	 *
-	 * @param status
-	 */
-	public LoginViewController(String status) {
-
-		this.screenController = ScreenController.getInstance();
-		if (status != null) {
-			this.statusText = status;
-		}
-	}
 
 	@FXML
 	public void initialize() {
@@ -202,10 +193,8 @@ public class LoginViewController {
 	 */
 	private void createAccountAction(Node node) {
 
-		AccountCreationViewController accountCreationViewController = new AccountCreationViewController();
+		RegisterViewController registerViewController = new RegisterViewController();
 
-		// need to cast to (Node) in order to use the getScene() method
-		Scene scene = node.getScene();
-		screenController.activate(scene, "accountCreation", null, accountCreationViewController);
+		screenController.activate(node.getScene(), "register", null, registerViewController);
 	}
 }
