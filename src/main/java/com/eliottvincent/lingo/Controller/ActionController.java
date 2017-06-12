@@ -3,6 +3,8 @@ package com.eliottvincent.lingo.Controller;
 import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Data.ActionType;
 import com.eliottvincent.lingo.Model.Action;
+import com.eliottvincent.lingo.Model.Session;
+import com.eliottvincent.lingo.Model.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,7 +14,7 @@ import java.util.Map;
 /**
  * Created by eliottvincent on 10/06/2017.
  */
-class ActionController {
+public class ActionController {
 
 
 	//================================================================================
@@ -29,7 +31,7 @@ class ActionController {
 	/**
 	 *
 	 */
-	ActionController() {
+	public ActionController() {
 
 	}
 
@@ -106,20 +108,47 @@ class ActionController {
 
 	/**
 	 *
-	 * @param sessionId
+	 * @param user
 	 * @return
 	 */
-	Integer createNewAction(Integer sessionId, ActionType type, Date date, String exerciceId, String data) {
+	public Integer createNewAction(User user, ActionType type, Date date, String exerciceId, String data) {
 
-		Action action = new Action();
+		if (user != null) {
 
-		action.setSessionId(sessionId);
-		action.setType(type);
-		action.setDate(date);
-		action.setExerciceId(exerciceId);
-		action.setData(data);
+			UserController userController = new UserController();
+			Session lastSession = userController.getLastSession(user);
 
-		return this.saveAction(action);
+			Action action = new Action();
+
+			action.setType(type);
+			action.setDate(date);
+			action.setExerciceId(exerciceId);
+			action.setData(data);
+
+
+			// if the user's last session doesn't contain any "logout"
+			// we can continue to add actions to it
+			if (!containsLogout(lastSession.getActions())) {
+
+				action.setSessionId(lastSession.getId());
+			}
+
+			// else we have to create a new session
+			else {
+
+				SessionController sessionController = new SessionController();
+				Integer sessionId = sessionController.createNewSession(user.getHistory().getId());
+
+				action.setSessionId(sessionId);
+
+			}
+
+			return this.saveAction(action);
+		}
+		else {
+
+			return null;
+		}
 	}
 
 	/**
@@ -138,6 +167,17 @@ class ActionController {
 						"'"			+	action.getData()		+ 	"')";
 
 		return databaseController.executeInsertQuery(query);
+	}
+
+
+	/**
+	 *
+	 * @param list
+	 * @return
+	 */
+	public boolean containsLogout(final List<Action> list) {
+
+		return list.stream().anyMatch(o -> o.getType().equals(ActionType.LOGOUT));
 	}
 
 
