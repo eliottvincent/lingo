@@ -77,9 +77,11 @@ public class ConverterHelper {
 	 * @param language the language to be converted
 	 * @return
 	 */
-	private static String languageToString(Language language) {
+	public static String languageToString(Language language) {
 
-		return language.toString();
+		String tmpLanguageString = language.toString().toLowerCase();
+
+		return tmpLanguageString.substring(0, 1).toUpperCase() + tmpLanguageString.substring(1);
 	}
 
 	/**
@@ -87,9 +89,24 @@ public class ConverterHelper {
 	 * @param gender the gender to be converted
 	 * @return
 	 */
-	private static String genderToString(Gender gender) {
+	public static String genderToString(Gender gender) {
 
-		return gender.toString();
+		String tmpGenderString = gender.toString().toLowerCase();
+
+		return tmpGenderString.substring(0, 1).toUpperCase() + tmpGenderString.substring(1);
+	}
+
+
+	/**
+	 *
+	 * @param lessonType the lessonType to be converted
+	 * @return
+	 */
+	public static String lessonTypeToString(LessonType lessonType) {
+
+		String tmpLessonTypeString = lessonType.toString().toLowerCase();
+
+		return tmpLessonTypeString.substring(0, 1).toUpperCase() + tmpLessonTypeString.substring(1);
 	}
 
 	/**
@@ -97,7 +114,7 @@ public class ConverterHelper {
 	 * @param i the integer to be converted
 	 * @return
 	 */
-	private static String integerToString(Integer i) {
+	public static String integerToString(Integer i) {
 
 		return i.toString();
 	}
@@ -107,7 +124,7 @@ public class ConverterHelper {
 	 * @param history
 	 * @return
 	 */
-	private static String historyToString(History history) {
+	public static String historyToString(History history) {
 
 		return ConverterHelper.integerToString(history.getId());
 	}
