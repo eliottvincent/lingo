@@ -228,4 +228,19 @@ public class UserController {
 		// we return true if the list isn't null and isn't empty
 		return usersList != null && !usersList.isEmpty();
 	}
+
+	/**
+	 *
+	 * @param user
+	 * @return
+	 */
+	public Session getLastSession(User user) {
+
+		SessionController sessionController = new SessionController();
+
+		List<Session> sessions = sessionController.getSessions(user.getHistory().getId());
+
+		return sessions.get(sessions.size() - 1);
+
+	}
 }
