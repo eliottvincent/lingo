@@ -11,7 +11,6 @@ import com.eliottvincent.lingo.Model.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.svg.SVGGlyph;
-import com.sun.tools.javac.util.Convert;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -22,7 +21,9 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -51,6 +52,15 @@ public class HomeViewController {
 
 	@FXML
 	private HBox cardsHBox;
+
+	@FXML
+	private ImageView logo;
+
+	@FXML
+	private HBox topBarHBox;
+
+	@FXML
+	private VBox centerVBox;
 
 
 	//================================================================================
@@ -87,23 +97,39 @@ public class HomeViewController {
 	@FXML
 	public void initialize() {
 
-		if (this.user != null) {
-			titleLabel.setText("Hello " + this.user.getUsername() + "!");
-		}
-		else {
-			titleLabel.setText("Hello guest!");
-		}
+		cardsHBox.getChildren().clear();
+		cardsHBox.setSpacing(30);
+		cardsHBox.getChildren().addAll(generateLanguageCards());
+
+		logo.setPreserveRatio(true);
+		logo.setFitHeight(200);
 
 		container.getChildren().clear();
-		cardsHBox.getChildren().clear();
-		cardsHBox.setSpacing(10);
+		container.setCenter(centerVBox);
 
-		cardsHBox.getChildren().addAll(generateLanguageCards());
-		container.setBottom(cardsHBox);
+		initializeTopBar();
 
-		container.setTop(titleLabel);
+		//VBox.setMargin(logo, new Insets(0,0,100,0));
 	}
 
+	private void initializeTopBar() {
+
+		topBarHBox.setPadding(new Insets(15, 12, 15, 12));
+		topBarHBox.setSpacing(1000);
+
+		Button buttonProjected = new Button((this.user == null) ? "Guest" : this.user.getUsername());
+		buttonProjected.setPrefSize(100, 20);
+		topBarHBox.getChildren().add(buttonProjected);
+
+		Button buttonCurrent = new Button("Help");
+		buttonCurrent.setPrefSize(100, 20);
+
+		topBarHBox.getChildren().add(buttonCurrent);            // Add to HBox from Example 1-2
+		HBox.setHgrow(buttonCurrent, Priority.ALWAYS);
+
+		container.setTop(topBarHBox);
+
+	}
 
 
 	//================================================================================
@@ -188,14 +214,14 @@ public class HomeViewController {
 	 */
 	private StackPane generateLanguageCard(Language language, Integer i) {
 
-		final Integer widthValue = 250;
-		final Integer headerHeight = 150;
+		final Integer widthValue = 240;
+		final Integer headerHeight = 100;
 		final Integer bodyHeight = 75;
 
 		EventHandler<ActionEvent> eventHandler = event ->
 			handleLanguageCardClick((Node) event.getSource(), language);
 
-		return generateCard(ConverterHelper.languageToString(language), eventHandler, widthValue, headerHeight, bodyHeight, i, getDefaultColor(i));
+		return generateCard(ConverterHelper.languageToString(language), eventHandler, widthValue, headerHeight, bodyHeight, i, getDefaultColor(i), null);
 	}
 
 	/**
@@ -209,7 +235,7 @@ public class HomeViewController {
 
 		final Integer widthValue = 250;
 		final Integer headerHeight = 75;
-		final Integer bodyHeight = 150;
+		final Integer bodyHeight = 100;
 
 		EventHandler<ActionEvent> eventHandler = null;
 
@@ -224,7 +250,7 @@ public class HomeViewController {
 				);
 		}
 		String text = ConverterHelper.languageToString(language) + ": First line\nSecond line";
-		return generateCard(text, eventHandler, widthValue, headerHeight, bodyHeight, i, getDefaultColor(i));
+		return generateCard(text, eventHandler, widthValue, headerHeight, bodyHeight, i, getDefaultColor(i), "M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z");
 	}
 
 	/**
@@ -259,7 +285,7 @@ public class HomeViewController {
 	private StackPane generateLessonCard(Lesson lesson, Language language, Integer index) {
 
 		final Integer widthValue = 100;
-		final Integer headerHeight = 150;
+		final Integer headerHeight = 100;
 		final Integer bodyHeight = 75;
 
 		EventHandler<ActionEvent> eventHandler = event ->
@@ -273,7 +299,8 @@ public class HomeViewController {
 			headerHeight,
 			bodyHeight,
 			index,
-			getDefaultColor(index)
+			getDefaultColor(index),
+			null
 		);
 	}
 
@@ -288,7 +315,7 @@ public class HomeViewController {
 	 * @param index
 	 * @param colorValue   @return
 	 */
-	private StackPane generateCard(String title, EventHandler<ActionEvent> eventHandler, Integer widthValue, Integer headerHeight, Integer bodyHeight, Integer index, String colorValue) {
+	private StackPane generateCard(String title, EventHandler<ActionEvent> eventHandler, Integer widthValue, Integer headerHeight, Integer bodyHeight, Integer index, String colorValue, String svgPath) {
 
 		// creating container
 		StackPane child = new StackPane();
@@ -314,23 +341,20 @@ public class HomeViewController {
 		body.setStyle("-fx-background-radius: 0 0 5 5; -fx-background-color: rgb(255,255,255,0.87);");
 
 		// create button
-		JFXButton button = new JFXButton("GO");
+		JFXButton button = new JFXButton();
 		button.setButtonType(JFXButton.ButtonType.RAISED);
 		button.setStyle("-fx-text-fill: white; -fx-background-radius: 40;-fx-background-color: " + getDefaultColor(index));
 		button.setPrefSize(40, 40);
 		button.setRipplerFill(Color.valueOf(colorValue));
 		button.setScaleX(0);
 		button.setScaleY(0);
-		SVGGlyph glyph = new SVGGlyph(-1,
-			"test",
-			"M1008 6.286q18.857 13.714 15.429 36.571l-146.286 877.714q-2.857 16.571-18.286 25.714-8 4.571-17.714 4.571-6.286 "
-				+ "0-13.714-2.857l-258.857-105.714-138.286 168.571q-10.286 13.143-28 13.143-7.429 "
-				+ "0-12.571-2.286-10.857-4-17.429-13.429t-6.571-20.857v-199.429l493.714-605.143-610.857 "
-				+ "528.571-225.714-92.571q-21.143-8-22.857-31.429-1.143-22.857 18.286-33.714l950.857-548.571q8.571-5.143 18.286-5.143"
-				+ " 11.429 0 20.571 6.286z",
-			Color.WHITE);
-		glyph.setSize(20, 20);
-		//button.setGraphic(glyph);
+		if (svgPath == null) {
+			svgPath = "M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z";
+		}
+		SVGGlyph glyph = new SVGGlyph(-1, "test", svgPath, Color.WHITE);
+		glyph.setSize(12.5, 20);
+		button.setGraphic(glyph);
+
 		button.translateYProperty().bind(Bindings.createDoubleBinding(() ->
 			header.getBoundsInParent().getHeight() - button.getHeight() / 2, header.boundsInParentProperty(), button.heightProperty())
 		);
