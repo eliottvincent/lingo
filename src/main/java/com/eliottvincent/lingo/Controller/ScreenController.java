@@ -84,8 +84,8 @@ public class ScreenController {
 		}
 
 		// fonts
-		//final ObservableList<String> stylesheets = sceneBis.getStylesheets();
-		//stylesheets.addAll(Lingo.class.getResource("css/fonts.css").toExternalForm());
+		final ObservableList<String> stylesheets = scene.getStylesheets();
+		stylesheets.addAll(Lingo.class.getResource("css/fonts.css").toExternalForm());
 
 		mStage.setScene(scene);
 		mStage.setResizable(false);
