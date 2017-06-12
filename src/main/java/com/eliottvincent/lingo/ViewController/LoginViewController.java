@@ -60,9 +60,9 @@ public class LoginViewController {
 
 	private ScreenController screenController;
 
+	private ActionController actionController;
 	private String statusText;
 
-	private Vector<StackPane> mCards = new Vector<StackPane>();
 
 
 	//================================================================================
@@ -75,6 +75,8 @@ public class LoginViewController {
 	public LoginViewController() {
 
 		this.screenController = ScreenController.getInstance();
+
+		this.actionController = new ActionController();
 
 	}
 
@@ -163,11 +165,18 @@ public class LoginViewController {
 			UserController userController = new UserController();
 			User tmpUser = userController.getUserByCredentials(usernameTextField.getText(), passwordField.getText());
 
+			// user does exist
 			if (tmpUser != null) {
-				HomeViewController homeViewController = new HomeViewController(tmpUser);
 
+				// saving the action
+				this.actionController.createNewAction(tmpUser, ActionType.LOGIN, new Date(), null, null);
+
+				// redirecting to the home
+				HomeViewController homeViewController = new HomeViewController(tmpUser);
 				screenController.activate(node.getScene(), "home", null, homeViewController);
 			}
+
+			// user doesn't exist
 			else {
 				statusLabel.setText("Incorrect username or password");
 			}

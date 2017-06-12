@@ -132,7 +132,12 @@ public class HomeViewController {
 	 */
 	private void handleLessonCardClick(Node node, Lesson lesson, Language language) {
 
-		LessonViewController lessonViewController = new LessonViewController();
+		String id =	ConverterHelper.languageToString(language) +
+					"_" +
+					ConverterHelper.lessonTypeToString(lesson.getType());
+		actionController.createNewAction(this.user, ActionType.LESSON_START, new Date(), null, id);
+
+		LessonViewController lessonViewController = new LessonViewController(language, lesson, this.user);
 
 		this.screenController.activate(node.getScene(), "lesson", null, lessonViewController);
 
@@ -183,7 +188,7 @@ public class HomeViewController {
 		EventHandler<ActionEvent> eventHandler = event ->
 			handleLanguageCardClick((Node) event.getSource(), language);
 
-		return generateCard(language.toString(), eventHandler, widthValue, headerHeight, bodyHeight, i, getDefaultColor(i));
+		return generateCard(ConverterHelper.languageToString(language), eventHandler, widthValue, headerHeight, bodyHeight, i, getDefaultColor(i));
 	}
 
 	/**
@@ -211,7 +216,7 @@ public class HomeViewController {
 				handleLanguageCardClick((Node) event.getSource(), language
 				);
 		}
-		String text = language.toString() + ": First line\nSecond line";
+		String text = ConverterHelper.languageToString(language) + ": First line\nSecond line";
 		return generateCard(text, eventHandler, widthValue, headerHeight, bodyHeight, i, getDefaultColor(i));
 	}
 

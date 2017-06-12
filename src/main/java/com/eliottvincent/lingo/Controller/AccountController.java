@@ -28,7 +28,7 @@ public class AccountController {
 
 		// creating a new ACTION
 		ActionController actionController = new ActionController();
-		Integer actionId = actionController.createNewAction(sessionId, ActionType.ACCOUNT_CREATION, new Date(), null, null);
+		Integer actionId = actionController.createNewAction(userController.getUser(userId), ActionType.ACCOUNT_CREATION, new Date(), null, null);
 
 
 		// at the end we need to query the db again
