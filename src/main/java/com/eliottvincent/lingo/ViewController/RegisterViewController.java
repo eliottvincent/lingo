@@ -7,11 +7,14 @@ import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Model.User;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import com.jfoenix.validation.RequiredFieldValidator;
+import io.datafx.controller.ViewController;
+import io.datafx.controller.flow.action.ActionMethod;
+import io.datafx.controller.flow.action.ActionTrigger;
+import io.datafx.controller.flow.action.BackAction;
+import io.datafx.controller.flow.context.FXMLViewFlowContext;
+import io.datafx.controller.flow.context.ViewFlowContext;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,11 +23,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import javax.annotation.PostConstruct;
 import java.util.Objects;
 
 /**
  * Created by eliottvct on 28/05/17.
  */
+
+@ViewController("/fxml/register.fxml")
 public class RegisterViewController {
 
 
@@ -59,25 +65,28 @@ public class RegisterViewController {
 	@FXML
 	private JFXComboBox<Language> languageComboBox;
 
+	@FXML
+	@ActionTrigger("handleCreateAccount")
+	private JFXButton validateJFXButton;
 
-	//================================================================================
-	// Other properties
-	//================================================================================
+	@FXML
+	@BackAction
+	private JFXButton cancelJFXButton;
 
-	private ScreenController screenController;
+	@FXMLViewFlowContext
+	public ViewFlowContext flowContext;
 
 
 	//================================================================================
 	// Constructor and initialization
 	//================================================================================
 
-	RegisterViewController() {
+	public RegisterViewController() {
 
-		this.screenController = ScreenController.getInstance();
 	}
 
-	@FXML
-	public void initialize() {
+	@PostConstruct
+	public void init() {
 
 		// populating the gender combo
 		genderComboBox.getItems().addAll(
@@ -90,31 +99,6 @@ public class RegisterViewController {
 			Language.values()
 		);
 
-		/*
-		 * old listener that used to look focusOut on passwordBisField
-		 *
-		 * there are risks of a memory leak when using the addListener() method on the PasswordField
-		 * either we save the listener object and remove it in a finalize() overridden method or use a WeakInvalidationListener
-		 * in the code bellow we use a WeakInvalidationListener because it doesn't require the extra follow up code
-		 *
-		 */
-		// adding an event handler on the password bis field
-		// lambda expression from Java 8
-		/*InvalidationListener pfConfStorepassListener = (evt) -> {
-			if( !passwordBisField.isFocused() ) {
-				if (!passwordBisField.getText().equals(passwordField.getText())) {
-					errorLabel.setText("Passwords don\'t match");
-					errorLabel.setTextFill(Color.RED);
-				}
-				else {
-					errorLabel.setText("");
-					errorLabel.setTextFill(Color.WHITE);
-				}
-			}
-		};
-		passwordBisField.focusedProperty().addListener(
-			new WeakInvalidationListener(pfConfStorepassListener)
-		);*/
 
 
 		// listening for passwordFieldBis value changes
@@ -153,29 +137,14 @@ public class RegisterViewController {
 
 
 	//================================================================================
-	// Event Handlers
-	//================================================================================
-
-	public void handleCreateAccount(ActionEvent actionEvent) {
-
-		this.createAccountAction((Node) actionEvent.getSource());
-	}
-
-	public void handleCancel(ActionEvent actionEvent) {
-
-		this.cancelAction((Node) actionEvent.getSource());
-	}
-
-
-	//================================================================================
 	// Event Actions
 	//================================================================================
 
 	/**
 	 *
-	 * @param node
 	 */
-	private void createAccountAction(Node node) {
+	@ActionMethod("handleCreateAccount")
+	private void createAccountAction() {
 
 		// TODO : move this logic to UserController (or User) ??
 
@@ -221,7 +190,7 @@ public class RegisterViewController {
 										statusLabel.setText("");
 
 										// redirecting the user to the home
-										displayHome(createdUser, node);
+										//displayHome(createdUser, node);
 									}
 
 									else {
@@ -266,12 +235,6 @@ public class RegisterViewController {
 		}
 	}
 
-	private void cancelAction(Node node) {
-		LoginViewController loginViewController = new LoginViewController();
-
-		this.screenController.activate(node.getScene(), "login", null, loginViewController);
-	}
-
 
 	//================================================================================
 	// Calls to display methods
@@ -280,9 +243,6 @@ public class RegisterViewController {
 	public void displayHome(User user, Node node) {
 
 
-		HomeViewController homeViewController = new HomeViewController(user);
-
-		screenController.activate(node.getScene(), "home", null, homeViewController);
 	}
 
 }
