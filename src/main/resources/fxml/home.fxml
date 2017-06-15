@@ -1,54 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import java.net.URL?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
 
-	<stylesheets>
-		<URL value="@../css/home.css" />
-	</stylesheets>
-
-		<top>
-			<VBox spacing="20">
-				<JFXToolbar>
-					<leftItems>
-						<JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;">
-							<StackPane fx:id="titleBurgerContainer">
-								<JFXHamburger fx:id="titleBurger">
-									<HamburgerBackArrowBasicTransition/>
-								</JFXHamburger>
-							</StackPane>
-						</JFXRippler>
-						<Label>Material Design</Label>
-					</leftItems>
-					<rightItems>
-						<JFXRippler fx:id="optionsRippler" maskType="CIRCLE"
-									style="-fx-ripple-color:WHITE;">
-							<StackPane fx:id="optionsBurger">
-								<JFXHamburger styleClass="jfx-options-burger">
-								</JFXHamburger>
-							</StackPane>
-						</JFXRippler>
-					</rightItems>
-				</JFXToolbar>
-			</VBox>
-		</top>
+	<top>
+		<HBox fx:id="topBarHBox"/>
+	</top>
 
 	<center>
 
 		<VBox fx:id="centerVBox">
+
 			<children>
+				<ImageView fx:id="logo">
+					<Image url="/images/logo.png"/>
+				</ImageView>
 
-			<ImageView fx:id="logo">
-				<Image url="@../images/logo.png"/>
-			</ImageView>
-
-			<HBox fx:id="cardsHBox" />
+				<HBox fx:id="cardsHBox" />
 			</children>
 		</VBox>
 	</center>

@@ -4,13 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import java.net.URL?>
+
 <VBox fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
-
-	<stylesheets>
-		<URL value="@../css/home.css" />
-	</stylesheets>
-
 	<children>
 		<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" text="Lingo" />
 		<Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" text="" />
@@ -20,14 +15,14 @@
 
 		<HBox styleClass="buttons">
 			<children>
-				<JFXButton fx:id="loginButton" styleClass="button-raised" onAction="#handleLogin" text="Log In" />
-				<JFXButton fx:id="guestLoginButton" styleClass="button-raised" onAction="#handleGuestLogin" text="Log as a guest" />
+				<JFXButton fx:id="loginButton" styleClass="button-raised" text="Log In" />
+				<JFXButton fx:id="guestLoginButton" styleClass="button-raised" text="Log as a guest" />
 			</children>
 		</HBox>
 
 		<HBox styleClass="buttons">
 			<children>
-				<JFXButton fx:id="createAccountButton" styleClass="button-raised" onAction="#handleCreateAccount" text="Register" />
+				<JFXButton fx:id="createAccountButton" styleClass="button-raised" text="Register" />
 			</children>
 		</HBox>
 	</children>

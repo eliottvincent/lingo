@@ -10,10 +10,6 @@
 <?import com.jfoenix.controls.JFXDialog?>
 <BorderPane fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
 
-	<stylesheets>
-		<URL value="@../css/home.css" />
-	</stylesheets>
-
 	<children>
 		<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" text=""/>
 

@@ -1,21 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXDatePicker?>
-<?import com.jfoenix.controls.JFXPasswordField?>
-<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
-<?import java.net.URL?>
 <VBox fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
-
-	<stylesheets>
-		<URL value="@../css/home.css" />
-	</stylesheets>
-
 
 	<children>
 		<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" text="Account creation" />
@@ -32,8 +21,8 @@
 
 		<HBox styleClass="buttons">
 			<children>
-				<JFXButton styleClass="button-raised" onAction="#handleCreateAccount" text="Create account" />
-				<JFXButton styleClass="button-raised" onAction="#handleCancel" text="Cancel" />
+				<JFXButton fx:id="validateJFXButton" styleClass="button-raised" text="Create account" />
+				<JFXButton fx:id="cancelJFXButton" styleClass="button-raised" text="Cancel" />
 			</children>
 		</HBox>
 	</children>
