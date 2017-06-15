@@ -12,6 +12,9 @@ import com.eliottvincent.lingo.Model.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTabPane;
+import io.datafx.controller.ViewController;
+import io.datafx.controller.flow.context.FXMLViewFlowContext;
+import io.datafx.controller.flow.context.ViewFlowContext;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,12 +25,15 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
+import javax.annotation.PostConstruct;
 import java.util.Date;
 
 /**
  * Created by eliottvincent on 12/06/2017.
  */
-class LessonViewController {
+
+@ViewController("/fxml/lesson.fxml")
+public class LessonViewController {
 
 
 	//================================================================================
@@ -52,12 +58,13 @@ class LessonViewController {
 	@FXML
 	private JFXButton leaveButton;
 
+	@FXMLViewFlowContext
+	private ViewFlowContext flowContext;
+
 
 	//================================================================================
 	// Other properties
 	//================================================================================
-
-	private ScreenController screenController;
 
 	private LessonController lessonController;
 
@@ -77,46 +84,30 @@ class LessonViewController {
 	/**
 	 *
 	 */
-	LessonViewController() {
-
-		this.screenController = ScreenController.getInstance();
+	public LessonViewController() {
 
 		this.lessonController = new LessonController();
 
 		this.actionController = new ActionController();
 
-	}
-
-	/**
-	 *
-	 * @param language
-	 * @param lesson
-	 */
-	LessonViewController(Language language, Lesson lesson, User user) {
-
-		this.screenController = ScreenController.getInstance();
-
-		this.lessonController = new LessonController();
-
-		this.actionController = new ActionController();
-
-		this.language = language;
-
-		this.lesson = lesson;
-
-		this.user = user;
 
 	}
 
 
-	@FXML
-	public void initialize() {
+	@PostConstruct
+	public void init() {
+
+		// cannot be done in constructor, because FXML injections are done just before the init() method
+		this.language = (Language) flowContext.getRegisteredObject("language");
+
+		this.lesson = (Lesson) flowContext.getRegisteredObject("lesson");
+
+		this.user = (User) flowContext.getRegisteredObject("user");
 
 		// the .clear() call is mandatory!
 		// without it, nothing works (???)
 		container.getChildren().remove(dialog);
 		container.getChildren().clear();
-
 
 		initializeExercisesTabPane();
 
@@ -124,6 +115,7 @@ class LessonViewController {
 		container.setTop(titleLabel);
 
 		initializeDialogButtons();
+
 
 	}
 
@@ -220,7 +212,6 @@ class LessonViewController {
 		dialog.close();
 		HomeViewController homeViewController = new HomeViewController(this.user);
 
-		screenController.activate(source.getScene(), "home", null, homeViewController);
 	}
 
 
