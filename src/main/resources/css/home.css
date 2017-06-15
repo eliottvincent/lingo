@@ -2,11 +2,11 @@
  Other properties
 ================================================================================*/
 * {
-	-fx-alignment: center;
 	-fx-font-family: "Roboto";
 }
 
 #container {
+	-fx-alignment: center;
 	-fx-pref-width: 500px;
 	-fx-padding: 75px;
 	-fx-spacing: 20px;
@@ -25,6 +25,7 @@
 }
 
 .buttons {
+	-fx-alignment: center;
 	-fx-spacing: 10px;
 }
 
@@ -52,6 +53,17 @@
 	-fx-text-fill: WHITE;
 }
 
+#centerVBox {
+	-fx-alignment: center;
+}
+
+#cardsHBox {
+	-fx-alignment: center;
+}
+
+#topBarHBox {
+	-fx-alignment: center;
+}
 
 /*******************************************************************************
 *                                                                              *
