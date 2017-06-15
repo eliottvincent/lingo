@@ -137,7 +137,12 @@ public class LoginViewController {
 
 		if (usernameTextField.getText().equals("admin") &&
 			passwordField.getText().equals("admin")) {
-			AdminViewController adminViewController = new AdminViewController();
+
+			try {
+				this.navigateToAdmin();
+			} catch (VetoException | FlowException e) {
+				e.printStackTrace();
+			}
 
 		}
 		else {
@@ -174,6 +179,17 @@ public class LoginViewController {
 	void navigateToHome() throws VetoException, FlowException {
 
 		actionHandler.navigate(HomeViewController.class);
+	}
+
+
+	/**
+	 *
+	 * @throws VetoException
+	 * @throws FlowException
+	 */
+	void navigateToAdmin() throws VetoException, FlowException {
+
+		actionHandler.navigate(AdminViewController.class);
 	}
 
 }
