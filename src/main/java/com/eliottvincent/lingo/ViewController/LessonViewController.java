@@ -12,8 +12,12 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTabPane;
 import io.datafx.controller.ViewController;
+import io.datafx.controller.flow.FlowException;
+import io.datafx.controller.flow.context.ActionHandler;
 import io.datafx.controller.flow.context.FXMLViewFlowContext;
+import io.datafx.controller.flow.context.FlowActionHandler;
 import io.datafx.controller.flow.context.ViewFlowContext;
+import io.datafx.controller.util.VetoException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -56,6 +60,14 @@ public class LessonViewController {
 
 	@FXML
 	private JFXButton leaveButton;
+
+
+	//================================================================================
+	// DataFX Elements
+	//================================================================================
+
+	@ActionHandler
+	private FlowActionHandler actionHandler;
 
 	@FXMLViewFlowContext
 	private ViewFlowContext flowContext;
@@ -204,11 +216,28 @@ public class LessonViewController {
 
 	private void leaveAction(Node source) {
 
-		String lessonId =	ConverterHelper.languageToString(language) +
+		String lessonId = ConverterHelper.languageToString(language) +
 			"_" +
 			ConverterHelper.lessonTypeToString(lesson.getType());
 		this.actionController.createNewAction(this.user, ActionType.LESSON_END, new Date(), null, lessonId);
+
 		dialog.close();
+
+		try {
+			this.navigateToHome();
+		} catch (VetoException | FlowException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *
+	 * @throws VetoException
+	 * @throws FlowException
+	 */
+	void navigateToHome() throws VetoException, FlowException {
+
+		actionHandler.navigate(HomeViewController.class);
 	}
 
 
