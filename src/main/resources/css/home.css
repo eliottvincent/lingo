@@ -6,7 +6,6 @@
 	-fx-font-family: "Roboto";
 }
 
-
 #container {
 	-fx-pref-width: 500px;
 	-fx-padding: 75px;
@@ -48,7 +47,7 @@
 	-fx-padding: 0.7em 0.57em;
 	-fx-font-size: 14px;
 	-jfx-button-type: RAISED;
-	-fx-background-color: rgb(77,102,204);
+	-fx-background-color: #CE584A;
 	-fx-pref-width: 200;
 	-fx-text-fill: WHITE;
 }
@@ -61,7 +60,7 @@
 *******************************************************************************/
 
 .jfx-decorator {
-	-fx-decorator-color: #5264AE;
+	-fx-decorator-color: #CE584A;
 }
 
 .jfx-decorator .jfx-decorator-buttons-container {
