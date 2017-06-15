@@ -62,6 +62,7 @@ public class DatabaseController {
 	 */
 	List<Map<String,Object>> executeSelectQuery(String query) {
 
+		System.out.println("Executing SELECT query");
 		List<Map<String, Object>> statementsList = new ArrayList<>();
 
 		System.out.println(query);
