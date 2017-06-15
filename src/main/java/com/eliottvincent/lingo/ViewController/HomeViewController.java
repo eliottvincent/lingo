@@ -2,8 +2,6 @@ package com.eliottvincent.lingo.ViewController;
 
 import com.eliottvincent.lingo.Controller.ActionController;
 import com.eliottvincent.lingo.Controller.LessonController;
-import com.eliottvincent.lingo.Controller.ScreenController;
-import com.eliottvincent.lingo.Data.ActionType;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Model.Lesson;
@@ -11,6 +9,13 @@ import com.eliottvincent.lingo.Model.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.svg.SVGGlyph;
+import io.datafx.controller.ViewController;
+import io.datafx.controller.flow.FlowException;
+import io.datafx.controller.flow.context.ActionHandler;
+import io.datafx.controller.flow.context.FXMLViewFlowContext;
+import io.datafx.controller.flow.context.FlowActionHandler;
+import io.datafx.controller.flow.context.ViewFlowContext;
+import io.datafx.controller.util.VetoException;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -28,8 +33,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static javafx.animation.Interpolator.EASE_BOTH;
@@ -37,65 +42,65 @@ import static javafx.animation.Interpolator.EASE_BOTH;
 /**
  * Created by eliottvincent on 28/05/2017.
  */
+
+@ViewController("/fxml/home.fxml")
 public class HomeViewController {
 
 
 	//================================================================================
-	// JavaFX Elements
+	// JavaFX + DataFX Elements
 	//================================================================================
 
 	@FXML
-	private BorderPane container;
+	public BorderPane container;
 
 	@FXML
-	private Label titleLabel;
+	public HBox cardsHBox;
 
 	@FXML
-	private HBox cardsHBox;
+	public ImageView logo;
 
 	@FXML
-	private ImageView logo;
+	public VBox centerVBox;
 
 	@FXML
-	private HBox topBarHBox;
+	public HBox topBarHBox;
 
-	@FXML
-	private VBox centerVBox;
+	@ActionHandler
+	protected FlowActionHandler actionHandler;
+
+	@FXMLViewFlowContext
+	public ViewFlowContext flowContext;
 
 
 	//================================================================================
 	// Other properties
 	//================================================================================
 
-	private User user;
+	public User user;
 
-	private ScreenController screenController;
-
-	private ActionController actionController;
+	public ActionController actionController;
 
 
 	//================================================================================
 	// Constructor and initialization
 	//================================================================================
 
-	HomeViewController() {
-
-		this.screenController = ScreenController.getInstance();
+	public HomeViewController() {
 
 	}
 
-	HomeViewController(User user) {
+	public HomeViewController(User user) {
 
 		this.user = user;
 
-		this.screenController = ScreenController.getInstance();
 
 		this.actionController = new ActionController();
 
 	}
 
-	@FXML
-	public void initialize() {
+	@PostConstruct
+	public void init() {
 
 		cardsHBox.getChildren().clear();
 		cardsHBox.setSpacing(30);
@@ -109,13 +114,16 @@ public class HomeViewController {
 
 		initializeTopBar();
 
-		//VBox.setMargin(logo, new Insets(0,0,100,0));
+		VBox.setMargin(logo, new Insets(0,0,100,0));
+
+		System.out.println("From HomeViewController:" + flowContext.getRegisteredObject("myvalue"));
+
 	}
 
-	private void initializeTopBar() {
+	public void initializeTopBar() {
 
 		topBarHBox.setPadding(new Insets(15, 12, 15, 12));
-		topBarHBox.setSpacing(1000);
+		topBarHBox.setSpacing(800);
 
 		Button buttonProjected = new Button((this.user == null) ? "Guest" : this.user.getUsername());
 		buttonProjected.setPrefSize(100, 20);
@@ -125,7 +133,7 @@ public class HomeViewController {
 		buttonCurrent.setPrefSize(100, 20);
 
 		topBarHBox.getChildren().add(buttonCurrent);            // Add to HBox from Example 1-2
-		HBox.setHgrow(buttonCurrent, Priority.ALWAYS);
+		//HBox.setHgrow(buttonCurrent, Priority.ALWAYS);
 
 		container.setTop(topBarHBox);
 
@@ -141,7 +149,7 @@ public class HomeViewController {
 	 * @param source
 	 * @param language
 	 */
-	private void handleLanguageCardClick(Node source, Language language) {
+	public void handleLanguageCardClick(Node source, Language language) {
 
 		cardsHBox.getChildren().clear();
 		cardsHBox.getChildren().addAll(generateLessonsCards(language));
@@ -151,7 +159,7 @@ public class HomeViewController {
 	 *
 	 * @param source
 	 */
-	private void handleLanguageCardClickBack(Node source) {
+	public void handleLanguageCardClickBack(Node source) {
 
 		cardsHBox.getChildren().clear();
 		cardsHBox.getChildren().addAll(generateLanguageCards());
@@ -163,8 +171,9 @@ public class HomeViewController {
 	 * @param lesson
 	 * @param language
 	 */
-	private void handleLessonCardClick(Node node, Lesson lesson, Language language) {
+	public void handleLessonCardClick(Node node, Lesson lesson, Language language) {
 
+		/*
 		String id =	ConverterHelper.languageToString(language) +
 					"_" +
 					ConverterHelper.lessonTypeToString(lesson.getType());
@@ -173,9 +182,27 @@ public class HomeViewController {
 		LessonViewController lessonViewController = new LessonViewController(language, lesson, this.user);
 
 		this.screenController.activate(node.getScene(), "lesson", null, lessonViewController);
-
+		*/
+		try {
+			this.navigate(language, lesson);
+		} catch (VetoException | FlowException e) {
+			e.printStackTrace();
+		}
 	}
 
+	/**
+	 *
+	 * @throws VetoException
+	 * @throws FlowException
+	 */
+	public void navigate(Language language, Lesson lesson) throws VetoException, FlowException {
+
+		flowContext.register("user", this.user);
+		flowContext.register("language", language);
+		flowContext.register("lesson", lesson);
+
+		actionHandler.navigate(LessonViewController.class);
+	}
 
 
 	//================================================================================
@@ -192,7 +219,7 @@ public class HomeViewController {
 	 *
 	 * @return
 	 */
-	private ArrayList<Node> generateLanguageCards() {
+	public ArrayList<Node> generateLanguageCards() {
 
 		ArrayList<Node> children = new ArrayList<>();
 
@@ -212,7 +239,7 @@ public class HomeViewController {
 	 * @param i
 	 * @return
 	 */
-	private StackPane generateLanguageCard(Language language, Integer i) {
+	public StackPane generateLanguageCard(Language language, Integer i) {
 
 		final Integer widthValue = 240;
 		final Integer headerHeight = 100;
@@ -231,7 +258,7 @@ public class HomeViewController {
 	 * @param i
 	 * @return
 	 */
-	private StackPane generateExpandedLanguageCard(Language language, EventHandler<ActionEvent> handler, Integer i) {
+	public StackPane generateExpandedLanguageCard(Language language, EventHandler<ActionEvent> handler, Integer i) {
 
 		final Integer widthValue = 250;
 		final Integer headerHeight = 75;
@@ -258,7 +285,7 @@ public class HomeViewController {
 	 * @param language
 	 * @return
 	 */
-	private ArrayList<Node> generateLessonsCards(Language language) {
+	public ArrayList<Node> generateLessonsCards(Language language) {
 
 		ArrayList<Node> children = new ArrayList<>();
 
@@ -282,7 +309,7 @@ public class HomeViewController {
 		return children;
 	}
 
-	private StackPane generateLessonCard(Lesson lesson, Language language, Integer index) {
+	public StackPane generateLessonCard(Lesson lesson, Language language, Integer index) {
 
 		final Integer widthValue = 100;
 		final Integer headerHeight = 100;
@@ -315,7 +342,7 @@ public class HomeViewController {
 	 * @param index
 	 * @param colorValue   @return
 	 */
-	private StackPane generateCard(String title, EventHandler<ActionEvent> eventHandler, Integer widthValue, Integer headerHeight, Integer bodyHeight, Integer index, String colorValue, String svgPath) {
+	public StackPane generateCard(String title, EventHandler<ActionEvent> eventHandler, Integer widthValue, Integer headerHeight, Integer bodyHeight, Integer index, String colorValue, String svgPath) {
 
 		// creating container
 		StackPane child = new StackPane();
@@ -375,7 +402,7 @@ public class HomeViewController {
 		return child;
 	}
 
-	private String getDefaultColor(int i) {
+	public String getDefaultColor(int i) {
 		String color = "#FFFFFF";
 		switch (i) {
 			case 0:
