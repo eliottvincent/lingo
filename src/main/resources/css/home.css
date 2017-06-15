@@ -52,3 +52,23 @@
 	-fx-pref-width: 200;
 	-fx-text-fill: WHITE;
 }
+
+
+/*******************************************************************************
+*                                                                              *
+* JFX Decorator                                                                *
+*                                                                              *
+*******************************************************************************/
+
+.jfx-decorator {
+	-fx-decorator-color: #5264AE;
+}
+
+.jfx-decorator .jfx-decorator-buttons-container {
+	-fx-background-color: -fx-decorator-color;
+}
+
+.jfx-decorator .resize-border {
+	-fx-border-color: -fx-decorator-color;
+	-fx-border-width: 0 0 0 0;
+}
