@@ -2,7 +2,6 @@ package com.eliottvincent.lingo.ViewController;
 
 import com.eliottvincent.lingo.Controller.ActionController;
 import com.eliottvincent.lingo.Controller.LessonController;
-import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Data.ActionType;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Helper.ConverterHelper;
@@ -210,8 +209,6 @@ public class LessonViewController {
 			ConverterHelper.lessonTypeToString(lesson.getType());
 		this.actionController.createNewAction(this.user, ActionType.LESSON_END, new Date(), null, lessonId);
 		dialog.close();
-		HomeViewController homeViewController = new HomeViewController(this.user);
-
 	}
 
 

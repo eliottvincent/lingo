@@ -1,7 +1,6 @@
 package com.eliottvincent.lingo.ViewController;
 
 import com.eliottvincent.lingo.Controller.AccountController;
-import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Controller.UserController;
 import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Data.Gender;
@@ -10,16 +9,18 @@ import com.eliottvincent.lingo.Model.User;
 import com.jfoenix.controls.*;
 import com.jfoenix.validation.RequiredFieldValidator;
 import io.datafx.controller.ViewController;
+import io.datafx.controller.flow.FlowException;
 import io.datafx.controller.flow.action.ActionMethod;
 import io.datafx.controller.flow.action.ActionTrigger;
 import io.datafx.controller.flow.action.BackAction;
+import io.datafx.controller.flow.context.ActionHandler;
 import io.datafx.controller.flow.context.FXMLViewFlowContext;
+import io.datafx.controller.flow.context.FlowActionHandler;
 import io.datafx.controller.flow.context.ViewFlowContext;
+import io.datafx.controller.util.VetoException;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
@@ -35,7 +36,7 @@ public class RegisterViewController {
 
 
 	//================================================================================
-	// JavaFX Elements
+	// GUI JavaFX Elements
 	//================================================================================
 
 	@FXML
@@ -67,14 +68,22 @@ public class RegisterViewController {
 
 	@FXML
 	@ActionTrigger("handleCreateAccount")
-	private JFXButton validateJFXButton;
+	private JFXButton createAccountJFXButton;
 
 	@FXML
 	@BackAction
 	private JFXButton cancelJFXButton;
 
+
+	//================================================================================
+	// DataFX Elements
+	//================================================================================
+
+	@ActionHandler
+	private FlowActionHandler actionHandler;
+
 	@FXMLViewFlowContext
-	public ViewFlowContext flowContext;
+	private ViewFlowContext flowContext;
 
 
 	//================================================================================
@@ -189,8 +198,12 @@ public class RegisterViewController {
 
 										statusLabel.setText("");
 
-										// redirecting the user to the home
-										//displayHome(createdUser, node);
+										flowContext.register("user", createdUser);
+										try {
+											this.navigateToHome();
+										} catch (VetoException | FlowException e) {
+											e.printStackTrace();
+										}
 									}
 
 									else {
@@ -243,6 +256,17 @@ public class RegisterViewController {
 	public void displayHome(User user, Node node) {
 
 
+	}
+
+
+	/**
+	 *
+	 * @throws VetoException
+	 * @throws FlowException
+	 */
+	void navigateToHome() throws VetoException, FlowException {
+
+		actionHandler.navigate(HomeViewController.class);
 	}
 
 }

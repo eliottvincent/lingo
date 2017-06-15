@@ -1,7 +1,6 @@
 package com.eliottvincent.lingo.ViewController;
 
 import com.eliottvincent.lingo.Controller.ActionController;
-import com.eliottvincent.lingo.Controller.ScreenController;
 import com.eliottvincent.lingo.Controller.UserController;
 import com.eliottvincent.lingo.Data.ActionType;
 import com.eliottvincent.lingo.Model.User;
@@ -19,7 +18,6 @@ import io.datafx.controller.util.VetoException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -66,17 +64,20 @@ public class LoginViewController {
 	@LinkAction(RegisterViewController.class)
 	private JFXButton createAccountButton;
 
+
+	//================================================================================
+	// DataFX Elements
+	//================================================================================
+
 	@ActionHandler
-	protected FlowActionHandler actionHandler;
+	private FlowActionHandler actionHandler;
 
 	@FXMLViewFlowContext
-	public ViewFlowContext flowContext;
+	private ViewFlowContext flowContext;
 
 	//================================================================================
 	// Other properties
 	//================================================================================
-
-	private ScreenController screenController;
 
 	private ActionController actionController;
 
@@ -138,7 +139,6 @@ public class LoginViewController {
 			passwordField.getText().equals("admin")) {
 			AdminViewController adminViewController = new AdminViewController();
 
-			screenController.activate(node.getScene(), "admin", null, adminViewController);
 		}
 		else {
 
@@ -156,10 +156,7 @@ public class LoginViewController {
 				} catch (VetoException | FlowException e) {
 					e.printStackTrace();
 				}
-				// redirecting to the home
 
-				//HomeViewController homeViewController = new HomeViewController(tmpUser);
-				//screenController.activate(node.getScene(), "home", null, homeViewController);
 			}
 
 			// user doesn't exist

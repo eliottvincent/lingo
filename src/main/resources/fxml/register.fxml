@@ -21,7 +21,7 @@
 
 		<HBox styleClass="buttons">
 			<children>
-				<JFXButton fx:id="validateJFXButton" styleClass="button-raised" text="Create account" />
+				<JFXButton fx:id="createAccountJFXButton" styleClass="button-raised" text="Create account" />
 				<JFXButton fx:id="cancelJFXButton" styleClass="button-raised" text="Cancel" />
 			</children>
 		</HBox>
