@@ -8,23 +8,31 @@ import com.eliottvincent.lingo.Model.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import io.datafx.controller.ViewController;
+import io.datafx.controller.flow.FlowException;
+import io.datafx.controller.flow.action.LinkAction;
+import io.datafx.controller.flow.context.ActionHandler;
+import io.datafx.controller.flow.context.FXMLViewFlowContext;
+import io.datafx.controller.flow.context.FlowActionHandler;
+import io.datafx.controller.flow.context.ViewFlowContext;
+import io.datafx.controller.util.VetoException;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import javax.annotation.PostConstruct;
 import java.util.Date;
-import java.util.Vector;
 
 /**
  * Created by eliottvct on 27/05/17.
  */
+
+@ViewController("/fxml/login.fxml")
 public class LoginViewController {
 
 
@@ -51,11 +59,18 @@ public class LoginViewController {
 	private JFXButton loginButton;
 
 	@FXML
+	@LinkAction(HomeViewController.class)
 	private JFXButton guestLoginButton;
 
 	@FXML
+	@LinkAction(RegisterViewController.class)
 	private JFXButton createAccountButton;
 
+	@ActionHandler
+	protected FlowActionHandler actionHandler;
+
+	@FXMLViewFlowContext
+	public ViewFlowContext flowContext;
 
 	//================================================================================
 	// Other properties
@@ -64,8 +79,8 @@ public class LoginViewController {
 	private ScreenController screenController;
 
 	private ActionController actionController;
-	private String statusText;
 
+	private String statusText;
 
 
 	//================================================================================
@@ -77,15 +92,12 @@ public class LoginViewController {
 	 */
 	public LoginViewController() {
 
-		this.screenController = ScreenController.getInstance();
-
 		this.actionController = new ActionController();
-
 	}
 
 
-	@FXML
-	public void initialize() {
+	@PostConstruct
+	public void init() {
 
 		// the default focus is on the first text area
 		// we use this Runnable (encapsulated in a lambda function) to focus on the container
@@ -108,46 +120,13 @@ public class LoginViewController {
 		// if the controller has been instantiated with a "status" in parameters
 		// then we set the text of the statusLabel
 		if (this.statusText != null) {
+
 			this.statusLabel.setText(this.statusText);
 		}
 
+		System.out.println("From LoginViewController:" + flowContext.getRegisteredObject("myvalue"));
+
 	}
-
-
-	//================================================================================
-	// Event Handlers
-	//================================================================================
-
-	/**
-	 *
-	 * @param actionEvent
-	 */
-	public void handleCreateAccount(ActionEvent actionEvent) {
-
-		this.createAccountAction((Node) actionEvent.getSource());
-	}
-
-	/**
-	 *
-	 * @param actionEvent
-	 */
-	public void handleLogin(ActionEvent actionEvent) {
-
-		this.loginAction((Node) actionEvent.getSource());
-	}
-
-	/**
-	 *
-	 * @param actionEvent
-	 */
-	public void handleGuestLogin(ActionEvent actionEvent) {
-		this.guestLoginAction((Node) actionEvent.getSource());
-	}
-
-
-	//================================================================================
-	// Event Actions
-	//================================================================================
 
 	/**
 	 *
@@ -172,9 +151,15 @@ public class LoginViewController {
 				// saving the action
 				this.actionController.createNewAction(tmpUser, ActionType.LOGIN, new Date(), null, null);
 
+				try {
+					this.navigateToHome();
+				} catch (VetoException | FlowException e) {
+					e.printStackTrace();
+				}
 				// redirecting to the home
-				HomeViewController homeViewController = new HomeViewController(tmpUser);
-				screenController.activate(node.getScene(), "home", null, homeViewController);
+
+				//HomeViewController homeViewController = new HomeViewController(tmpUser);
+				//screenController.activate(node.getScene(), "home", null, homeViewController);
 			}
 
 			// user doesn't exist
@@ -186,25 +171,12 @@ public class LoginViewController {
 
 	/**
 	 *
-	 * @param node
+	 * @throws VetoException
+	 * @throws FlowException
 	 */
-	private void guestLoginAction(Node node) {
+	void navigateToHome() throws VetoException, FlowException {
 
-		HomeViewController homeViewController = new HomeViewController(null);
-
-		// need to cast to (Node) in order to use the getScene() method
-		Scene scene = node.getScene();
-		screenController.activate(scene, "home", null, homeViewController);
+		actionHandler.navigate(HomeViewController.class);
 	}
 
-	/**
-	 *
-	 * @param node
-	 */
-	private void createAccountAction(Node node) {
-
-		RegisterViewController registerViewController = new RegisterViewController();
-
-		screenController.activate(node.getScene(), "register", null, registerViewController);
-	}
 }
