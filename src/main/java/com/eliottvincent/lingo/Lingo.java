@@ -1,18 +1,26 @@
 package com.eliottvincent.lingo;
 
-import com.eliottvincent.lingo.Controller.ScreenController;
+import com.eliottvincent.lingo.ViewController.HomeViewController;
 import com.eliottvincent.lingo.ViewController.LoginViewController;
+import com.jfoenix.controls.JFXDecorator;
+import io.datafx.controller.flow.Flow;
+import io.datafx.controller.flow.container.DefaultFlowContainer;
+import io.datafx.controller.flow.context.FXMLViewFlowContext;
+import io.datafx.controller.flow.context.ViewFlowContext;
 import javafx.application.Application;
-import javafx.scene.Group;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 
 /**
  * Hello world!
  *
  */
-public class Lingo extends Application
-{
+public class Lingo extends Application {
+
+	@FXMLViewFlowContext
+	public ViewFlowContext flowContext;
 
 	//================================================================================
 	// Main and initialization
@@ -20,32 +28,33 @@ public class Lingo extends Application
 
 	/**
 	 *
-	 * @param primaryStage
+	 * @param stage
 	 */
 	@Override
-	public void start(Stage primaryStage) {
-
-		// we need to instantiate the ScreenController
-		ScreenController screenController = ScreenController.getInstance();
-
-		// then we create an instance of loginViewController
-		// this instance is going to be the controller of our FXML template
-		LoginViewController loginViewController = new LoginViewController();
-
-		// we add a screen in our ScreenController
-		// named "login", template from "../fxml/login.fxml", loginViewController as controller
-		screenController.addScreen("login", "../fxml/login.fxml");
-		screenController.addScreen("home", "../fxml/home.fxml");
-		screenController.addScreen("lesson", "../fxml/lesson.fxml");
-		screenController.addScreen("register", "../fxml/register.fxml");
-		screenController.addScreen("admin", "../fxml/admin.fxml");
+	public void start(Stage stage) throws Exception {
 
 
-		// TODO : add les autres
+		Flow flow = new Flow(LoginViewController.class);
 
-		Group root = new Group();
-		Scene scene = new Scene(root, 1500, 750);
-		screenController.activate(scene, "login", primaryStage, loginViewController);
+		DefaultFlowContainer container = new DefaultFlowContainer();
+		flowContext = new ViewFlowContext();
+		flowContext.register("Stage", stage);
+		flowContext.register("myvalue", "wahoueeee");
+		flow.createHandler(flowContext).start(container);
+
+		JFXDecorator decorator = new JFXDecorator(stage, container.getView());
+		decorator.setCustomMaximize(true);
+		Scene scene = new Scene(decorator, 1500, 750);
+		final ObservableList<String> stylesheets = scene.getStylesheets();
+
+		stylesheets.addAll(
+			Lingo.class.getResource("/css/fonts.css").toExternalForm(),
+			Lingo.class.getResource("/css/home.css").toExternalForm()
+		);
+		stage.setMinWidth(1500);
+		stage.setMinHeight(750);
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	/**
