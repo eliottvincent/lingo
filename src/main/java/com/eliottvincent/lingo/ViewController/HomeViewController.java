@@ -88,19 +88,13 @@ public class HomeViewController {
 
 	public HomeViewController() {
 
-	}
-
-	public HomeViewController(User user) {
-
-		this.user = user;
-
-
 		this.actionController = new ActionController();
-
 	}
 
 	@PostConstruct
 	public void init() {
+
+		this.user = (User) flowContext.getRegisteredObject("user");
 
 		cardsHBox.getChildren().clear();
 		cardsHBox.setSpacing(30);

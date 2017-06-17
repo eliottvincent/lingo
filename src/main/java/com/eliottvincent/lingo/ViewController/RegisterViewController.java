@@ -2,9 +2,9 @@ package com.eliottvincent.lingo.ViewController;
 
 import com.eliottvincent.lingo.Controller.AccountController;
 import com.eliottvincent.lingo.Controller.UserController;
-import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
+import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Model.User;
 import com.jfoenix.controls.*;
 import com.jfoenix.validation.RequiredFieldValidator;
@@ -21,7 +21,7 @@ import io.datafx.controller.util.VetoException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 import javax.annotation.PostConstruct;
@@ -67,7 +67,7 @@ public class RegisterViewController {
 	private JFXComboBox<Language> languageComboBox;
 
 	@FXML
-	@ActionTrigger("handleCreateAccount")
+	@ActionTrigger("createAccountAction")
 	private JFXButton createAccountJFXButton;
 
 	@FXML
@@ -196,9 +196,14 @@ public class RegisterViewController {
 
 									if (createdUser != null) {
 
+										// clearing the status label to remove any previous error message
 										statusLabel.setText("");
 
+										// registering the created User object in the context
+										// so that it's available in the whole application
 										flowContext.register("user", createdUser);
+
+										// "jumping" to the home
 										try {
 											this.navigateToHome();
 										} catch (VetoException | FlowException e) {
