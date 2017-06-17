@@ -11,6 +11,7 @@ import com.eliottvincent.lingo.Model.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTabPane;
+import com.jfoenix.controls.JFXTextField;
 import io.datafx.controller.ViewController;
 import io.datafx.controller.flow.FlowException;
 import io.datafx.controller.flow.context.ActionHandler;
@@ -21,15 +22,18 @@ import io.datafx.controller.util.VetoException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by eliottvincent on 12/06/2017.
@@ -87,6 +91,10 @@ public class LessonViewController {
 
 	private User user;
 
+	private Integer points;
+
+	private Random randomResult;
+
 
 	//================================================================================
 	// Constructor and initialization
@@ -101,14 +109,16 @@ public class LessonViewController {
 
 		this.actionController = new ActionController();
 
+		this.points = 0;
 
+		this.randomResult = new Random();
 	}
 
 
 	@PostConstruct
 	public void init() {
 
-		// cannot be done in constructor, because FXML injections are done just before the init() method
+		// cannot be done in the constructor, because FXML injections are done just before the init() method
 		this.language = (Language) flowContext.getRegisteredObject("language");
 
 		this.lesson = (Lesson) flowContext.getRegisteredObject("lesson");
@@ -117,6 +127,8 @@ public class LessonViewController {
 
 		// the .clear() call is mandatory!
 		// without it, nothing works (???)
+
+		// removing the dialog, because we want to display it only at the end
 		container.getChildren().remove(dialog);
 		container.getChildren().clear();
 
@@ -137,14 +149,32 @@ public class LessonViewController {
 
 		for(Exercise exercise : this.lesson.getExercises()) {
 
+			// TODO : maybe it's possible to add a FXML file as a TabPane content ?
 			// building the tab
 			Tab tmpTab = new Tab();
 			tmpTab.setText("Exercise n°" + exercise.getId());
 
+			// building the container
+			StackPane container = new StackPane();
+
 			// building the content
-			StackPane content = new StackPane();
+			VBox content = new VBox();
+			content.setAlignment(Pos.CENTER);
+
+			// building the content
 			Label title = new Label("Exercise n°" + exercise.getId());
-			Label exerciseContent = new Label("");
+			Label exerciseContent = new Label("Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n" +
+				"Vivamus convallis turpis in tellus sagittis maximus. Aliquam eu lorem ipsum. \n" +
+				"ras sollicitudin lacinia nisi, eu sollicitudin ex consequat sed. \n" +
+				"Aenean eu volutpat odio. Ut et felis nisl. Aenean euismod augue tellus, nec finibus ante pellentesque et. \n" +
+				"Sed quam ligula, ullamcorper ac mattis vel, malesuada nec neque. \n" +
+				"Praesent sagittis mattis feugiat. Praesent ut dolor nec nisl tincidunt mattis eu sed nisl. \n" +
+				"Maecenas at ornare lacus. Curabitur posuere cursus arcu, vel mollis neque rhoncus nec. \n" +
+				"In sem justo, consequat quis nibh vel, egestas lacinia lectus. Ut est lacus, consequat quis libero at, commodo hendrerit dolor. \n" +
+				"Pellentesque sem felis, maximus auctor lacus a, finibus feugiat urna.");
+
+			// adding a textfield for the answer
+			JFXTextField answerField = new JFXTextField();
 
 			// adding a button to finish the exercise
 			JFXButton finishButton = new JFXButton("Finish exercise");
@@ -155,8 +185,10 @@ public class LessonViewController {
 			finishButton.setOnAction(eventHandler);
 
 			// wrapping everything together
-			content.getChildren().addAll(title, exerciseContent, finishButton );
-			tmpTab.setContent(content);
+			content.getChildren().addAll(title, exerciseContent, answerField, finishButton );
+			container.getChildren().add(content);
+
+			tmpTab.setContent(container);
 			exercisesTabPane.getTabs().add(tmpTab);
 		}
 
@@ -193,12 +225,22 @@ public class LessonViewController {
 		// action for the end of the exercise
 		this.actionController.createNewAction(this.user, ActionType.EXERCICE_END, new Date(), ConverterHelper.integerToString(exercise.getId()), null);
 
+		// since the exercises are fake, we just do a randomize result
+		if (this.getRandomBoolean()) {
+
+			this.points ++;
+		}
+		else {
+
+			this.points --;
+		}
+
 		SelectionModel selectionModel = exercisesTabPane.getSelectionModel();
 		Integer index = selectionModel.getSelectedIndex();
 		if (index == this.lesson.getExercises().size() - 1) {
 
 			dialog.setTransitionType(JFXDialog.DialogTransition.TOP);
-			dialog.show((StackPane) source.getParent());
+			dialog.show((StackPane) source.getParent().getParent());
 		}
 		else {
 
@@ -238,6 +280,11 @@ public class LessonViewController {
 	void navigateToHome() throws VetoException, FlowException {
 
 		actionHandler.navigate(HomeViewController.class);
+	}
+
+	public boolean getRandomBoolean() {
+
+		return randomResult.nextBoolean();
 	}
 
 
