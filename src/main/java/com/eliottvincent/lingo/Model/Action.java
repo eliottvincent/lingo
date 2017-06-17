@@ -1,43 +1,104 @@
 package com.eliottvincent.lingo.Model;
 
-
 import com.eliottvincent.lingo.Data.ActionType;
-import com.eliottvincent.lingo.Data.Language;
-
 import java.util.Date;
 
 /**
- * Created by eliottvincent on 10/06/2017.
+ * <b>Action is the class representing an action performed by the user in Lingo.</b>
+ * <p>An action is part of a session.</p>
+ *
+ * @see Session
+ * @see History
+ *
+ * @author eliottvincent
  */
 public class Action {
 
+
+	//================================================================================
+	// Properties
+	//================================================================================
+
+	/**
+	 * The id of the action.
+	 *
+	 * @see Action#getId()
+	 * @see Action#setId(Integer)
+	 */
 	private Integer id;
 
+	/**
+	 * The id of the session linked to the action.
+	 *
+	 * @see Action#getSessionId()
+	 * @see Action#setSessionId(Integer)
+	 */
 	private Integer sessionId;
 
+	/**
+	 * The type of the action.
+	 * The possible values for this type are defined into the enumeration ActionType.
+	 *
+	 * @see Action#getType()
+	 * @see Action#setType(ActionType)
+	 * @see ActionType
+	 */
 	private ActionType type;
 
+	/**
+	 * The date when the action was performed.
+	 *
+	 * @see Action#getDate()
+	 * @see Action#setDate(Date)
+	 */
 	private Date date;
 
+	/**
+	 * The data of the action (if any).
+	 *
+	 * @see Action#getData()
+	 * @see Action#setData(String)
+	 */
 	private String data;
 
+	/**
+	 * The id of the exercise (if any).
+	 * If the action is not linked to an exercise event, there is no exerciseId
+	 *
+	 * @see Action#getExerciceId()
+	 * @see Action#setExerciceId(String)
+	 */
 	private String exerciceId;
 
+
+	//================================================================================
+	// Constructors
+	//================================================================================
+
+	/**
+	 * The default constructor for an action.
+	 */
 	public Action() {
 
 	}
 
+
+	//================================================================================
+	// Getters and setters
+	//================================================================================
+
 	/**
 	 *
-	 * @return
+	 * @return the id of the action.
 	 */
 	public Integer getId() {
+
 		return id;
 	}
 
 	/**
 	 *
-	 * @param id
+	 * @param id the id to set.
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -45,7 +106,7 @@ public class Action {
 
 	/**
 	 *
-	 * @return
+	 * @return the sessionId of the action.
 	 */
 	public Integer getSessionId() {
 		return sessionId;
@@ -53,7 +114,7 @@ public class Action {
 
 	/**
 	 *
-	 * @param sessionId
+	 * @param sessionId the sessionId to set.
 	 */
 	public void setSessionId(Integer sessionId) {
 		this.sessionId = sessionId;
@@ -61,7 +122,7 @@ public class Action {
 
 	/**
 	 *
-	 * @return
+	 * @return the type of the action.
 	 */
 	public ActionType getType() {
 		return type;
@@ -69,7 +130,7 @@ public class Action {
 
 	/**
 	 *
-	 * @param type
+	 * @param type the type to set.
 	 */
 	public void setType(ActionType type) {
 		this.type = type;
@@ -77,7 +138,7 @@ public class Action {
 
 	/**
 	 *
-	 * @return
+	 * @return the date of the action.
 	 */
 	public Date getDate() {
 		return date;
@@ -85,7 +146,7 @@ public class Action {
 
 	/**
 	 *
-	 * @param date
+	 * @param date the date to set.
 	 */
 	public void setDate(Date date) {
 		this.date = date;
@@ -93,7 +154,7 @@ public class Action {
 
 	/**
 	 *
-	 * @return
+	 * @return the data of the action.
 	 */
 	public String getData() {
 		return data;
@@ -101,7 +162,7 @@ public class Action {
 
 	/**
 	 *
-	 * @param data
+	 * @param data the data to set.
 	 */
 	public void setData(String data) {
 		this.data = data;
@@ -109,7 +170,7 @@ public class Action {
 
 	/**
 	 *
-	 * @return
+	 * @return the exerciceId of the action.
 	 */
 	public String getExerciceId() {
 		return exerciceId;
@@ -117,9 +178,12 @@ public class Action {
 
 	/**
 	 *
-	 * @param exerciceId
+	 * @param exerciceId the exerciceId to set.
 	 */
 	public void setExerciceId(String exerciceId) {
 		this.exerciceId = exerciceId;
 	}
+
+
+
 }
