@@ -16,6 +16,10 @@
 	-fx-font-size: 31px;
 }
 
+#pointsLabel {
+	-fx-font-size: 31px;
+}
+
 #statusLabel {
 	-fx-text-fill: red;
 }
@@ -167,3 +171,63 @@
 	-fx-focus-color: rgba(240,40,40);
 }
 
+
+/*******************************************************************************
+ *                                                                             *
+ * JFX Tool Bar                                                                *
+ *                                                                             *
+ ******************************************************************************/
+
+.jfx-tool-bar {
+	-fx-font-size: 20.0;
+	-fx-pref-width: 100.0%;
+	-fx-pref-height: 64.0px;
+}
+
+.jfx-tool-bar HBox {
+	-fx-alignment: center;
+	-fx-spacing: 25.0;
+	-fx-padding: 0.0 10.0;
+}
+
+.jfx-tool-bar Label {
+	-fx-text-fill: #CE584A;
+}
+
+.jfx-tool-bar .jfx-options-burger {
+	-fx-padding: 22px;
+}
+
+.jfx-tool-bar .jfx-options-burger StackPane {
+	-fx-pref-width: 4px;
+}
+
+.jfx-tool-bar .jfx-rippler {
+	-jfx-rippler-fill: WHITE;
+}
+
+.option-list-view {
+	-fx-pref-width: 160.0px;
+	-fx-background-color: WHITE;
+}
+
+.option-jfx-list-view-icon {
+	-fx-fill: #CE584A;
+	-fx-padding: 0.0 10.0 0.0 5.0;
+	-fx-cursor: hand;
+}
+
+
+/*******************************************************************************
+*                                                                              *
+* JFX Rippler                                                                  *
+*                                                                              *
+*******************************************************************************/
+
+/*.jfx-rippler {
+	-fx-rippler-fill: #5264AE;
+	-fx-mask-type: RECT;
+}*/
+.jfx-rippler:hover {
+	-fx-cursor: hand;
+}

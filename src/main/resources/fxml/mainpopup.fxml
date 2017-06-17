@@ -7,10 +7,10 @@
 <JFXListView fx:id="toolbarPopupList" styleClass="option-list-view"
 			 onMouseClicked="#submit" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 	<Label>
-		Contact Us
+		About
 		<graphic>
 			<StackPane styleClass="custom-jfx-list-view-icon-container">
-				<FontAwesomeIconView glyphName="USER" size="1.5em"
+				<FontAwesomeIconView glyphName="INFO" size="1.5em"
 									 styleClass="option-jfx-list-view-icon"/>
 			</StackPane>
 		</graphic>

@@ -2,11 +2,12 @@ package com.eliottvincent.lingo.ViewController;
 
 import com.eliottvincent.lingo.Controller.ActionController;
 import com.eliottvincent.lingo.Controller.LessonController;
+import com.eliottvincent.lingo.Data.ActionType;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Model.Lesson;
 import com.eliottvincent.lingo.Model.User;
-import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.*;
 import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.svg.SVGGlyph;
 import io.datafx.controller.ViewController;
@@ -19,14 +20,15 @@ import io.datafx.controller.util.VetoException;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -35,6 +37,7 @@ import javafx.util.Duration;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static javafx.animation.Interpolator.EASE_BOTH;
@@ -48,29 +51,49 @@ public class HomeViewController {
 
 
 	//================================================================================
-	// JavaFX + DataFX Elements
+	// JavaFX elements
 	//================================================================================
 
 	@FXML
 	public BorderPane container;
 
 	@FXML
-	public HBox cardsHBox;
+	private HBox cardsHBox;
 
 	@FXML
-	public ImageView logo;
+	private ImageView logo;
 
 	@FXML
-	public VBox centerVBox;
+	private VBox centerVBox;
 
 	@FXML
-	public HBox topBarHBox;
+	private VBox myTopBar;
+
+	@FXML
+	private StackPane titleBurgerContainer;
+
+	@FXML
+	private JFXHamburger titleBurger;
+
+	@FXML
+	private StackPane optionsBurger;
+
+	@FXML
+	private JFXRippler optionsRippler;
+
+	@FXML
+	private Label userLabel;
+
+
+	//================================================================================
+	// DataFX elements
+	//================================================================================
 
 	@ActionHandler
-	protected FlowActionHandler actionHandler;
+	private FlowActionHandler actionHandler;
 
 	@FXMLViewFlowContext
-	public ViewFlowContext flowContext;
+	private ViewFlowContext flowContext;
 
 
 	//================================================================================
@@ -79,13 +102,18 @@ public class HomeViewController {
 
 	public User user;
 
-	public ActionController actionController;
+	private ActionController actionController;
+
+	private JFXPopup toolbarPopup;
 
 
 	//================================================================================
 	// Constructor and initialization
 	//================================================================================
 
+	/**
+	 *
+	 */
 	public HomeViewController() {
 
 		this.actionController = new ActionController();
@@ -106,7 +134,11 @@ public class HomeViewController {
 		container.getChildren().clear();
 		container.setCenter(centerVBox);
 
-		initializeTopBar();
+		try {
+			initializeNewTopBar();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		VBox.setMargin(logo, new Insets(0,0,100,0));
 
@@ -114,22 +146,35 @@ public class HomeViewController {
 
 	}
 
-	public void initializeTopBar() {
+	/**
+	 *
+	 * @throws Exception
+	 */
+	private void initializeNewTopBar() throws Exception {
 
-		topBarHBox.setPadding(new Insets(15, 12, 15, 12));
-		topBarHBox.setSpacing(800);
+		userLabel.setText((this.user != null) ? this.user.getUsername() : "Guest");
+		titleBurgerContainer.setOnMouseClicked(e -> {
+			System.out.println("cliccccck");
+		});
 
-		Button buttonProjected = new Button((this.user == null) ? "Guest" : this.user.getUsername());
-		buttonProjected.setPrefSize(100, 20);
-		topBarHBox.getChildren().add(buttonProjected);
+		// sometimes we just can't use a Flow :(
+		// so we use a classic FXMLLoader
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainpopup.fxml"));
+		loader.setController(new InputController());
+		toolbarPopup = new JFXPopup(loader.load());
 
-		Button buttonCurrent = new Button("Help");
-		buttonCurrent.setPrefSize(100, 20);
+		optionsBurger.setOnMouseClicked(e -> toolbarPopup.show(optionsBurger,
+			JFXPopup.PopupVPosition.TOP,
+			JFXPopup.PopupHPosition.RIGHT,
+			-12,
+			15)
+		);
 
-		topBarHBox.getChildren().add(buttonCurrent);            // Add to HBox from Example 1-2
-		//HBox.setHgrow(buttonCurrent, Priority.ALWAYS);
-
-		container.setTop(topBarHBox);
+		myTopBar.setMaxWidth(1100);
+		myTopBar.setMinWidth(1100.0);
+		myTopBar.setPrefWidth(1100.0);
+		BorderPane.setAlignment(myTopBar, Pos.CENTER);
+		container.setTop(myTopBar);
 
 	}
 
@@ -143,7 +188,7 @@ public class HomeViewController {
 	 * @param source
 	 * @param language
 	 */
-	public void handleLanguageCardClick(Node source, Language language) {
+	private void handleLanguageCardClick(Node source, Language language) {
 
 		cardsHBox.getChildren().clear();
 		cardsHBox.getChildren().addAll(generateLessonsCards(language));
@@ -153,7 +198,7 @@ public class HomeViewController {
 	 *
 	 * @param source
 	 */
-	public void handleLanguageCardClickBack(Node source) {
+	private void handleLanguageCardClickBack(Node source) {
 
 		cardsHBox.getChildren().clear();
 		cardsHBox.getChildren().addAll(generateLanguageCards());
@@ -165,18 +210,16 @@ public class HomeViewController {
 	 * @param lesson
 	 * @param language
 	 */
-	public void handleLessonCardClick(Node node, Lesson lesson, Language language) {
+	private void handleLessonCardClick(Node node, Lesson lesson, Language language) {
 
-		/*
-		String id =	ConverterHelper.languageToString(language) +
-					"_" +
-					ConverterHelper.lessonTypeToString(lesson.getType());
-		actionController.createNewAction(this.user, ActionType.LESSON_START, new Date(), null, id);
+		actionController.createNewAction(
+			this.user,
+			ActionType.LESSON_START,
+			new Date(),
+			null,
+			ConverterHelper.integerToString(lesson.getId())
+		);
 
-		LessonViewController lessonViewController = new LessonViewController(language, lesson, this.user);
-
-		this.screenController.activate(node.getScene(), "lesson", null, lessonViewController);
-		*/
 		try {
 			this.navigate(language, lesson);
 		} catch (VetoException | FlowException e) {
@@ -189,7 +232,7 @@ public class HomeViewController {
 	 * @throws VetoException
 	 * @throws FlowException
 	 */
-	public void navigate(Language language, Lesson lesson) throws VetoException, FlowException {
+	private void navigate(Language language, Lesson lesson) throws VetoException, FlowException {
 
 		flowContext.register("user", this.user);
 		flowContext.register("language", language);
@@ -213,14 +256,20 @@ public class HomeViewController {
 	 *
 	 * @return
 	 */
-	public ArrayList<Node> generateLanguageCards() {
+	private ArrayList<Node> generateLanguageCards() {
 
 		ArrayList<Node> children = new ArrayList<>();
 
 		Integer i = 0;
+		Boolean isLast = false;
 		for (Language language: Language.values()) {
 
-			children.add(generateLanguageCard(language, i));
+			if (i+1 == Language.values().length) {
+
+				isLast = true;
+			}
+
+			children.add(generateLanguageCard(language, i, isLast));
 			i++;
 		}
 
@@ -233,7 +282,7 @@ public class HomeViewController {
 	 * @param i
 	 * @return
 	 */
-	public StackPane generateLanguageCard(Language language, Integer i) {
+	private StackPane generateLanguageCard(Language language, Integer i, Boolean isLast) {
 
 		final Integer widthValue = 240;
 		final Integer headerHeight = 100;
@@ -242,7 +291,17 @@ public class HomeViewController {
 		EventHandler<ActionEvent> eventHandler = event ->
 			handleLanguageCardClick((Node) event.getSource(), language);
 
-		return generateCard(ConverterHelper.languageToString(language), eventHandler, widthValue, headerHeight, bodyHeight, i, getDefaultColor(i), null);
+		return generateCard(
+			ConverterHelper.languageToString(language),
+			eventHandler,
+			widthValue,
+			headerHeight,
+			bodyHeight,
+			i,
+			getDefaultColor(i),
+			null,
+			isLast
+		);
 	}
 
 	/**
@@ -252,7 +311,7 @@ public class HomeViewController {
 	 * @param i
 	 * @return
 	 */
-	public StackPane generateExpandedLanguageCard(Language language, EventHandler<ActionEvent> handler, Integer i) {
+	private StackPane generateExpandedLanguageCard(Language language, EventHandler<ActionEvent> handler, Integer i) {
 
 		final Integer widthValue = 250;
 		final Integer headerHeight = 75;
@@ -266,12 +325,22 @@ public class HomeViewController {
 		}
 		else {
 
-			eventHandler = event ->
-				handleLanguageCardClick((Node) event.getSource(), language
-				);
+			eventHandler = event -> handleLanguageCardClick(
+					(Node) event.getSource(), language
+			);
 		}
-		String text = ConverterHelper.languageToString(language) + ": First line\nSecond line";
-		return generateCard(text, eventHandler, widthValue, headerHeight, bodyHeight, i, getDefaultColor(i), "M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z");
+		String text = ConverterHelper.languageToString(language) + ": This language contains \nthe following lessons:";
+		return generateCard(
+			text,
+			eventHandler,
+			widthValue,
+			headerHeight,
+			bodyHeight,
+			i,
+			getDefaultColor(i),
+			"M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z",
+			false
+		);
 	}
 
 	/**
@@ -279,7 +348,7 @@ public class HomeViewController {
 	 * @param language
 	 * @return
 	 */
-	public ArrayList<Node> generateLessonsCards(Language language) {
+	private ArrayList<Node> generateLessonsCards(Language language) {
 
 		ArrayList<Node> children = new ArrayList<>();
 
@@ -294,16 +363,21 @@ public class HomeViewController {
 		List<Lesson> lessons = lessonController.getLessons(language);
 
 		Integer i = 1;
+		Boolean isLast = false;
 		for (Lesson lesson : lessons) {
 
-			children.add(generateLessonCard(lesson, language, i));
+			if (i+1 == lessons.size()) {
+
+				isLast = true;
+			}
+			children.add(generateLessonCard(lesson, language, i, isLast));
 			i++;
 		}
 
 		return children;
 	}
 
-	public StackPane generateLessonCard(Lesson lesson, Language language, Integer index) {
+	private StackPane generateLessonCard(Lesson lesson, Language language, Integer index, Boolean isLast) {
 
 		final Integer widthValue = 100;
 		final Integer headerHeight = 100;
@@ -321,7 +395,8 @@ public class HomeViewController {
 			bodyHeight,
 			index,
 			getDefaultColor(index),
-			null
+			null,
+			isLast
 		);
 	}
 
@@ -336,7 +411,7 @@ public class HomeViewController {
 	 * @param index
 	 * @param colorValue   @return
 	 */
-	public StackPane generateCard(String title, EventHandler<ActionEvent> eventHandler, Integer widthValue, Integer headerHeight, Integer bodyHeight, Integer index, String colorValue, String svgPath) {
+	private StackPane generateCard(String title, EventHandler<ActionEvent> eventHandler, Integer widthValue, Integer headerHeight, Integer bodyHeight, Integer index, String colorValue, String svgPath, Boolean isLast) {
 
 		// creating container
 		StackPane child = new StackPane();
@@ -379,7 +454,9 @@ public class HomeViewController {
 		button.translateYProperty().bind(Bindings.createDoubleBinding(() ->
 			header.getBoundsInParent().getHeight() - button.getHeight() / 2, header.boundsInParentProperty(), button.heightProperty())
 		);
-		StackPane.setMargin(button, new Insets(0, 12, 0, 0));
+		if (isLast) {
+			StackPane.setMargin(button, new Insets(0, 12, 0, 0));
+		}
 		StackPane.setAlignment(button, Pos.TOP_RIGHT);
 
 		// button action
@@ -396,7 +473,7 @@ public class HomeViewController {
 		return child;
 	}
 
-	public String getDefaultColor(int i) {
+	private String getDefaultColor(int i) {
 		String color = "#FFFFFF";
 		switch (i) {
 			case 0:
@@ -442,5 +519,23 @@ public class HomeViewController {
 				break;
 		}
 		return color;
+	}
+
+	private static final class InputController {
+
+		@FXML
+		private JFXListView<?> toolbarPopupList;
+
+		// close application
+		@FXML
+		private void submit() {
+			if (toolbarPopupList.getSelectionModel().getSelectedIndex() == 1) {
+				Platform.exit();
+			}
+
+			else {
+				System.out.println("clicked on about");
+			}
+		}
 	}
 }
