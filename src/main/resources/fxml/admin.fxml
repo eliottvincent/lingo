@@ -1,38 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.scene.control.ListView?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 
 <HBox fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
 
 	<children>
-		<VBox fx:id="usersVBox">
-			<children>
-				<ListView fx:id="usersListView" prefWidth="449.0">
-
-				</ListView>
-			</children>
-		</VBox>
-
-		<VBox fx:id="sessionsVBox">
-			<children>
-				<ListView fx:id="sessionsListView">
-
-				</ListView>
-			</children>
-		</VBox>
-
-		<VBox fx:id="actionsVBox">
-			<children>
-
-				<ListView fx:id="actionsListView">
-
-				</ListView>
-			</children>
-		</VBox>
-
-
+		<JFXTreeTableView fx:id="treeView" />
+		<JFXTextField fx:id="filterJFXTextField" />
 	</children>
 </HBox>
