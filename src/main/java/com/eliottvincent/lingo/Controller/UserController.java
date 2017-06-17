@@ -20,7 +20,7 @@ public class UserController {
 	// Properties
 	//================================================================================
 
-	private DatabaseController databaseController = DatabaseController.getInstance();
+	private DatabaseController databaseController;
 
 
 	//================================================================================
@@ -31,6 +31,8 @@ public class UserController {
 	 *
 	 */
 	public UserController() {
+
+		databaseController = DatabaseController.getInstance();
 
 	}
 
