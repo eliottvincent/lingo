@@ -22,12 +22,14 @@ import io.datafx.controller.util.VetoException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -51,7 +53,13 @@ public class LessonViewController {
 	private BorderPane container;
 
 	@FXML
+	private HBox topLabelsHBox;
+
+	@FXML
 	private Label titleLabel;
+
+	@FXML
+	private Label pointsLabel;
 
 	@FXML
 	private JFXTabPane exercisesTabPane;
@@ -135,11 +143,12 @@ public class LessonViewController {
 		initializeExercisesTabPane();
 
 		titleLabel.setText(ConverterHelper.languageToString(language) + ": " + ConverterHelper.lessonTypeToString(lesson.getType()) + " lesson");
-		container.setTop(titleLabel);
+		pointsLabel.setText("Score: 0 / " + ConverterHelper.integerToString(this.lesson.getExercises().size()));
+		topLabelsHBox.getChildren().setAll(titleLabel, pointsLabel);
+		topLabelsHBox.setSpacing(800);
+		container.setTop(topLabelsHBox);
 
 		initializeDialogButtons();
-
-
 	}
 
 	/**
@@ -179,6 +188,7 @@ public class LessonViewController {
 			// adding a button to finish the exercise
 			JFXButton finishButton = new JFXButton("Finish exercise");
 			finishButton.getStyleClass().add("button-raised");
+			StackPane.setMargin(finishButton, new Insets(50, 0, 0, 0));
 
 			EventHandler<ActionEvent> eventHandler = event ->
 				finishExerciseAction((Node) event.getSource(), exercise);
@@ -230,10 +240,12 @@ public class LessonViewController {
 
 			this.points ++;
 		}
-		else {
 
-			this.points --;
-		}
+		// updating the label
+		String oldLabel = pointsLabel.getText();
+		String updatedLabel = oldLabel.substring(0, oldLabel.length() - 5);
+		updatedLabel += this.points + " / " + this.lesson.getExercises().size();
+		pointsLabel.setText(updatedLabel);
 
 		SelectionModel selectionModel = exercisesTabPane.getSelectionModel();
 		Integer index = selectionModel.getSelectedIndex();
