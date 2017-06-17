@@ -156,7 +156,6 @@ public class User extends RecursiveTreeObject<User> {
 	 * @param idValue the id to set.
 	 */
 	public void setId(Integer idValue) {
-
 		this.id = new SimpleIntegerProperty(idValue);
 	}
 
@@ -173,7 +172,6 @@ public class User extends RecursiveTreeObject<User> {
 	 * @param usernameValue the username to set.
 	 */
 	public void setUsername(String usernameValue) {
-
 		this.username = new SimpleStringProperty(usernameValue);
 	}
 
@@ -190,7 +188,6 @@ public class User extends RecursiveTreeObject<User> {
 	 * @param passwordValue the password to set.
 	 */
 	public void setPassword(String passwordValue) {
-
 		this.password = new SimpleStringProperty(passwordValue);
 
 	}
@@ -208,7 +205,6 @@ public class User extends RecursiveTreeObject<User> {
 	 * @param genderValue the gender to set.
 	 */
 	public void setGender(Gender genderValue) {
-
 		this.gender = new SimpleObjectProperty<>(genderValue);
 	}
 
@@ -225,7 +221,6 @@ public class User extends RecursiveTreeObject<User> {
 	 * @param languageValue the language to set.
 	 */
 	public void setLanguage(Language languageValue) {
-
 		this.language = new SimpleObjectProperty<>(languageValue);
 	}
 
@@ -242,7 +237,6 @@ public class User extends RecursiveTreeObject<User> {
 	 * @param guestValue the
 	 */
 	public void setGuest(boolean guestValue) {
-
 		this.guest = new SimpleBooleanProperty(guestValue);
 	}
 
@@ -259,7 +253,6 @@ public class User extends RecursiveTreeObject<User> {
 	 * @param historyValue the history to set.
 	 */
 	public void setHistory(History historyValue) {
-
 		this.history = new SimpleObjectProperty<>(historyValue);
 	}
 
@@ -276,7 +269,6 @@ public class User extends RecursiveTreeObject<User> {
 	 * @param birthdateValue the birthdate to set.
 	 */
 	public void setBirthdate(Date birthdateValue) {
-
 		this.birthdate = new SimpleObjectProperty<>(birthdateValue);
 	}
 

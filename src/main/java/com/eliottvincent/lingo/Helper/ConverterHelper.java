@@ -26,8 +26,7 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * <b>ConverterHelper is the class responsible for any object conversion.</b>
- * <p>It's an helper .</p>
+ * <b>ConverterHelper is the helper class responsible for any object conversion.</b>
  *
  * @author eliottvincent
  */
