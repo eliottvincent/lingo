@@ -9,6 +9,8 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import io.datafx.controller.ViewController;
 import io.datafx.controller.flow.FlowException;
+import io.datafx.controller.flow.action.ActionMethod;
+import io.datafx.controller.flow.action.ActionTrigger;
 import io.datafx.controller.flow.action.LinkAction;
 import io.datafx.controller.flow.context.ActionHandler;
 import io.datafx.controller.flow.context.FXMLViewFlowContext;
@@ -54,6 +56,7 @@ public class LoginViewController {
 	private JFXPasswordField passwordField;
 
 	@FXML
+	@ActionTrigger("loginAction")
 	private JFXButton loginButton;
 
 	@FXML
@@ -110,7 +113,7 @@ public class LoginViewController {
 			// if the ENTER key was pressed
             if (event.getCode().equals(KeyCode.ENTER)) {
 
-                this.loginAction((Node) event.getSource());
+                this.loginAction();
 
                 // using .consume() so the event will not be dispatched to any further event listeners
 				// it's also useful to avoid memory leak
@@ -131,9 +134,9 @@ public class LoginViewController {
 
 	/**
 	 *
-	 * @param node
 	 */
-	private void loginAction(Node node) {
+	@ActionMethod("loginAction")
+	private void loginAction() {
 
 		if (usernameTextField.getText().equals("admin") &&
 			passwordField.getText().equals("admin")) {
@@ -156,6 +159,8 @@ public class LoginViewController {
 				// saving the action
 				this.actionController.createNewAction(tmpUser, ActionType.LOGIN, new Date(), null, null);
 
+				// saving the User object in context
+				flowContext.register("user", tmpUser);
 				try {
 					this.navigateToHome();
 				} catch (VetoException | FlowException e) {
