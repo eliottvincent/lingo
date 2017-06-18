@@ -16,6 +16,16 @@ import java.util.Date;
  */
 public class AccountController {
 
+	/**
+	 * createNewAccount() is the method responsible for creating a new User object, and all the extra objects (History, Session).
+	 *
+	 * @param username the username of the new user
+	 * @param password the password of the new user
+	 * @param birthdate the birthdate of the new user
+	 * @param gender the gender of the new user
+	 * @param language the language of the new user
+	 * @return an User object.
+	 */
 	public User createNewAccount(String username, String password, Date birthdate, Gender gender, Language language) {
 
 		// creating a new USER
