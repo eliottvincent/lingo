@@ -8,7 +8,11 @@ import com.eliottvincent.lingo.Model.User;
 import java.util.Date;
 
 /**
- * Created by eliottvincent on 10/06/2017.
+ * <b>AcountController is the class responsible for the account creation.</b>
+ *
+ * @see User
+ *
+ * @author eliottvincent
  */
 public class AccountController {
 
