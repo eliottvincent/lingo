@@ -1,15 +1,11 @@
 package com.eliottvincent.lingo.Controller;
 
-/**
- * Created by eliottvincent on 08/06/2017.
- */
-import javax.xml.crypto.Data;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-/**
- * Created by eliottvincent on 06/06/2017.
- */
 public class DatabaseController {
 
 	private static Connection connection = null;
@@ -144,14 +140,6 @@ public class DatabaseController {
 		}
 
 		return insertId;
-
-	}
-
-	public void excuteInsertQuery(String query) {
-
-	}
-
-	public void executeUpdateQuery(String query) {
 
 	}
 

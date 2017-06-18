@@ -101,24 +101,4 @@ class HistoryController {
 
 		return databaseController.executeInsertQuery(query);
 	}
-
-
-	//================================================================================
-	// UPDATE
-	//================================================================================
-
-	/**
-	 *
-	 * @param history
-	 */
-	void updateHistory(History history) {
-
-		// preparing the query
-		String query = 	"UPDATE Histories " +
-			"SET id = '"		+	history.getId()		+ 	"', "	+
-			"SET user_id = '" 	+	history.getUserId() + 	"' " 	+
-			"WHERE id LIKE " 	+ 	history.getId() 	+ 	"";
-
-		databaseController.executeUpdateQuery(query);
-	}
 }

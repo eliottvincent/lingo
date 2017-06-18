@@ -187,29 +187,6 @@ public class UserController {
 		return databaseController.executeInsertQuery(query);
 	}
 
-
-	//================================================================================
-	// UPDATE
-	//================================================================================
-
-	/**
-	 *
-	 * @param user
-	 */
-	void updateUser(User user) {
-
-		// preparing the query
-		String query = 	"UPDATE Users " 	+
-						"SET username = '"	+	user.getUsername()	+ 	"', "	+
-						"password = '" 		+ 	user.getPassword()	+ 	"', " 	+
-						"birthdate = '" 	+ 	user.getBirthdate()	+ 	"', " 	+
-						"gender = '" 		+ 	user.getGender()	+ 	"', " 	+
-						"language = '" 		+ 	user.getLanguage()	+ 	"' " 	+
-						"WHERE id LIKE " 	+ 	user.getId()		+ 	"";
-		databaseController.executeUpdateQuery(query);
-	}
-
-
 	//================================================================================
 	// OTHER
 	//================================================================================
