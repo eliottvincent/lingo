@@ -10,15 +10,20 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by eliottvct on 17/05/17.
+ * <b>SessionController is the class responsible for the actions performed on an Session object.</b>
+ *
+ * @see Session
+ *
+ * @author eliottvincent
  */
 class SessionController {
+
 
 	//================================================================================
 	// Properties
 	//================================================================================
 
-	private DatabaseController databaseController = new DatabaseController();
+	private DatabaseController databaseController;
 
 
 	//================================================================================
@@ -26,10 +31,11 @@ class SessionController {
 	//================================================================================
 
 	/**
-	 *
+	 * The default constructor for a SessionController.
 	 */
 	SessionController() {
 
+		this.databaseController  = new DatabaseController();
 
 	}
 
@@ -39,18 +45,21 @@ class SessionController {
 	//================================================================================
 
 	/**
+	 * the getSession() method is responsible for retrieving a specific Session object.
 	 *
-	 * @param sessionId
-	 * @return
+	 * @param sessionId the id of the Session to retrieve.
+	 * @return the retrieved Session object.
 	 */
 	Session getSession(Integer sessionId) {
 
-
+		// preparing the query
 		String sessionQuery =	"SELECT * FROM Sessions "	+
-			"WHERE id LIKE '"			+	sessionId	+	"'";
+								"WHERE id LIKE '"			+	sessionId	+	"'";
 
-		List<Map<String, Object>> sessionsList = databaseController.executeSelectQuery(sessionQuery);
+		// executing the query
+		List<Map<String, Object>> sessionsList = this.databaseController.executeSelectQuery(sessionQuery);
 
+		// the statement list returned by the query's execution should contain only one statement
 		if (sessionsList.size() == 1) {
 
 			Map<String, Object> sessionMap = sessionsList.get(0);
@@ -70,21 +79,25 @@ class SessionController {
 		}
 
 		else {
+
 			return null;
 		}
 	}
 
 	/**
+	 * the getSessions() method is responsible for retrieving all the Sessions stored in a specific History.
 	 *
-	 * @param historyId
-	 * @return
+	 * @param historyId the id of the History to get the Sessions from.
+	 * @return a list of Sessions.
 	 */
 	List<Session> getSessions(Integer historyId) {
 
+		// preparing the query
 		String sessionQuery =	"SELECT * FROM Sessions "	+
-			"WHERE history_id LIKE '"	+	historyId	+	"'";
+								"WHERE history_id LIKE '"	+	historyId	+	"'";
 
-		List<Map<String, Object>> sessionsList = databaseController.executeSelectQuery(sessionQuery);
+		// executing the query
+		List<Map<String, Object>> sessionsList = this.databaseController.executeSelectQuery(sessionQuery);
 		List<Session> sessions = new ArrayList<Session>();
 
 		for (Map<String, Object> sessionMap : sessionsList) {
@@ -112,9 +125,10 @@ class SessionController {
 	//================================================================================
 
 	/**
+	 * the createNewSession() method is responsible for creating a Session object.
 	 *
-	 * @param historyId
-	 * @return
+	 * @param historyId the id of the History containing the Session to save.
+	 * @return the id of the saved statement.
 	 */
 	Integer createNewSession(Integer historyId) {
 
@@ -127,19 +141,22 @@ class SessionController {
 	}
 
 	/**
+	 * the saveSession() method is responsible for saving a Session object in the database.
 	 *
-	 * @param session
-	 * @return
+	 * @param session the Session object to save.
+	 * @return the id of the saved statement.
+	 *
+	 * @see DatabaseController
 	 */
 	private Integer saveSession(Session session) {
 
-		String query = 	"INSERT INTO Sessions (history_id, start_date) " +
-			"VALUES (" 	+
-			"'"			+ 	session.getHistoryId()	+	"', "	+
-			"'" 		+	session.getStartDate() 	+	"'" 	+
-			")";
+		// preparing the query
+		String query = 	"INSERT INTO Sessions (history_id, start_date) "	+
+						"VALUES (" 											+
+						"'"													+ 	session.getHistoryId()	+	"', "	+
+						"'"													+	session.getStartDate() 	+	"'" 	+
+						")";
 
-		return databaseController.executeInsertQuery(query);
-
+		return this.databaseController.executeInsertQuery(query);
 	}
 }
