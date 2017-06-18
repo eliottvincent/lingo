@@ -208,11 +208,6 @@ public class AdminViewController {
 				};
 			}
 		});
-
-		// event
-		actionsListView.getSelectionModel().selectedItemProperty().addListener(
-			(observable, oldValue, newValue) -> selectedActionChanged(newValue)
-		);
 	}
 
 
@@ -259,20 +254,6 @@ public class AdminViewController {
 			actionsListView.setItems(data);
 		}
 	}
-
-	/**
-	 *
-	 * @param newAction
-	 */
-	private void selectedActionChanged(Action newAction) {
-
-		if (newAction != null) {
-
-			System.out.println("New action selected: " + newAction);
-			// TODO : view action data somwhere
-		}
-	}
-
 }
 
 
