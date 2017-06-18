@@ -3,6 +3,7 @@ package com.eliottvincent.lingo.Controller;
 import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Model.Action;
 import com.eliottvincent.lingo.Model.Session;
+import com.eliottvincent.lingo.Model.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <b>SessionController is the class responsible for the actions performed on an Session object.</b>
+ * <b>SessionController is the class responsible for the actions performed on a Session object.</b>
  *
  * @see Session
  *
@@ -158,5 +159,24 @@ class SessionController {
 						")";
 
 		return this.databaseController.executeInsertQuery(query);
+	}
+
+
+	//================================================================================
+	// OTHER
+	//================================================================================
+
+	/**
+	 * the getLastSession() is the method responsible for retrieving the last session of a specific User.
+	 *
+	 * @param user the User to search for.
+	 * @return the retrieved Session object.
+	 */
+	Session getLastSession(User user) {
+
+		List<Session> sessions = this.getSessions(user.getHistory().getId());
+
+		return sessions.get(sessions.size() - 1);
+
 	}
 }

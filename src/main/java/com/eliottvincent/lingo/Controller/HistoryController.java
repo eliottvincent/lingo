@@ -33,7 +33,7 @@ class HistoryController {
 	 */
 	HistoryController() {
 
-		databaseController = DatabaseController.getInstance();
+		this.databaseController = DatabaseController.getInstance();
 	}
 
 
@@ -56,7 +56,7 @@ class HistoryController {
 								"WHERE user_id LIKE '" 		+ 	userId	+ 	"'";
 
 		// executing the query
-		List<Map<String, Object>> historiesList = databaseController.executeSelectQuery(historiesQuery);
+		List<Map<String, Object>> historiesList = this.databaseController.executeSelectQuery(historiesQuery);
 
 		// the statement list returned by the query's execution should contain only one statement
 		if (historiesList.size() == 1) {
@@ -117,6 +117,6 @@ class HistoryController {
 						"'"									+	newHistory.getUserId()	+	"'" 	+
 						")";
 
-		return databaseController.executeInsertQuery(query);
+		return this.databaseController.executeInsertQuery(query);
 	}
 }

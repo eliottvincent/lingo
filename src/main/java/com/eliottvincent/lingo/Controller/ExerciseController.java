@@ -34,7 +34,7 @@ class ExerciseController {
 	 */
 	ExerciseController() {
 
-		databaseController = DatabaseController.getInstance();
+		this.databaseController = DatabaseController.getInstance();
 	}
 
 

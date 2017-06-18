@@ -25,7 +25,9 @@ public class ActionController {
 	// Properties
 	//================================================================================
 
-	private DatabaseController databaseController = DatabaseController.getInstance();
+	private DatabaseController databaseController;
+
+	private SessionController sessionController;
 
 
 	//================================================================================
@@ -38,6 +40,9 @@ public class ActionController {
 	 */
 	public ActionController() {
 
+		this.databaseController = DatabaseController.getInstance();
+
+		this.sessionController = new SessionController();
 	}
 
 
@@ -60,7 +65,7 @@ public class ActionController {
 						"WHERE id LIKE '" 			+	actionId	+	"'";
 
 		// executing the query
-		List<Map<String, Object>> actionsList = databaseController.executeSelectQuery(query);
+		List<Map<String, Object>> actionsList = this.databaseController.executeSelectQuery(query);
 
 		// we should have only 1 statement
 		if (actionsList.size() == 1) {
@@ -98,7 +103,7 @@ public class ActionController {
 						"WHERE session_id LIKE '"	+	sessionId	+	"'";
 
 		// executing the query
-		List<Map<String, Object>> actionsList = databaseController.executeSelectQuery(query);
+		List<Map<String, Object>> actionsList = this.databaseController.executeSelectQuery(query);
 
 		// creating a list to host the retrieved actions
 		List<Action> actions = new ArrayList<Action>();
@@ -149,8 +154,7 @@ public class ActionController {
 			action.setData(data);
 
 			// getting the last session of the user who performed the action
-			UserController userController = new UserController();
-			Session lastSession = userController.getLastSession(user);
+			Session lastSession = this.sessionController.getLastSession(user);
 
 			// if the user's last session doesn't contain any LOGOUT action
 			if (!containsLogout(lastSession.getActions())) {
@@ -200,7 +204,7 @@ public class ActionController {
 						"'"			+	action.getData()		+ 	"')";
 
 		// executing the query thanks to the DatabaseController
-		return databaseController.executeInsertQuery(query);
+		return this.databaseController.executeInsertQuery(query);
 	}
 
 
@@ -214,6 +218,4 @@ public class ActionController {
 
 		return list.stream().anyMatch(o -> o.getType().equals(ActionType.LOGOUT));
 	}
-
-
 }
