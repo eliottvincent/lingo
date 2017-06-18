@@ -28,6 +28,9 @@ class HistoryController {
 	// Constructor
 	//================================================================================
 
+	/**
+	 * The default constructor for a HistoryController
+	 */
 	HistoryController() {
 
 		databaseController = DatabaseController.getInstance();

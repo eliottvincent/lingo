@@ -11,7 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by eliottvct on 17/05/17.
+ * <b>LessonController is the class responsible for the actions performed on an Lesson object.</b>
+ *
+ * @see Lesson
+ *
+ * @author eliottvincent
  */
 public class LessonController {
 
@@ -20,15 +24,23 @@ public class LessonController {
 	// Properties
 	//================================================================================
 
-	private DatabaseController databaseController = DatabaseController.getInstance();
-	
+	private DatabaseController databaseController;
+
+	private ExerciseController exerciseController;
+
 
 	//================================================================================
 	// Constructor
 	//================================================================================
 
+	/**
+	 * The default constructor for a LessonController
+	 */
 	public LessonController() {
 
+		this.databaseController = DatabaseController.getInstance();
+
+		this.exerciseController = new ExerciseController();
 	}
 
 
@@ -37,18 +49,20 @@ public class LessonController {
 	//================================================================================
 
 	/**
+	 * the getLesson() method is responsible for retrieving a specific lesson.
 	 *
-	 * @param language
-	 * @param lessonType
-	 * @return
+	 * @param language the language of the lesson to retrieve.
+	 * @param lessonType the type of the lesson to retrieve.
+	 * @return the retrieved Lesson object.
 	 */
-	Lesson getLessonReal(Language language, LessonType lessonType) {
+	Lesson getLesson(Language language, LessonType lessonType) {
 
-		String lessonsQueries = "SELECT * FROM Lessons " +
-			"WHERE language LIKE '" + language + "' " +
-			"AND lesson_type LIKE '" + lessonType + "'";
+		// preparing the query
+		String lessonsQueries = "SELECT * FROM Lessons " 	+
+								"WHERE language LIKE '"		+	language	+	"' "	+
+								"AND lesson_type LIKE '" 	+ 	lessonType 	+ 	"'";
 
-		List<Map<String, Object>> lessonsList = databaseController.executeSelectQuery(lessonsQueries);
+		List<Map<String, Object>> lessonsList = this.databaseController.executeSelectQuery(lessonsQueries);
 
 		if (lessonsList.size() == 1) {
 
@@ -60,8 +74,7 @@ public class LessonController {
 			tmpLesson.setType(ConverterHelper.stringToLessonType((String) lessonMap.get("lesson_type")));
 
 			// for exercises, we need to query the database
-			ExerciseController exerciseController = new ExerciseController();
-			List<Exercise> exercises = exerciseController.getExercises(tmpLesson.getId());
+			List<Exercise> exercises = this.exerciseController.getFakeExercises(tmpLesson.getId());
 			tmpLesson.setExercises(exercises);
 
 			return tmpLesson;
@@ -74,38 +87,23 @@ public class LessonController {
 	}
 
 	/**
+	 * the getLessons() is responsible for retrieving an ensemble of lessons concerning a specific language.
+	 * since we don't store any Lesson in database, we just create a Lesson per LessonType.
+	 * in the future, the Lesson objects could be stored in the database, with mutliple Lesson per LessonType.
 	 *
-	 * @param language
-	 * @param lessonType
-	 * @return
-	 */
-	public Lesson getLesson(Language language, LessonType lessonType) {
-
-		Lesson tmpLesson = new Lesson();
-
-		tmpLesson.setId(1);
-		tmpLesson.setLanguage(language);
-		tmpLesson.setType(lessonType);
-
-		// for exercises, we need to query the database
-		ExerciseController exerciseController = new ExerciseController();
-		List<Exercise> exercises = exerciseController.getExercises(tmpLesson.getId());
-		tmpLesson.setExercises(exercises);
-
-		return tmpLesson;
-	}
-
-	/**
+	 * @param language the language that the lessons should concern.
+	 * @return a list of Lesson objects.
 	 *
-	 * @param language
-	 * @return
+	 * @see LessonType
 	 */
 	public List<Lesson> getLessons(Language language) {
 
 		List<Lesson> lessons = new ArrayList<Lesson>();
 
+		// for each LessonType...
 		for (LessonType lessonType : LessonType.values()) {
 
+			// ... we create a Lesson object
 			Lesson tmpLesson = new Lesson();
 
 			tmpLesson.setId(1);
@@ -113,8 +111,7 @@ public class LessonController {
 			tmpLesson.setLanguage(language);
 
 			// for exercises, we need to query the database
-			ExerciseController exerciseController = new ExerciseController();
-			List<Exercise> exercises = exerciseController.getExercises(tmpLesson.getId());
+			List<Exercise> exercises = this.exerciseController.getFakeExercises(tmpLesson.getId());
 			tmpLesson.setExercises(exercises);
 
 			lessons.add(tmpLesson);
@@ -122,10 +119,4 @@ public class LessonController {
 
 		return lessons;
 	}
-
-	//================================================================================
-	// CREATE
-	//================================================================================
-
-	// TODO
 }
