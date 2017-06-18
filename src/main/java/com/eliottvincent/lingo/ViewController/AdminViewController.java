@@ -1,6 +1,7 @@
 package com.eliottvincent.lingo.ViewController;
 
 import com.eliottvincent.lingo.Controller.UserController;
+import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Model.Action;
 import com.eliottvincent.lingo.Model.Session;
 import com.eliottvincent.lingo.Model.User;
@@ -14,19 +15,15 @@ import io.datafx.controller.flow.context.FXMLViewFlowContext;
 import io.datafx.controller.flow.context.ViewFlowContext;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Created by eliottvincent on 10/06/2017.
@@ -37,7 +34,7 @@ public class AdminViewController {
 
 
 	//================================================================================
-	// JavaFX Elements
+	// JavaFX elements
 	//================================================================================
 
 	@FXML
@@ -47,22 +44,29 @@ public class AdminViewController {
 	private JFXTreeTableView<User> treeView;
 
 	@FXML
+	private ListView<Session> sessionsListView;
+
+	@FXML
+	private ListView<Action> actionsListView;
+
+	@FXML
 	private JFXTextField filterJFXTextField;
+
+
+	//================================================================================
+	// DataFX elements
+	//================================================================================
 
 	@FXMLViewFlowContext
 	public ViewFlowContext flowContext;
 
-	//================================================================================
-	// Other properties
-	//================================================================================
-
 
 	//================================================================================
-	// Constructor and initialization
+	// Constructors and initialization
 	//================================================================================
 
 	/**
-	 *
+	 * The default constructor for the AdminViewController.
 	 */
 	public AdminViewController() {
 
@@ -74,126 +78,65 @@ public class AdminViewController {
 	@PostConstruct
 	public void init() {
 
-		//this.initializeUsersListView();
-
-		//this.initializeSessionsListView();
-
-		//this.initializeActionsListView();
-
-		testTableTreeView();
+		initUserTreeTableView();
+		initializeSessionsListView();
+		initializeActionsListView();
 	}
 
-	public void testTableTreeView() {
+	private void initUserTreeTableView() {
 
-		JFXTreeTableColumn<User, String> deptColumn = new JFXTreeTableColumn<>("Id");
-		deptColumn.setPrefWidth(400);
-		deptColumn.setResizable(true);
-		deptColumn.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
-			@Override
-			public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<User, String> param) {
-				return param.getValue().getValue().username;
-			}
-		});
+		JFXTreeTableColumn<User, String> idColumn = new JFXTreeTableColumn<>("Id");
+		idColumn.setPrefWidth(50);
+		idColumn.setResizable(false);
+		idColumn.setCellValueFactory(param -> ConverterHelper.simpleIntegerPropertyToSimpleStringProperty(param.getValue().getValue().idProperty()));
 
-		JFXTreeTableColumn<User, String> deptNamColumn = new JFXTreeTableColumn<>("Name");
-		deptNamColumn.setPrefWidth(400);
-		deptNamColumn.setResizable(true);
-		deptNamColumn.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
-			@Override
-			public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<User, String> param) {
-				return param.getValue().getValue().username;
-			}
-		});
+		JFXTreeTableColumn<User, String> nameColumn = new JFXTreeTableColumn<>("Name");
+		nameColumn.setPrefWidth(150);
+		nameColumn.setResizable(false);
+		nameColumn.setCellValueFactory(param -> param.getValue().getValue().usernameProperty());
 
-		JFXTreeTableColumn<User, String> ageColumn = new JFXTreeTableColumn<>("Password");
-		ageColumn.setPrefWidth(400);
-		ageColumn.setResizable(true);
-		ageColumn.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<User, String>, ObservableValue<String>>() {
-			@Override
-			public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<User, String> param) {
-				return param.getValue().getValue().password;
-			}
-		});
+		JFXTreeTableColumn<User, String> passwordColumn = new JFXTreeTableColumn<>("Password");
+		passwordColumn.setPrefWidth(150);
+		passwordColumn.setResizable(false);
+		passwordColumn.setCellValueFactory(param -> param.getValue().getValue().passwordProperty());
+
+		JFXTreeTableColumn<User, String> genderColumn = new JFXTreeTableColumn<>("Gender");
+		genderColumn.setPrefWidth(100);
+		genderColumn.setResizable(false);
+		genderColumn.setCellValueFactory(param -> ConverterHelper.genderSimpleObjectPropertyToSimpleStringProperty(param.getValue().getValue().genderProperty()));
+
+		JFXTreeTableColumn<User, String> birthdateColumn = new JFXTreeTableColumn<>("Birthdate");
+		birthdateColumn.setPrefWidth(200);
+		birthdateColumn.setResizable(false);
+		birthdateColumn.setCellValueFactory(param -> ConverterHelper.dateSimpleObjectPropertyToSimpleStringProperty(param.getValue().getValue().birthdateProperty()));
 
 		UserController userController = new UserController();
 		ObservableList<User> users = FXCollections.observableArrayList(userController.getUsers());
 
-		final TreeItem<User> root = new RecursiveTreeItem<User>(users, RecursiveTreeObject::getChildren);
+		final TreeItem<User> root = new RecursiveTreeItem<>(users, RecursiveTreeObject::getChildren);
 		treeView.setRoot(root);
 		treeView.setShowRoot(false);
-		treeView.getColumns().setAll(deptNamColumn, deptColumn, ageColumn);
+		treeView.getColumns().setAll(idColumn, nameColumn, passwordColumn, genderColumn, birthdateColumn);
 
+		filterJFXTextField.textProperty().addListener((observable, oldValue, newValue) ->
+			treeView.setPredicate(userTreeItem -> {
 
-		filterJFXTextField.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				treeView.setPredicate(new Predicate<TreeItem<User>>() {
-					@Override
-					public boolean test(TreeItem<User> userTreeItem) {
+				Boolean flag = userTreeItem.getValue().getUsername().contains(newValue) ||
+					userTreeItem.getValue().getPassword().contains(newValue);
+				return flag;
 
-						Boolean flag = userTreeItem.getValue().username.getValue().contains(newValue) ||
-							userTreeItem.getValue().password.getValue().contains(newValue);
-
-						return flag;
-					}
-				});
-			}
-		});
-
-	}
-
-	/**
-	 *
-	 */
-	private void initializeUsersListView() {
-
-		UserController userController = new UserController();
-		List<User> users = userController.getUsers();
-
-		ObservableList<User> data = FXCollections.observableArrayList(users);
-/*
-
-		usersListView.setItems(data);
-		usersListView.setCellFactory(new Callback<ListView<User>, ListCell<User>>() {
-
-			@Override
-			public ListCell<User> call(ListView<User> param) {
-				return new ListCell<User>() {
-
-					private final Label label;
-					{
-						setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-						label = new Label();
-					}
-
-					@Override
-					protected void updateItem(User item, boolean empty) {
-						super.updateItem(item, empty);
-
-						if (item == null || empty) {
-							setGraphic(null);
-						} else {
-							label.setText(item.getUsername());
-							setGraphic(label);
-						}
-					}
-				};
-			}
-		});
-
-		// event
-		usersListView.getSelectionModel().selectedItemProperty().addListener(
-			(observable, oldValue, newValue) -> selectedUserChanged(newValue)
+			})
 		);
 
-		*/
+		treeView.getSelectionModel().selectedItemProperty().addListener(
+			(observable, oldValue, newValue) -> selectedUserChanged(newValue)
+		);
 	}
 
 	/**
 	 *
 	 */
 	private void initializeSessionsListView() {
-/*
 
 		sessionsListView.setCellFactory(new Callback<ListView<Session>, ListCell<Session>>() {
 
@@ -226,7 +169,7 @@ public class AdminViewController {
 		sessionsListView.getSelectionModel().selectedItemProperty().addListener(
 			(observable, oldValue, newValue) -> selectedSessionChanged(newValue)
 		);
-				*/
+
 
 	}
 
@@ -234,7 +177,7 @@ public class AdminViewController {
 	 *
 	 */
 	private void initializeActionsListView() {
-/*
+
 		actionsListView.setCellFactory(new Callback<ListView<Action>, ListCell<Action>>() {
 
 			@Override
@@ -254,7 +197,11 @@ public class AdminViewController {
 						if (item == null || empty) {
 							setGraphic(null);
 						} else {
-							label.setText("Action n°" + item.getId().toString());
+							label.setText(
+								item.getType().toString() +
+									" on " +
+									ConverterHelper.dateToString(item.getDate())
+							);
 							setGraphic(label);
 						}
 					}
@@ -266,8 +213,6 @@ public class AdminViewController {
 		actionsListView.getSelectionModel().selectedItemProperty().addListener(
 			(observable, oldValue, newValue) -> selectedActionChanged(newValue)
 		);
-				*/
-
 	}
 
 
@@ -278,22 +223,22 @@ public class AdminViewController {
 
 	/**
 	 *
-	 * @param newUser
+	 * @param newTreeItemUser
 	 */
-	private void selectedUserChanged(User newUser) {
+	private void selectedUserChanged(TreeItem<User> newTreeItemUser) {
 
-		if (newUser != null) {
+		if (newTreeItemUser != null) {
 
-			/*
+			System.out.println("super newTreeItemUser: " + newTreeItemUser.getValue().usernameProperty().get());
+
+
 			// we clear the listviews
 			sessionsListView.getItems().clear();
 			actionsListView.getItems().clear();
 
-			//
-			List<Session> sessions = newUser.getHistory().getSessions();
+			List<Session> sessions = newTreeItemUser.getValue().getHistory().getSessions();
 			ObservableList<Session> data = FXCollections.observableArrayList(sessions);
 			sessionsListView.setItems(data);
-		*/
 		}
 	}
 
@@ -305,14 +250,13 @@ public class AdminViewController {
 
 		if (newSession != null) {
 
-			/*
+
 			// we clear the listviews
 			actionsListView.getItems().clear();
 
 			List<Action> actions = newSession.getActions();
 			ObservableList<Action> data = FXCollections.observableArrayList(actions);
 			actionsListView.setItems(data);
-			*/
 		}
 	}
 
@@ -326,19 +270,6 @@ public class AdminViewController {
 
 			System.out.println("New action selected: " + newAction);
 			// TODO : view action data somwhere
-		}
-	}
-
-
-	private static final class UserUser extends RecursiveTreeObject<UserUser> {
-		final StringProperty userName;
-		final StringProperty age;
-		final StringProperty department;
-
-		UserUser(String department, String age, String userName) {
-			this.department = new SimpleStringProperty(department);
-			this.userName = new SimpleStringProperty(userName);
-			this.age = new SimpleStringProperty(age);
 		}
 	}
 

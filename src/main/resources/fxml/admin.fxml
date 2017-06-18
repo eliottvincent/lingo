@@ -4,10 +4,34 @@
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.scene.layout.HBox?>
 
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Label?>
 <HBox fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
 
 	<children>
-		<JFXTreeTableView fx:id="treeView" />
-		<JFXTextField fx:id="filterJFXTextField" />
+		<VBox>
+			<children>
+				<Label styleClass="tableLabel" text="Users"/>
+				<JFXTreeTableView fx:id="treeView" />
+				<JFXTextField fx:id="filterJFXTextField" />
+			</children>
+		</VBox>
+		<HBox>
+			<children>
+				<VBox>
+					<children>
+						<Label styleClass="tableLabel" text="Sessions"/>
+						<ListView fx:id="sessionsListView"/>
+					</children>
+				</VBox>
+				<VBox>
+					<children>
+						<Label styleClass="tableLabel" text="Actions"/>
+						<ListView fx:id="actionsListView"/>
+					</children>
+				</VBox>
+			</children>
+		</HBox>
 	</children>
 </HBox>
