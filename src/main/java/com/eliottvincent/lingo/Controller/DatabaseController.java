@@ -6,26 +6,54 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DatabaseController {
+/**
+ * <b>DatabaseController is the class responsible for the actions performed to the database.</b>
+ * <p>DatabaseController is a Singleton, meaning that there will be only one instance of the class during the lifecycle of the application.</p>
+ *
+ * @author eliottvincent
+ */
+class DatabaseController {
+
+
+	//================================================================================
+	// Properties
+	//================================================================================
 
 	private static Connection connection = null;
 
 	private static DatabaseController instance;
 
+
+	//================================================================================
+	// Constructor and initialization
+	//================================================================================
+
+	/**
+	 * The default constructor for a DatabaseController
+	 */
 	DatabaseController() {
 
 		loadDriver();
 		connection = getConnection(connection);
 	}
 
+	/**
+	 *
+	 * @return the instance of DatabaseController
+	 */
 	static DatabaseController getInstance(){
 
+		// if there is no instance of DatabaseController
 		if(instance == null) {
+
 			instance = new DatabaseController();
 		}
 		return instance;
 	}
 
+	/**
+	 * loadDriver() is the method responsible for loading the JDBC driver.
+	 */
 	private static void loadDriver() {
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -34,6 +62,12 @@ public class DatabaseController {
 		}
 	}
 
+	/**
+	 * getConnection() is the method responsible for initializing the Connection object.
+	 *
+	 * @param connection the connection to initialize
+	 * @return
+	 */
 	private static Connection getConnection(Connection connection) {
 
 		if (connection == null) {
@@ -52,23 +86,24 @@ public class DatabaseController {
 	}
 
 	/**
+	 * executeSelectQuery() is the method responsible for execute "SELECT" queries to the database.
 	 *
-	 * @param query
-	 * @return
+	 * @param query the query to execute.
+	 * @return A list of Maps, each Map corresponding to a statement retrieved in the database.
 	 */
 	List<Map<String,Object>> executeSelectQuery(String query) {
 
-		System.out.println("Executing SELECT query");
+		// preparing the list for the retrieved statements in the database
 		List<Map<String, Object>> statementsList = new ArrayList<>();
-
-		System.out.println(query);
 
 		try {
 			Statement statement = connection.createStatement();
 			statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
+			// the ResultSet represents a table of data retrieved in the database
 			ResultSet rs = statement.executeQuery(query);
 
+			// the ResultSetMetaData represents all the metadata of the ResultSet
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
 
@@ -111,6 +146,7 @@ public class DatabaseController {
 					}
 				}
 
+				// adding the Map to the statementsList
 				statementsList.add(statementMap);
 			}
 		}
@@ -118,9 +154,16 @@ public class DatabaseController {
 			e.printStackTrace();
 		}
 
+		// in the end, we return the populated statementsList
 		return statementsList;
 	}
 
+	/**
+	 * executeInsertQuery() is the method responsible for execute "INSERT" queries to the database.
+	 *
+	 * @param query the query to execute.
+	 * @return the id of the inserted statement.
+	 */
 	Integer executeInsertQuery(String query) {
 
 		Integer insertId = 0;
