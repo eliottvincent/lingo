@@ -11,7 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by eliottvct on 17/05/17.
+ * <b>UserController is the class responsible for the actions performed on a User object.</b>
+ *
+ * @see User
+ *
+ * @author eliottvincent
  */
 public class UserController {
 
@@ -28,12 +32,11 @@ public class UserController {
 	//================================================================================
 
 	/**
-	 *
+	 * The default constructor for a UserController.
 	 */
 	public UserController() {
 
-		databaseController = DatabaseController.getInstance();
-
+		this.databaseController = DatabaseController.getInstance();
 	}
 
 
@@ -42,17 +45,19 @@ public class UserController {
 	//================================================================================
 
 	/**
+	 * the getUser() method is responsible for retrieving a specific User object.
 	 *
-	 * @param userId
-	 * @return
+	 * @param userId the id of the user to retrieve.
+	 * @return the retrieved User object.
 	 */
 	User getUser(Integer userId) {
 
 		// preparing the query
 		String query = 	"SELECT * FROM Users " 	+
-			"WHERE id LIKE '"		+ 	userId	+ "'";
+						"WHERE id LIKE '"		+ 	userId	+ "'";
 
-		List<Map<String, Object>> usersList = databaseController.executeSelectQuery(query);
+		// executing the query
+		List<Map<String, Object>> usersList = this.databaseController.executeSelectQuery(query);
 
 		// the query should have returned only one statement
 		if (usersList.size() == 1) {
@@ -83,10 +88,12 @@ public class UserController {
 	}
 
 	/**
+	 * the getUserByCredentials() method is responsible for retrieving a User according to a pair of credentials.
+	 * this method is used for the login.
 	 *
-	 * @param username
-	 * @param password
-	 * @return
+	 * @param username the username of the user to retrieve.
+	 * @param password the password of the user to retrieve.
+	 * @return teh retrieved User (if any)
 	 */
 	public User getUserByCredentials(String username, String password) {
 
@@ -95,7 +102,8 @@ public class UserController {
 						"WHERE username LIKE '"		+	username	+	"' " +
 						"AND password LIKE '" 		+ 	password 	+ 	"'";
 
-		List<Map<String, Object>> usersList = databaseController.executeSelectQuery(query);
+		// executing the query
+		List<Map<String, Object>> usersList = this.databaseController.executeSelectQuery(query);
 
 		// the query should have returned only one statement
 		if (usersList.size() == 1) {
@@ -119,14 +127,17 @@ public class UserController {
 	}
 
 	/**
+	 * the getUsers() method is responsible for getting all the users.
 	 *
-	 * @return
+	 * @return a list of User objects.
 	 */
 	public List<User> getUsers() {
 
+		// preparing the query
 		String query = "SELECT * FROM Users";
 
-		List<Map<String, Object>> usersList = databaseController.executeSelectQuery(query);
+		// executing the query
+		List<Map<String, Object>> usersList = this.databaseController.executeSelectQuery(query);
 		List<User> users = new ArrayList<User>();
 
 		for (Map<String, Object> userMap : usersList) {
@@ -154,9 +165,19 @@ public class UserController {
 	// CREATE
 	//================================================================================
 
+	/**
+	 * the createNewUser() method is responsible for creating a new User object.
+	 *
+	 * @param username the username of the new user.
+	 * @param password the password of the new user.
+	 * @param birthdate the birthdate of the new user.
+	 * @param gender the gender of the new user.
+	 * @param language the language of the new user.
+	 * @return the id of the saved statement.
+	 */
 	Integer createNewUser(String username, String password, Date birthdate, Gender gender, Language language) {
 
-		// creating the user object
+		// creating the User object
 		User newUser = new User();
 		newUser.setUsername(username);
 		newUser.setPassword(password);
@@ -169,9 +190,12 @@ public class UserController {
 
 
 	/**
+	 * the saveUser() method is responsible for saving a User object in the database.
 	 *
-	 * @param newUser
-	 * @return
+	 * @param newUser the User to save.
+	 * @return the id of the saved statement.
+	 *
+	 * @see DatabaseController
 	 */
 	private Integer saveUser(User newUser) {
 
@@ -184,17 +208,19 @@ public class UserController {
 						"'"			+	newUser.getGender() 	+	 "', " 	+
 						"'"			+	newUser.getLanguage() 	+	 "')";
 
-		return databaseController.executeInsertQuery(query);
+		return this.databaseController.executeInsertQuery(query);
 	}
+
 
 	//================================================================================
 	// OTHER
 	//================================================================================
 
 	/**
+	 * the usernameAlreadyExist() is the method responsible for checking if the specified username is already assigned ot a User object.s
 	 *
-	 * @param username
-	 * @return
+	 * @param username the username to search for.
+	 * @return if the username is already assigned or not.
 	 */
 	public boolean usernameAlreadyExist(String username) {
 
@@ -202,24 +228,10 @@ public class UserController {
 		String query =	"SELECT * FROM Users "		+
 						"WHERE username LIKE '" 	+ username	+	"'";
 
-		List usersList = databaseController.executeSelectQuery(query);
+		// executing the query
+		List usersList = this.databaseController.executeSelectQuery(query);
 
 		// we return true if the list isn't null and isn't empty
 		return usersList != null && !usersList.isEmpty();
-	}
-
-	/**
-	 *
-	 * @param user
-	 * @return
-	 */
-	public Session getLastSession(User user) {
-
-		SessionController sessionController = new SessionController();
-
-		List<Session> sessions = sessionController.getSessions(user.getHistory().getId());
-
-		return sessions.get(sessions.size() - 1);
-
 	}
 }
