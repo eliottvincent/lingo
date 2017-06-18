@@ -75,7 +75,6 @@ public class AdminViewController {
 	/**
 	 * the init() method is responsible for doing the necessary initialization of some components.
 	 * By adding the @PostConstruct annotation to the method, the DataFX flow container will call this method once all injectable values of the controller instance are injected.
-	 *
 	 */
 	@PostConstruct
 	public void init() {
@@ -238,7 +237,7 @@ public class AdminViewController {
 	//================================================================================
 
 	/**
-	 * the selectedUserChanged() method is responsible for performing the necessary changes when the selected User in usersJFXTreeTableView has changed.
+	 * the selectedUserChanged() method is responsible for performing the necessary actions when the selected User in usersJFXTreeTableView has changed.
 	 *
 	 * @param newTreeItemUser the newly selected User
 	 */
@@ -257,7 +256,7 @@ public class AdminViewController {
 	}
 
 	/**
-	 * the selectedSessionChanged() method is responsible for performing the necessary changes when the selected Session in sessionsListView has changed.
+	 * the selectedSessionChanged() method is responsible for performing the necessary actions when the selected Session in sessionsListView has changed.
 	 *
 	 * @param newSession the newly selected Session
 	 */

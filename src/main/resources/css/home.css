@@ -22,7 +22,6 @@
 
 .tableLabel {
 	-fx-font-size: 25px;
-
 	-fx-padding: 0 0 20px 0;
 	-fx-border-insets: 0 0 20px 0;
 	-fx-background-insets: 0 0 20px 0;
@@ -30,10 +29,6 @@
 
 #statusLabel {
 	-fx-text-fill: red;
-}
-
-#logo {
-
 }
 
 .buttons {
@@ -71,6 +66,7 @@
 
 #cardsHBox {
 	-fx-alignment: center;
+	-fx-spacing: 30;
 }
 
 #topBarHBox {
@@ -192,6 +188,12 @@
  *                                                                             *
  ******************************************************************************/
 
+#homeJFXToolbar {
+	-fx-max-width: 1100.0;
+	-fx-min-width: 1100.0;
+	-fx-pref-width: 1100.0;
+}
+
 .jfx-tool-bar {
 	-fx-font-size: 20.0;
 	-fx-pref-width: 100.0%;
@@ -231,6 +233,11 @@
 	-fx-cursor: hand;
 }
 
+.option-jfx-list-view-home-icon {
+	-fx-fill: #292929;
+	-fx-padding: 0.0 10.0 0.0 5.0;
+	-fx-cursor: hand;
+}
 
 /*******************************************************************************
 *                                                                              *
