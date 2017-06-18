@@ -15,7 +15,6 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.util.Date;
 
 
@@ -49,7 +48,7 @@ public class Lingo extends Application {
 	//================================================================================
 
 	/**
-	 * start() is the method responsible for starting the application
+	 * start() is the method responsible for starting the application.
 	 *
 	 * @param stage the primary stage of the Application
 	 */
@@ -96,17 +95,20 @@ public class Lingo extends Application {
 	@Override
 	public void stop() {
 
+		// before quitting the application, we want to save a LOGOUT action for the curent user
 		this.user = (User) flowContext.getRegisteredObject("user");
 
-		this.actionController = new ActionController();
+		if (this.user != null) {
 
-		this.actionController.createNewAction(
-			this.user,
-			ActionType.LOGOUT,
-			new Date(),
-			null,
-			null
-		);
+			this.actionController = new ActionController();
+			this.actionController.createNewAction(
+				this.user,
+				ActionType.LOGOUT,
+				new Date(),
+				null,
+				null
+			);
+		}
 
 		// closing the application
 		Platform.exit();
