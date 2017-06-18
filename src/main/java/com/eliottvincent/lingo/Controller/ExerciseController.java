@@ -8,15 +8,20 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by eliottvct on 17/05/17.
+ * <b>ExerciseController is the class responsible for the actions performed on an Exercise object.</b>
+ * <p>Since the exercises are faked (n oreal content), this class isn't really finished.</p>
+ *
+ * @see Exercise
+ *
+ * @author eliottvincent
  */
-public class ExerciseController {
+class ExerciseController {
 
 	//================================================================================
 	// Properties
 	//================================================================================
 
-	private DatabaseController databaseController = DatabaseController.getInstance();
+	private DatabaseController databaseController;
 
 
 	//================================================================================
@@ -24,11 +29,11 @@ public class ExerciseController {
 	//================================================================================
 
 	/**
-	 *
+	 * The default constructor for an ExerciseController
 	 */
-	public ExerciseController() {
+	ExerciseController() {
 
-
+		databaseController = DatabaseController.getInstance();
 	}
 
 
@@ -37,18 +42,15 @@ public class ExerciseController {
 	//================================================================================
 
 	/**
+	 * getExercises() is the method responsible for getting all exercises for a specific lesson.
+	 * This method isn't used at all, since there is no real exercises in the database.
 	 *
-	 * @param exerciseId
-	 * @return
+	 * @param lessonId the id of the targeted lesson.
+	 * @return a List of Exercise objects.
 	 */
-	Exercise getExercise(Integer exerciseId) {
+	List<Exercise> getExercises(Integer lessonId) {
 
-		return new Exercise();
-	}
-
-
-	List<Exercise> getExercisesReal(Integer lessonId) {
-
+		// preparing the query.
 		String exerciseQuery =	"SELECT * FROM Exercises "	+
 								"WHERE lesson_id LIKE '"	+	lessonId	+	"'";
 
@@ -69,15 +71,16 @@ public class ExerciseController {
 	}
 
 	/**
+	 * getFakeExercises() is the method responsible for getting fake exercises.
 	 *
-	 * @param lessonId
-	 * @return
+	 * @param lessonId the id of the targeted lesson.
+	 * @return a List of Exercise objects.
 	 */
-	public List<Exercise> getExercises(Integer lessonId) {
+	List<Exercise> getFakeExercises(Integer lessonId) {
 
 		List<Exercise> exercises = new ArrayList<>();
 
-		for (int i = 0; i < 5; i ++) {
+		for (int i = 1; i < 6; i ++) {
 
 			Exercise tmpExercise = new Exercise();
 			tmpExercise.setId(i);
