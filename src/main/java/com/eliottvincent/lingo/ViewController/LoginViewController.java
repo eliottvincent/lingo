@@ -7,6 +7,10 @@ import com.eliottvincent.lingo.Model.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
+import de.jensd.fx.glyphs.GlyphsBuilder;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.datafx.controller.ViewController;
 import io.datafx.controller.flow.FlowException;
 import io.datafx.controller.flow.action.ActionMethod;
@@ -56,6 +60,9 @@ public class LoginViewController {
 	private JFXPasswordField passwordField;
 
 	@FXML
+	private VBox buttonsVBox;
+
+	@FXML
 	@ActionTrigger("loginAction")
 	private JFXButton loginButton;
 
@@ -87,6 +94,11 @@ public class LoginViewController {
 
 	private String statusText;
 
+	private static final String FX_LABEL_FLOAT_TRUE = "-fx-label-float:true;";
+
+	private static final String EM1 = "1em";
+
+	private static final String ERROR = "error";
 
 	//================================================================================
 	// Constructor and initialization
@@ -122,14 +134,40 @@ public class LoginViewController {
             }
         });
 
-		// if the controller has been instantiated with a "status" in parameters
-		// then we set the text of the statusLabel
-		if (this.statusText != null) {
+		RequiredFieldValidator validator = new RequiredFieldValidator();
 
-			this.statusLabel.setText(this.statusText);
-		}
+		usernameTextField.setStyle(FX_LABEL_FLOAT_TRUE);
+		validator.setMessage("Input required");
+		validator.setIcon(GlyphsBuilder.create(FontAwesomeIconView.class)
+			.glyph(FontAwesomeIcon.WARNING)
+			.size(EM1)
+			.styleClass(ERROR)
+			.build());
+		usernameTextField.getValidators().add(validator);
+		usernameTextField.focusedProperty().addListener((o, oldVal, newVal) -> {
+			if (!newVal) {
+				usernameTextField.validate();
+			}
+		});
 
-		System.out.println("From LoginViewController:" + flowContext.getRegisteredObject("myvalue"));
+		validator = new RequiredFieldValidator();
+		passwordField.setStyle(FX_LABEL_FLOAT_TRUE);
+		validator.setMessage("Password can't be empty");
+		validator.setIcon(GlyphsBuilder.create(FontAwesomeIconView.class)
+			.glyph(FontAwesomeIcon.WARNING)
+			.size(EM1)
+			.styleClass(ERROR)
+			.build());
+		passwordField.getValidators().add(validator);
+		passwordField.focusedProperty().addListener((o, oldVal, newVal) -> {
+			if (!newVal) {
+				passwordField.validate();
+			}
+		});
+
+		buttonsVBox.setSpacing(30);
+		buttonsVBox.setStyle("-fx-padding: 50px 0 0 0; -fx-border-insets: 50px 0 0 0; -fx-background-insets: 50px 0 0 0;");
+
 
 	}
 

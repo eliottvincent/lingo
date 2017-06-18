@@ -50,6 +50,9 @@ public class LessonViewController {
 	//================================================================================
 
 	@FXML
+	private StackPane root;
+
+	@FXML
 	private BorderPane container;
 
 	@FXML
@@ -133,9 +136,6 @@ public class LessonViewController {
 
 		this.user = (User) flowContext.getRegisteredObject("user");
 
-		// the .clear() call is mandatory!
-		// without it, nothing works (???)
-
 		// removing the dialog, because we want to display it only at the end
 		container.getChildren().remove(dialog);
 		container.getChildren().clear();
@@ -172,6 +172,8 @@ public class LessonViewController {
 
 			// building the content
 			Label title = new Label("Exercise n°" + exercise.getId());
+			title.setStyle("-fx-font-size: 20px; -fx-padding: 0 0 20px 0; -fx-border-insets: 0 0 20px 0; -fx-background-insets: 0 0 20px 0;");
+
 			Label exerciseContent = new Label("Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n" +
 				"Vivamus convallis turpis in tellus sagittis maximus. Aliquam eu lorem ipsum. \n" +
 				"ras sollicitudin lacinia nisi, eu sollicitudin ex consequat sed. \n" +
@@ -184,18 +186,25 @@ public class LessonViewController {
 
 			// adding a textfield for the answer
 			JFXTextField answerField = new JFXTextField();
+			answerField.setPrefWidth(300);
+			answerField.setMinWidth(300);
+			answerField.setMaxWidth(300);
 
 			// adding a button to finish the exercise
-			JFXButton finishButton = new JFXButton("Finish exercise");
+			JFXButton finishButton = new JFXButton("Submit my answer");
 			finishButton.getStyleClass().add("button-raised");
-			StackPane.setMargin(finishButton, new Insets(50, 0, 0, 0));
-
-			EventHandler<ActionEvent> eventHandler = event ->
-				finishExerciseAction((Node) event.getSource(), exercise);
+			EventHandler<ActionEvent> eventHandler = event -> finishExerciseAction((Node) event.getSource(), exercise);
 			finishButton.setOnAction(eventHandler);
 
+			HBox userHBox = new HBox();
+			userHBox.setAlignment(Pos.CENTER);
+			userHBox.setSpacing(30);
+			userHBox.getChildren().setAll(answerField, finishButton);
+			userHBox.setStyle("-fx-padding: 50px 0 0 0; -fx-border-insets: 50px 0 0 0; -fx-background-insets: 50px 0 0 0;");
+			StackPane.setMargin(userHBox, new Insets(50, 0, 0, 0));
+
 			// wrapping everything together
-			content.getChildren().addAll(title, exerciseContent, answerField, finishButton );
+			content.getChildren().setAll(title, exerciseContent, userHBox);
 			container.getChildren().add(content);
 
 			tmpTab.setContent(container);
@@ -235,26 +244,27 @@ public class LessonViewController {
 		// action for the end of the exercise
 		this.actionController.createNewAction(this.user, ActionType.EXERCICE_END, new Date(), ConverterHelper.integerToString(exercise.getId()), null);
 
-		// since the exercises are fake, we just do a randomize result
-		if (this.getRandomBoolean()) {
-
-			this.points ++;
-		}
-
-		// updating the label
-		String oldLabel = pointsLabel.getText();
-		String updatedLabel = oldLabel.substring(0, oldLabel.length() - 5);
-		updatedLabel += this.points + " / " + this.lesson.getExercises().size();
-		pointsLabel.setText(updatedLabel);
-
 		SelectionModel selectionModel = exercisesTabPane.getSelectionModel();
 		Integer index = selectionModel.getSelectedIndex();
+
 		if (index == this.lesson.getExercises().size() - 1) {
 
 			dialog.setTransitionType(JFXDialog.DialogTransition.TOP);
-			dialog.show((StackPane) source.getParent().getParent());
+			dialog.show(root);
 		}
 		else {
+
+			// since the exercises are fake, we just do a randomize result
+			if (this.getRandomBoolean()) {
+
+				this.points ++;
+			}
+
+			// updating the label
+			String oldLabel = pointsLabel.getText();
+			String updatedLabel = oldLabel.substring(0, oldLabel.length() - 5);
+			updatedLabel += this.points + " / " + this.lesson.getExercises().size();
+			pointsLabel.setText(updatedLabel);
 
 			// action for the start of the new exercise
 			this.actionController.createNewAction(this.user, ActionType.EXERCICE_START, new Date(), ConverterHelper.integerToString(exercise.getId()) + 1, null);

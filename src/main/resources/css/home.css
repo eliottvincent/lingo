@@ -23,9 +23,9 @@
 .tableLabel {
 	-fx-font-size: 25px;
 
-	-fx-padding: 0 0 20px;
-	-fx-border-insets: 0 0 20px;
-	-fx-background-insets: 0 0 20px;
+	-fx-padding: 0 0 20px 0;
+	-fx-border-insets: 0 0 20px 0;
+	-fx-background-insets: 0 0 20px 0;
 }
 
 #statusLabel {
@@ -238,4 +238,37 @@
 }*/
 .jfx-rippler:hover {
 	-fx-cursor: hand;
+}
+
+
+/*******************************************************************************
+*                                                                              *
+* Error Facade                                                                 *
+*                                                                              *
+*******************************************************************************/
+
+.error-label {
+	-fx-text-fill: #D34336;
+	-fx-font-size: 0.75em;
+	-fx-font-weight: bold;
+}
+
+.error-icon {
+	-fx-fill: #D34336;
+	-fx-font-size: 1.0em;
+}
+
+.jfx-text-field:error, .jfx-password-field:error, .jfx-text-area:error, .jfx-combo-box:error {
+	-jfx-focus-color: #D34336;
+	-jfx-unfocus-color: #D34336;
+}
+
+.jfx-text-field .error-label, .jfx-password-field .error-label, .jfx-text-area .error-label {
+	-fx-text-fill: #D34336;
+	-fx-font-size: 0.75em;
+}
+
+.jfx-text-field .error-icon, .jfx-password-field .error-icon, .jfx-text-area .error-icon {
+	-fx-fill: #D34336;
+	-fx-font-size: 1.0em;
 }
