@@ -20,6 +20,14 @@
 	-fx-font-size: 31px;
 }
 
+.tableLabel {
+	-fx-font-size: 25px;
+
+	-fx-padding: 0 0 20px;
+	-fx-border-insets: 0 0 20px;
+	-fx-background-insets: 0 0 20px;
+}
+
 #statusLabel {
 	-fx-text-fill: red;
 }

@@ -1,5 +1,8 @@
 package com.eliottvincent.lingo;
 
+import com.eliottvincent.lingo.Controller.ActionController;
+import com.eliottvincent.lingo.Data.ActionType;
+import com.eliottvincent.lingo.Model.User;
 import com.eliottvincent.lingo.ViewController.LoginViewController;
 
 import com.jfoenix.controls.JFXDecorator;
@@ -8,9 +11,12 @@ import io.datafx.controller.flow.container.DefaultFlowContainer;
 import io.datafx.controller.flow.context.FXMLViewFlowContext;
 import io.datafx.controller.flow.context.ViewFlowContext;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.util.Date;
 
 
 /**
@@ -30,11 +36,20 @@ public class Lingo extends Application {
 
 
 	//================================================================================
+	// Other properties
+	//================================================================================
+
+	public User user;
+
+	private ActionController actionController;
+
+
+	//================================================================================
 	// Main and initialization
 	//================================================================================
 
 	/**
-	 * start() is responsible of starting the application
+	 * start() is the method responsible for starting the application
 	 *
 	 * @param stage the primary stage of the Application
 	 */
@@ -72,6 +87,29 @@ public class Lingo extends Application {
 
 		// showing the application
 		stage.show();
+	}
+
+	/**
+	 * stop() is the method responsible for stopping the application.
+	 *
+	 */
+	@Override
+	public void stop() {
+
+		this.user = (User) flowContext.getRegisteredObject("user");
+
+		this.actionController = new ActionController();
+
+		this.actionController.createNewAction(
+			this.user,
+			ActionType.LOGOUT,
+			new Date(),
+			null,
+			null
+		);
+
+		// closing the application
+		Platform.exit();
 	}
 
 	/**

@@ -78,6 +78,7 @@ public class LoginViewController {
 	@FXMLViewFlowContext
 	private ViewFlowContext flowContext;
 
+
 	//================================================================================
 	// Other properties
 	//================================================================================

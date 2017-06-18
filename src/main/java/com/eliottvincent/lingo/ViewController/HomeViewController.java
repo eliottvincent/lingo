@@ -142,8 +142,6 @@ public class HomeViewController {
 
 		VBox.setMargin(logo, new Insets(0,0,100,0));
 
-		System.out.println("From HomeViewController:" + flowContext.getRegisteredObject("myvalue"));
-
 	}
 
 	/**
@@ -160,7 +158,7 @@ public class HomeViewController {
 		// sometimes we just can't use a Flow :(
 		// so we use a classic FXMLLoader
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainpopup.fxml"));
-		loader.setController(new InputController());
+		loader.setController(new InputController(this.user));
 		toolbarPopup = new JFXPopup(loader.load());
 
 		optionsBurger.setOnMouseClicked(e -> toolbarPopup.show(optionsBurger,
@@ -377,6 +375,14 @@ public class HomeViewController {
 		return children;
 	}
 
+	/**
+	 *
+	 * @param lesson
+	 * @param language
+	 * @param index
+	 * @param isLast
+	 * @return
+	 */
 	private StackPane generateLessonCard(Lesson lesson, Language language, Integer index, Boolean isLast) {
 
 		final Integer widthValue = 100;
@@ -523,13 +529,34 @@ public class HomeViewController {
 
 	private static final class InputController {
 
+		@FXMLViewFlowContext
+		private ViewFlowContext flowContext;
+
 		@FXML
 		private JFXListView<?> toolbarPopupList;
+
+		private User user;
+
+		InputController(User user) {
+
+			this.user = user;
+		}
 
 		// close application
 		@FXML
 		private void submit() {
+
 			if (toolbarPopupList.getSelectionModel().getSelectedIndex() == 1) {
+
+				ActionController actionController = new ActionController();
+
+				actionController.createNewAction(
+					this.user,
+					ActionType.LOGOUT,
+					new Date(),
+					null,
+					null
+				);
 				Platform.exit();
 			}
 

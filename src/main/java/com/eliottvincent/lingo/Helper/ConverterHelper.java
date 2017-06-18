@@ -253,8 +253,8 @@ public class ConverterHelper {
 
 	/**
 	 *
-	 * @param genderSimpleObjectProperty the SimpleObjectProperty<Gender> to be converted
-	 * @return the SimpleObjectProperty<Gender> converted to a SimpleStringProperty
+	 * @param genderSimpleObjectProperty the SimpleObjectProperty to be converted
+	 * @return the SimpleObjectProperty converted to a SimpleStringProperty
 	 */
 	public static SimpleStringProperty genderSimpleObjectPropertyToSimpleStringProperty(SimpleObjectProperty<Gender> genderSimpleObjectProperty) {
 
@@ -270,8 +270,8 @@ public class ConverterHelper {
 
 	/**
 	 *
-	 * @param dateSimpleObjectProperty the SimpleObjectProperty<Date> to be converted
-	 * @return the SimpleObjectProperty<Date> converted to SimpleStringProperty
+	 * @param dateSimpleObjectProperty the SimpleObjectProperty to be converted
+	 * @return the SimpleObjectProperty converted to SimpleStringProperty
 	 */
 	public static SimpleStringProperty dateSimpleObjectPropertyToSimpleStringProperty(SimpleObjectProperty<Date> dateSimpleObjectProperty) {
 
