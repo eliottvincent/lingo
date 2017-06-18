@@ -34,7 +34,7 @@ public class LessonController {
 	//================================================================================
 
 	/**
-	 * The default constructor for a LessonController
+	 * The default constructor for a LessonController.
 	 */
 	public LessonController() {
 

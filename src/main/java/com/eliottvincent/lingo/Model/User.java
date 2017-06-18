@@ -124,8 +124,8 @@ public class User extends RecursiveTreeObject<User> {
 	 * @param password the password of the new user.
 	 * @param birthdate the birthdate of the new user.
 	 * @param gender the gender of the new user.
-	 * @param language the language of the new user;
-	 * @param history
+	 * @param language the language of the new user.
+	 * @param history the history of the new user.
 	 */
 	public User(String username, String password, Date birthdate, Gender gender, Language language, History history) {
 

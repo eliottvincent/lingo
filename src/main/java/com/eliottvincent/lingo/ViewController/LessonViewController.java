@@ -145,7 +145,7 @@ public class LessonViewController {
 		titleLabel.setText(ConverterHelper.languageToString(language) + ": " + ConverterHelper.lessonTypeToString(lesson.getType()) + " lesson");
 		pointsLabel.setText("Score: 0 / " + ConverterHelper.integerToString(this.lesson.getExercises().size()));
 		topLabelsHBox.getChildren().setAll(titleLabel, pointsLabel);
-		topLabelsHBox.setSpacing(800);
+		topLabelsHBox.setSpacing(750);
 		container.setTop(topLabelsHBox);
 
 		initializeDialogButtons();
@@ -257,14 +257,12 @@ public class LessonViewController {
 			// since the exercises are fake, we just do a randomize result
 			if (this.getRandomBoolean()) {
 
-				this.points ++;
+				this.points += exercise.getPoints();
 			}
 
-			// updating the label
-			String oldLabel = pointsLabel.getText();
-			String updatedLabel = oldLabel.substring(0, oldLabel.length() - 5);
-			updatedLabel += this.points + " / " + this.lesson.getExercises().size();
-			pointsLabel.setText(updatedLabel);
+			// clearing the label
+			pointsLabel.setText("");
+			pointsLabel.setText("Score: " +  this.points + " / " + this.lesson.getExercises().size());
 
 			// action for the start of the new exercise
 			this.actionController.createNewAction(this.user, ActionType.EXERCICE_START, new Date(), ConverterHelper.integerToString(exercise.getId()) + 1, null);
