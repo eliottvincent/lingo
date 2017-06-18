@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by eliottvct on 17/05/17.
+ * <b>HistoryController is the class responsible for the actions performed on an History object.</b>
+ *
+ * @see History
+ *
+ * @author eliottvincent
  */
 class HistoryController {
 
@@ -17,7 +21,7 @@ class HistoryController {
 	// Properties
 	//================================================================================
 
-	private DatabaseController databaseController = DatabaseController.getInstance();
+	private DatabaseController databaseController;
 
 
 	//================================================================================
@@ -26,6 +30,7 @@ class HistoryController {
 
 	HistoryController() {
 
+		databaseController = DatabaseController.getInstance();
 	}
 
 
@@ -34,17 +39,23 @@ class HistoryController {
 	//================================================================================
 
 	/**
+	 * the getHistory() method is responsible for getting the History object of a specific user.
 	 *
-	 * @param userId
-	 * @return
+	 * @param userId the id of the user we want to get history of.
+	 * @return the retrieved History object.
+	 *
+	 * @see DatabaseController
 	 */
 	History getHistory(Integer userId) {
 
+		// preparing the query
 		String historiesQuery = "SELECT * FROM Histories " 	+
 								"WHERE user_id LIKE '" 		+ 	userId	+ 	"'";
 
+		// executing the query
 		List<Map<String, Object>> historiesList = databaseController.executeSelectQuery(historiesQuery);
 
+		// the statement list returned by the query's execution should contain only one statement
 		if (historiesList.size() == 1) {
 
 			Map<String, Object> historyMap = historiesList.get(0);
@@ -73,9 +84,10 @@ class HistoryController {
 	//================================================================================
 
 	/**
+	 * createNewHistory() is the method responsible for created a new History object for a specific user.
 	 *
-	 * @param userId
-	 * @return
+	 * @param userId the id of the user we want to create the History object for.
+	 * @return the id of the saved History.
 	 */
 	Integer createNewHistory(Integer userId) {
 
@@ -87,17 +99,20 @@ class HistoryController {
 	}
 
 	/**
+	 * saveHistory() is the method responsible for saving an History object in the database.
 	 *
-	 * @param newHistory
-	 * @return
+	 * @param newHistory the History to save.
+	 * @return the id of the saved History.
+	 *
+	 * @see DatabaseController
 	 */
 	private Integer saveHistory(History newHistory) {
 
 		// preparing the query
-		String query = 	"INSERT INTO Histories (user_id) " +
-			"VALUES ("	+
-			"'"			+	newHistory.getUserId()	+	"'" 	+
-			")";
+		String query = 	"INSERT INTO Histories (user_id) " 	+
+						"VALUES ("							+
+						"'"									+	newHistory.getUserId()	+	"'" 	+
+						")";
 
 		return databaseController.executeInsertQuery(query);
 	}
