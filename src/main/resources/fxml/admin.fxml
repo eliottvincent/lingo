@@ -13,8 +13,13 @@
 		<VBox>
 			<children>
 				<Label styleClass="tableLabel" text="Users"/>
-				<JFXTreeTableView fx:id="treeView" />
-				<JFXTextField fx:id="filterJFXTextField" />
+				<JFXTreeTableView fx:id="usersJFXTreeTableView" />
+				<HBox fx:id="bottomTableHBox">
+					<children>
+						<Label styleClass="tableLabel" text="Search: " />
+						<JFXTextField fx:id="searchJFXTextField" />
+					</children>
+				</HBox>
 			</children>
 		</VBox>
 		<HBox>
