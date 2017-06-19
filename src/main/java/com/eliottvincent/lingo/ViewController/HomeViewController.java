@@ -56,6 +56,9 @@ public class HomeViewController {
 	//================================================================================
 
 	@FXML
+	private StackPane root;
+
+	@FXML
 	public BorderPane container;
 
 	@FXML
@@ -80,7 +83,13 @@ public class HomeViewController {
 	private JFXRippler optionsRippler;
 
 	@FXML
+	private JFXDialog dialog;
+
+	@FXML
 	private Label userLabel;
+
+	@FXML
+	private JFXButton okButton;
 
 
 	//================================================================================
@@ -145,6 +154,12 @@ public class HomeViewController {
 			e.printStackTrace();
 		}
 
+		// removing the dialog, because we want to display it only at the end
+		container.getChildren().remove(dialog);
+
+		// adding EventHandler to the dialog button
+		EventHandler<ActionEvent> eventHandler = event -> onOk((Node) event.getSource());
+		okButton.setOnAction(eventHandler);
 	}
 
 	/**
@@ -161,7 +176,7 @@ public class HomeViewController {
 		homeButtonContainer.setOnMouseClicked(e -> {
 
 			// creating a new Action with "LOGOUT" type
-			actionController.createNewAction(
+			this.actionController.createNewAction(
 				this.user,
 				ActionType.LOGOUT,
 				new Date(),
@@ -181,7 +196,7 @@ public class HomeViewController {
 		// there are cases in which we can't use a Flow, like this one
 		// so we are forced to use a classic FXMLLoader
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainpopup.fxml"));
-		loader.setController(new PopUpController(this.user));
+		loader.setController(new PopUpController(this.user, dialog, root));
 		toolbarPopup = new JFXPopup(loader.load());
 
 		// adding a listener to handle clicks on the different
@@ -264,6 +279,15 @@ public class HomeViewController {
 
 		// opening the Lesson View, thanks to the FlowActionHandler
 		actionHandler.navigate(LessonViewController.class);
+	}
+
+	/**
+	 * the onOk() method is responsible for performing the necessary action whe the user clicks on the "Ok" button of the dialog.
+	 * @param source the source of the event.
+	 */
+	private void onOk(Node source) {
+
+		dialog.close();
 	}
 
 
@@ -554,6 +578,10 @@ public class HomeViewController {
 
 		private User user;
 
+		private JFXDialog dialog;
+
+		private StackPane root;
+
 		private ActionController actionController;
 
 
@@ -566,9 +594,13 @@ public class HomeViewController {
 		 *
 		 * @param user the user concerned.
 		 */
-		PopUpController(User user) {
+		PopUpController(User user, JFXDialog dialog, StackPane root) {
 
 			this.user = user;
+
+			this.dialog = dialog;
+
+			this.root = root;
 
 			this.actionController = new ActionController();
 		}
@@ -596,7 +628,9 @@ public class HomeViewController {
 			}
 
 			else {
-				System.out.println("clicked on about");
+				// we display the dialog
+				this.dialog.setTransitionType(JFXDialog.DialogTransition.TOP);
+				this.dialog.show(this.root);
 			}
 		}
 	}

@@ -8,38 +8,58 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<BorderPane fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
 
-	<top>
-		<JFXToolbar fx:id="homeJFXToolbar">
-			<leftItems>
-				<JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;">
-					<StackPane fx:id="homeButtonContainer">
-						<FontAwesomeIconView glyphName="HOME" size="2.5em" styleClass="option-jfx-list-view-home-icon"/>
-					</StackPane>
-				</JFXRippler>
-				<Label fx:id="userLabel"/>
-			</leftItems>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.controls.JFXButton?>
+<StackPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" >
 
-			<rightItems>
-				<JFXRippler fx:id="optionsRippler" maskType="CIRCLE" style="-fx-ripple-color:WHITE;">
-					<StackPane fx:id="optionsBurger">
-						<JFXHamburger styleClass="jfx-options-burger"/>
-					</StackPane>
-				</JFXRippler>
-			</rightItems>
-		</JFXToolbar>
-	</top>
+	<BorderPane fx:id="container">
+		<top>
+			<JFXToolbar fx:id="homeJFXToolbar">
+				<leftItems>
+					<JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;">
+						<StackPane fx:id="homeButtonContainer">
+							<FontAwesomeIconView glyphName="HOME" size="2.5em" styleClass="option-jfx-list-view-home-icon"/>
+						</StackPane>
+					</JFXRippler>
+					<Label fx:id="userLabel"/>
+				</leftItems>
 
-	<center>
-		<VBox fx:id="centerVBox">
-			<children>
-				<ImageView fx:id="logo">
-					<Image url="/images/logo.png"/>
-				</ImageView>
-				<HBox fx:id="cardsHBox" />
-			</children>
-		</VBox>
-	</center>
+				<rightItems>
+					<JFXRippler fx:id="optionsRippler" maskType="CIRCLE" style="-fx-ripple-color:WHITE;">
+						<StackPane fx:id="optionsBurger">
+							<JFXHamburger styleClass="jfx-options-burger"/>
+						</StackPane>
+					</JFXRippler>
+				</rightItems>
+			</JFXToolbar>
+		</top>
 
-</BorderPane>
+		<center>
+			<VBox fx:id="centerVBox">
+				<children>
+					<ImageView fx:id="logo">
+						<Image url="/images/logo.png"/>
+					</ImageView>
+					<HBox fx:id="cardsHBox" />
+				</children>
+			</VBox>
+		</center>
+
+	</BorderPane>
+	<JFXDialog fx:id="dialog" maxHeight="100.0" maxWidth="600.0" minHeight="100.0" minWidth="600.0" prefHeight="100.0" prefWidth="600.0">
+		<JFXDialogLayout>
+			<heading>
+				<Label>Help</Label>
+			</heading>
+			<body>
+				<Label text="Choose a language card to see the exercises for this language."/>
+			</body>
+			<actions>
+				<JFXButton fx:id="okButton" styleClass="dialog-accept">OK
+				</JFXButton>
+			</actions>
+		</JFXDialogLayout>
+	</JFXDialog>
+</StackPane>

@@ -11,6 +11,10 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
+import de.jensd.fx.glyphs.GlyphsBuilder;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.datafx.controller.ViewController;
 import io.datafx.controller.flow.FlowException;
 import io.datafx.controller.flow.context.ActionHandler;
@@ -18,6 +22,7 @@ import io.datafx.controller.flow.context.FXMLViewFlowContext;
 import io.datafx.controller.flow.context.FlowActionHandler;
 import io.datafx.controller.flow.context.ViewFlowContext;
 import io.datafx.controller.util.VetoException;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -34,6 +39,7 @@ import javafx.scene.layout.VBox;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -187,14 +193,28 @@ public class LessonViewController {
 
 			// adding a textfield for the answer
 			JFXTextField answerField = new JFXTextField();
-			answerField.setPrefWidth(300);
-			answerField.setMinWidth(300);
-			answerField.setMaxWidth(300);
+			answerField.setId("answerField");
+
+			// adding a validator to the answer field
+			RequiredFieldValidator validator = new RequiredFieldValidator();
+			answerField.setStyle("-fx-label-float:true;");
+			validator.setMessage("Input required");
+			validator.setIcon(GlyphsBuilder.create(FontAwesomeIconView.class)
+				.glyph(FontAwesomeIcon.WARNING)
+				.size("1em")
+				.styleClass("error")
+				.build());
+			answerField.getValidators().add(validator);
+			answerField.focusedProperty().addListener((o, oldVal, newVal) -> {
+				if (!newVal) {
+					answerField.validate();
+				}
+			});
 
 			// adding a button to finish the exercise
 			JFXButton finishButton = new JFXButton("Submit my answer");
 			finishButton.getStyleClass().add("button-raised");
-			EventHandler<ActionEvent> eventHandler = event -> onFinishExerciseAction((Node) event.getSource(), exercise);
+			EventHandler<ActionEvent> eventHandler = event -> onFinishExerciseAction((Node) event.getSource(), exercise, answerField);
 			finishButton.setOnAction(eventHandler);
 
 			HBox userHBox = new HBox();
@@ -222,43 +242,51 @@ public class LessonViewController {
 
 	/**
 	 * the onFinishExerciseAction() method is responsible for performing the necessary actions when the user clicks on the "Finish" button for an exercise.
-	 *
-	 * @param source the source of the event.
+	 *  @param source the source of the event.
 	 * @param exercise the Exercise concerned by the clicked button.
+	 * @param answerField the TextField for the answer.
 	 */
-	private void onFinishExerciseAction(Node source, Exercise exercise) {
+	private void onFinishExerciseAction(Node source, Exercise exercise, JFXTextField answerField) {
 
-		// as the user finished an exercise
-		// we create an "EXERCICE_END" Action
-		this.actionController.createNewAction(this.user, ActionType.EXERCICE_END, new Date(), ConverterHelper.integerToString(exercise.getId()), null);
+		if (!Objects.equals(answerField.getText(), "") && !Objects.equals(answerField.getText(), null)) {
 
-		SelectionModel selectionModel = exercisesTabPane.getSelectionModel();
-		Integer index = selectionModel.getSelectedIndex();
+			// as the user finished an exercise
+			// we create an "EXERCICE_END" Action
+			this.actionController.createNewAction(this.user, ActionType.EXERCICE_END, new Date(), ConverterHelper.integerToString(exercise.getId()), null);
 
-		// if we're at the end of the tabs
-		if (index == this.lesson.getExercises().size() - 1) {
+			SelectionModel selectionModel = exercisesTabPane.getSelectionModel();
+			Integer index = selectionModel.getSelectedIndex();
 
-			// we display the dialog
-			dialog.setTransitionType(JFXDialog.DialogTransition.TOP);
-			dialog.show(root);
+			// if we're at the end of the tabs
+			if (index == this.lesson.getExercises().size() - 1) {
+
+				// we display the dialog
+				dialog.setTransitionType(JFXDialog.DialogTransition.TOP);
+				dialog.show(root);
+			}
+
+			else {
+
+				// since the exercises are fake, we just create a randomized result
+				if (this.getRandomBoolean()) {
+
+					this.points += exercise.getPoints();
+				}
+
+				// clearing the label
+				pointsLabel.setText("");
+				pointsLabel.setText("Score: " +  this.points + " / " + this.lesson.getExercises().size());
+
+				// action for the start of the new exercise
+				this.actionController.createNewAction(this.user, ActionType.EXERCICE_START, new Date(), ConverterHelper.integerToString(exercise.getId()) + 1, null);
+
+				selectionModel.clearAndSelect(index + 1);
+			}
 		}
 
 		else {
 
-			// since the exercises are fake, we just create a randomized result
-			if (this.getRandomBoolean()) {
-
-				this.points += exercise.getPoints();
-			}
-
-			// clearing the label
-			pointsLabel.setText("");
-			pointsLabel.setText("Score: " +  this.points + " / " + this.lesson.getExercises().size());
-
-			// action for the start of the new exercise
-			this.actionController.createNewAction(this.user, ActionType.EXERCICE_START, new Date(), ConverterHelper.integerToString(exercise.getId()) + 1, null);
-
-			selectionModel.clearAndSelect(index + 1);
+			answerField.validate();
 		}
 	}
 

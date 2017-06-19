@@ -86,6 +86,19 @@
 	-fx-background-insets: 50px 0 0 0;
 }
 
+#answerField {
+	-fx-pref-width: 300;
+	-fx-max-width: 300;
+	-fx-min-width: 300;
+}
+
+#topLabelsHBox {
+	-fx-padding: 0 0 20px 0;
+	-fx-border-insets: 0 0 20px 0;
+	-fx-background-insets: 0 0 20px 0;
+}
+
+
 /*******************************************************************************
 *                                                                              *
 * JFX Decorator                                                                *
@@ -291,4 +304,49 @@
 .jfx-text-field .error-icon, .jfx-password-field .error-icon, .jfx-text-area .error-icon {
 	-fx-fill: #D34336;
 	-fx-font-size: 1.0em;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * JFX Dialog Layout                                                           *
+ *                                                                             *
+ ******************************************************************************/
+
+.jfx-dialog-overlay-pane {
+	-fx-background-color: rgba(0.0, 0.0, 0.0, 0.1);
+}
+
+.dialog-trigger {
+	-fx-background-color: WHITE;
+	-jfx-button-type: RAISED;
+	-fx-font-size: 14.0px;
+}
+
+.jfx-dialog-layout {
+	-fx-padding: 24.0px 24.0px 16.0px 24.0px;
+	-fx-text-fill: rgba(0.0, 0.0, 0.0, 0.87);
+}
+
+.jfx-layout-heading {
+	-fx-font-size: 20.0px;
+	-fx-font-weight: BOLD;
+	-fx-alignment: center-left;
+	-fx-padding: 5.0 0.0 5.0 0.0;
+}
+
+.jfx-layout-body .label {
+	-fx-font-size: 14.0px;
+	-fx-pref-width: 400.0px;
+	-fx-wrap-text: true;
+}
+
+.jfx-layout-actions {
+	-fx-padding: 10.0px 0.0 0.0 0.0;
+	-fx-alignment: center-right;
+}
+
+.dialog-accept {
+	-fx-text-fill: #03A9F4;
+	-fx-font-weight: BOLD;
+	-fx-padding: 0.7em 0.8em;
 }

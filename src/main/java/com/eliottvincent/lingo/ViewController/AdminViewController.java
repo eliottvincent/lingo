@@ -1,21 +1,33 @@
 package com.eliottvincent.lingo.ViewController;
 
+import com.eliottvincent.lingo.Controller.ActionController;
 import com.eliottvincent.lingo.Controller.UserController;
 import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Model.Action;
 import com.eliottvincent.lingo.Model.Session;
 import com.eliottvincent.lingo.Model.User;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTreeTableColumn;
-import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import io.datafx.controller.ViewController;
+import io.datafx.controller.flow.FlowException;
+import io.datafx.controller.flow.context.ActionHandler;
+import io.datafx.controller.flow.context.FXMLViewFlowContext;
+import io.datafx.controller.flow.context.FlowActionHandler;
+import io.datafx.controller.flow.context.ViewFlowContext;
+import io.datafx.controller.util.VetoException;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
 
 import javax.annotation.PostConstruct;
@@ -35,7 +47,13 @@ public class AdminViewController {
 	//================================================================================
 
 	@FXML
-	private HBox container;
+	private StackPane root;
+
+	@FXML
+	public BorderPane container;
+
+	@FXML
+	private HBox content;
 
 	@FXML
 	private JFXTreeTableView<User> usersJFXTreeTableView;
@@ -50,7 +68,33 @@ public class AdminViewController {
 	private HBox bottomTableHBox;
 
 	@FXML
+	private JFXToolbar adminJFXToolbar;
+
+	@FXML
+	private StackPane homeButtonContainer;
+
+	@FXML
+	private StackPane optionsBurger;
+
+	@FXML
+	private JFXRippler optionsRippler;
+
+	@FXML
 	private JFXTextField searchJFXTextField;
+
+	@FXML
+	private JFXDialog dialog;
+
+	@FXML
+	private JFXButton okButton;
+
+
+	//================================================================================
+	// DataFX elements
+	//================================================================================
+
+	@ActionHandler
+	private FlowActionHandler actionHandler;
 
 
 	//================================================================================
@@ -59,6 +103,7 @@ public class AdminViewController {
 
 	private UserController userController;
 
+	private JFXPopup toolbarPopup;
 
 	//================================================================================
 	// Constructors and initialization
@@ -79,11 +124,62 @@ public class AdminViewController {
 	@PostConstruct
 	public void init() {
 
+		// initializing the toolbar
+		try {
+			initializeTopBar();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		initUsersTreeTableView();
 
 		initializeSessionsListView();
 
 		initializeActionsListView();
+	}
+
+	/**
+	 * the initializeTopBar() is responsible for initializing the toolbar.
+	 *
+	 * @throws Exception the exception to throw, if any.
+	 */
+	private void initializeTopBar() throws Exception {
+
+		// adding a listener on the home button
+		homeButtonContainer.setOnMouseClicked(e -> {
+
+			// going back to the login view
+			try {
+				actionHandler.navigate(LoginViewController.class);
+			} catch (VetoException | FlowException e1) {
+				e1.printStackTrace();
+			}
+		});
+
+		// loading the popup content
+		// there are cases in which we can't use a Flow, like this one
+		// so we are forced to use a classic FXMLLoader
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainpopup.fxml"));
+		loader.setController(new PopUpControllerBis(dialog ,root));
+		toolbarPopup = new JFXPopup(loader.load());
+
+		// adding a listener to handle clicks on the different
+		optionsBurger.setOnMouseClicked(e -> toolbarPopup.show(optionsBurger,
+			JFXPopup.PopupVPosition.TOP,
+			JFXPopup.PopupHPosition.RIGHT,
+			-12,
+			15)
+		);
+
+		BorderPane.setAlignment(adminJFXToolbar, Pos.CENTER);
+		container.setTop(adminJFXToolbar);
+
+		// removing the dialog, because we want to display it only at the end
+		container.getChildren().remove(dialog);
+
+		// adding EventHandler to the dialog button
+		EventHandler<ActionEvent> eventHandler = event -> onOk((Node) event.getSource());
+		okButton.setOnAction(eventHandler);
 	}
 
 	/**
@@ -145,6 +241,8 @@ public class AdminViewController {
 		usersJFXTreeTableView.getSelectionModel().selectedItemProperty().addListener(
 			(observable, oldValue, newValue) -> selectedUserChanged(newValue)
 		);
+
+		BorderPane.setAlignment(content, Pos.CENTER);
 	}
 
 	/**
@@ -270,6 +368,88 @@ public class AdminViewController {
 			List<Action> actions = newSession.getActions();
 			ObservableList<Action> data = FXCollections.observableArrayList(actions);
 			actionsListView.setItems(data);
+		}
+	}
+
+	/**
+	 * the onOk() method is responsible for performing the necessary action whe the user clicks on the "Ok" button of the dialog.
+	 * @param source the source of the event.
+	 */
+	private void onOk(Node source) {
+
+		dialog.close();
+	}
+
+	/**
+	 * <b>PopUpController is the class responsible for the actions performed on the popup.</b>
+	 *
+	 * @author eliottvincent
+	 */
+	private static final class PopUpControllerBis {
+
+
+		//================================================================================
+		// JavaFX elements
+		//================================================================================
+
+		@FXML
+		private JFXListView<?> toolbarPopupList;
+
+
+		//================================================================================
+		// DataFX elements
+		//================================================================================
+
+		@FXMLViewFlowContext
+		private ViewFlowContext flowContext;
+
+
+		//================================================================================
+		// Other properties
+		//================================================================================
+
+		private User user;
+
+		private JFXDialog dialog;
+
+		private StackPane root;
+
+		private ActionController actionController;
+
+
+		//================================================================================
+		// Constructor and initialization
+		//================================================================================
+
+		/**
+		 * The default constructor for the PopUpController.
+		 *
+		 * @param root the root concerned.
+		 */
+		PopUpControllerBis(JFXDialog dialog, StackPane root) {
+
+			this.root = root;
+
+			this.dialog = dialog;
+		}
+
+		/**
+		 * the submit() method is responsible for performing the necessary actions when the user clicks on an item of the popup.
+		 */
+		@FXML
+		private void submit() {
+
+			if (toolbarPopupList.getSelectionModel().getSelectedIndex() == 1) {
+
+				// and we quit the application
+				Platform.exit();
+			}
+
+			else {
+				// we display the dialog
+				this.dialog.setTransitionType(JFXDialog.DialogTransition.TOP);
+				this.dialog.show(this.root);
+			}
 		}
 	}
 }
