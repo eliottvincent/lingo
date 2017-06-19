@@ -10,7 +10,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-import java.text.Format;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -157,11 +159,20 @@ public class ConverterHelper {
 	 */
 	public static Date stringToDate(String dateString) {
 
-		String str = "01/01/2015";
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDate dateTime = LocalDate.parse(str, formatter);
+		if (dateString != null) {
+			SimpleDateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+			Date d = null;
+			try {
+				d = df.parse(dateString);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 
-		return java.sql.Date.valueOf(dateTime);
+			return d;
+		}
+		else {
+			return new Date();
+		}
 	}
 
 	/**
@@ -171,8 +182,8 @@ public class ConverterHelper {
 	 */
 	public static String dateToString(Date date) {
 
-		Format formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		return formatter.format(date);
+		DateFormat fmt = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		return fmt.format(date);
 	}
 
 	/**
