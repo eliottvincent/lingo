@@ -43,7 +43,7 @@ import java.util.List;
 import static javafx.animation.Interpolator.EASE_BOTH;
 
 /**
- * <b>HomeViewController is the class responsible for the actions performed on a the Home view.</b>
+ * <b>HomeViewController is the class responsible for the Home view.</b>
  *
  * @author eliottvincent
  */
@@ -198,38 +198,38 @@ public class HomeViewController {
 
 
 	//================================================================================
-	// Event Handlers
+	// Event actions
 	//================================================================================
 
 	/**
-	 * the handleLanguageCardClick() method is responsible for performing the necessary actions when the user clicks on a language card.
+	 * the onLanguageCardClick() method is responsible for performing the necessary actions when the user clicks on a language card.
 	 *
 	 * @param source the source of the event.
 	 * @param language the Language concerned by the clicked card.
 	 */
-	private void handleLanguageCardClick(Node source, Language language) {
+	private void onLanguageCardClick(Node source, Language language) {
 
 		initializeLessonsCards(language);
 	}
 
 	/**
-	 * the handleLanguageCardClickBack() method is responsible for performing the necessary actions when the user clicks on the "back" button of a language card.
+	 * the onLanguageCardClickBack() method is responsible for performing the necessary actions when the user clicks on the "back" button of a language card.
 	 *
 	 * @param source the source of the event.
 	 */
-	private void handleLanguageCardClickBack(Node source) {
+	private void onLanguageCardClickBack(Node source) {
 
 		this.initializeLanguageCards();
 	}
 
 	/**
-	 * the handleLessonCardClick() method is responsible for performing the necessary actions when the user clicks on a lesson card.
+	 * the onLessonCardClick() method is responsible for performing the necessary actions when the user clicks on a lesson card.
 	 *
 	 * @param node the source of the event.
 	 * @param lesson the Lesson concerned by the clicked card.
 	 * @param language the Language concerned by the clicked card.
 	 */
-	private void handleLessonCardClick(Node node, Lesson lesson, Language language) {
+	private void onLessonCardClick(Node node, Lesson lesson, Language language) {
 
 		// as the user is going to start a new lesson
 		// we save this action
@@ -301,7 +301,7 @@ public class HomeViewController {
 		final Integer headerHeight = 100;
 		final Integer bodyHeight = 75;
 
-		EventHandler<ActionEvent> eventHandler = event -> handleLanguageCardClick((Node) event.getSource(), language);
+		EventHandler<ActionEvent> eventHandler = event -> onLanguageCardClick((Node) event.getSource(), language);
 
 		return generateCard(
 			ConverterHelper.languageToString(language),
@@ -327,7 +327,7 @@ public class HomeViewController {
 		final Integer headerHeight = 75;
 		final Integer bodyHeight = 100;
 
-		EventHandler<ActionEvent> eventHandler = event -> handleLanguageCardClickBack((Node) event.getSource());
+		EventHandler<ActionEvent> eventHandler = event -> onLanguageCardClickBack((Node) event.getSource());
 
 		String text = "Want to learn " + ConverterHelper.languageToString(language) + "?\nChoose among the following lessons:";
 		return generateCard(
@@ -383,7 +383,7 @@ public class HomeViewController {
 		final Integer bodyHeight = 75;
 
 		EventHandler<ActionEvent> eventHandler = event ->
-			handleLessonCardClick((Node) event.getSource(), lesson, language
+			onLessonCardClick((Node) event.getSource(), lesson, language
 		);
 
 		return generateCard(

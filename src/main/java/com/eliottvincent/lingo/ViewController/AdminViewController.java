@@ -22,7 +22,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
- * <b>AdminViewController is the class responsible for the actions performed on a the Admin view.</b>
+ * <b>AdminViewController is the class responsible for the Admin view.</b>
  *
  * @author eliottvincent
  */
