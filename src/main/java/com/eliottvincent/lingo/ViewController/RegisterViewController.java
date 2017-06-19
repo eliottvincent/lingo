@@ -7,7 +7,6 @@ import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Model.User;
 import com.jfoenix.controls.*;
-import com.jfoenix.validation.RequiredFieldValidator;
 import io.datafx.controller.ViewController;
 import io.datafx.controller.flow.FlowException;
 import io.datafx.controller.flow.action.ActionMethod;
@@ -20,7 +19,6 @@ import io.datafx.controller.flow.context.ViewFlowContext;
 import io.datafx.controller.util.VetoException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
@@ -28,9 +26,10 @@ import javax.annotation.PostConstruct;
 import java.util.Objects;
 
 /**
- * Created by eliottvct on 28/05/17.
+ * <b>RegisterViewController is the class responsible for the Register view.</b>
+ *
+ * @author eliottvincent
  */
-
 @ViewController("/fxml/register.fxml")
 public class RegisterViewController {
 
@@ -67,7 +66,7 @@ public class RegisterViewController {
 	private JFXComboBox<Language> languageComboBox;
 
 	@FXML
-	@ActionTrigger("createAccountAction")
+	@ActionTrigger("onCreateAccount")
 	private JFXButton createAccountJFXButton;
 
 	@FXML
@@ -87,28 +86,48 @@ public class RegisterViewController {
 
 
 	//================================================================================
+	// Other properties
+	//================================================================================
+
+	private UserController userController;
+
+	private AccountController accountController;
+
+
+	//================================================================================
 	// Constructor and initialization
 	//================================================================================
 
+	/**
+	 * The default constructor for the RegisterViewController.
+	 */
 	public RegisterViewController() {
 
+		this.userController = new UserController();
+
+		this.accountController = new AccountController();
 	}
 
+	/**
+	 * the init() method is responsible for doing the necessary initialization of some components.
+	 * By adding the @PostConstruct annotation to the method, the DataFX flow container will call this method once all injectable values of the controller instance are injected.
+	 */
 	@PostConstruct
 	public void init() {
 
-		// populating the gender combo
+		// by default, the initial focus is on the first text area
+		// we use this Runnable (encapsulated in a lambda function) to focus on the container
+		Platform.runLater(() -> container.requestFocus());
+
+		// populating the gender ComboBox
 		genderComboBox.getItems().addAll(
 			Gender.values()
 		);
 
-
-		// populating the language combo
+		// populating the language ComboBox
 		languageComboBox.getItems().addAll(
 			Language.values()
 		);
-
-
 
 		// listening for passwordFieldBis value changes
 		// lambda expression from Java 8
@@ -122,26 +141,8 @@ public class RegisterViewController {
 			}
 		);
 
-		// the default focus is on the first text area
-		// we use this Runnable (encapsulated in a lambda function) to focus on the container
-		Platform.runLater(() -> container.requestFocus());
-
-		// removing week numbers
+		// removing week numbers in the DatePicker
 		birthdatePicker.setShowWeekNumbers(false);
-
-
-
-
-
-		usernameTextField.setLabelFloat(true);
-		usernameTextField.setPromptText("With Validation..");
-		RequiredFieldValidator validator = new RequiredFieldValidator();
-		validator.setMessage("Input Required");
-		//validator.setAwsomeIcon(new Info(AwesomeIcon.WARNING,"2em",";","error"));
-		usernameTextField.getValidators().add(validator);
-		usernameTextField.focusedProperty().addListener((o,oldVal,newVal)->{
-			if(!newVal) usernameTextField.validate();
-		});
 	}
 
 
@@ -150,12 +151,10 @@ public class RegisterViewController {
 	//================================================================================
 
 	/**
-	 *
+	 * the onCreateAccount() method is responsible for creating an User account.
 	 */
-	@ActionMethod("handleCreateAccount")
-	private void createAccountAction() {
-
-		// TODO : move this logic to UserController (or User) ??
+	@ActionMethod("onCreateAccount")
+	private void onCreateAccount() {
 
 		// the user entered some text in the username field
 		if (usernameTextField.getText() != null
@@ -179,15 +178,11 @@ public class RegisterViewController {
 
 							if (languageComboBox.getValue() != null) {
 
-								// all values were filed, we can instantiate the userController
-								UserController userController = new UserController();
 
 								// if the username isn't already used
-								if (!userController.usernameAlreadyExist(usernameTextField.getText())) {
+								if (!this.userController.usernameAlreadyExist(usernameTextField.getText())) {
 
-									AccountController accountController = new AccountController();
-
-									User createdUser = accountController.createNewAccount(usernameTextField.getText(),
+									User createdUser = this.accountController.createNewAccount(usernameTextField.getText(),
 										passwordField.getText(),
 										ConverterHelper.localeDateToDate(birthdatePicker.getValue()),
 										genderComboBox.getValue(),
@@ -254,22 +249,13 @@ public class RegisterViewController {
 	}
 
 
-	//================================================================================
-	// Calls to display methods
-	//================================================================================
-
-	public void displayHome(User user, Node node) {
-
-
-	}
-
-
 	/**
+	 * the navigateToHome() method is responsible of opening the Home View.
 	 *
-	 * @throws VetoException
-	 * @throws FlowException
+	 * @throws VetoException the VetoException to throw, if any.
+	 * @throws FlowException the FlowException to throw, if any.
 	 */
-	void navigateToHome() throws VetoException, FlowException {
+	private void navigateToHome() throws VetoException, FlowException {
 
 		actionHandler.navigate(HomeViewController.class);
 	}
