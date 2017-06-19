@@ -1,7 +1,6 @@
 package com.eliottvincent.lingo.ViewController;
 
 import com.eliottvincent.lingo.Controller.ActionController;
-import com.eliottvincent.lingo.Controller.LessonController;
 import com.eliottvincent.lingo.Data.ActionType;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Helper.ConverterHelper;
@@ -38,9 +37,10 @@ import java.util.Date;
 import java.util.Random;
 
 /**
- * Created by eliottvincent on 12/06/2017.
+ * <b>LessonViewController is the class responsible for the Lesson view.</b>
+ *
+ * @author eliottvincent
  */
-
 @ViewController("/fxml/lesson.fxml")
 public class LessonViewController {
 
@@ -92,8 +92,6 @@ public class LessonViewController {
 	// Other properties
 	//================================================================================
 
-	private LessonController lessonController;
-
 	private ActionController actionController;
 
 	private Language language;
@@ -112,11 +110,9 @@ public class LessonViewController {
 	//================================================================================
 
 	/**
-	 *
+	 * The default constructor for the LessonViewController.
 	 */
 	public LessonViewController() {
-
-		this.lessonController = new LessonController();
 
 		this.actionController = new ActionController();
 
@@ -125,40 +121,47 @@ public class LessonViewController {
 		this.randomResult = new Random();
 	}
 
-
+	/**
+	 * the init() method is responsible for doing the necessary initialization of some components.
+	 * By adding the @PostConstruct annotation to the method, the DataFX flow container will call this method once all injectable values of the controller instance are injected.
+	 */
 	@PostConstruct
 	public void init() {
 
-		// cannot be done in the constructor, because FXML injections are done just before the init() method
+		// getting some objects from the ViewFlowContext
 		this.language = (Language) flowContext.getRegisteredObject("language");
-
 		this.lesson = (Lesson) flowContext.getRegisteredObject("lesson");
-
 		this.user = (User) flowContext.getRegisteredObject("user");
 
 		// removing the dialog, because we want to display it only at the end
 		container.getChildren().remove(dialog);
 		container.getChildren().clear();
 
-		initializeExercisesTabPane();
-
+		// filling the top labels
 		titleLabel.setText(ConverterHelper.languageToString(language) + ": " + ConverterHelper.lessonTypeToString(lesson.getType()) + " lesson");
 		pointsLabel.setText("Score: 0 / " + ConverterHelper.integerToString(this.lesson.getExercises().size()));
 		topLabelsHBox.getChildren().setAll(titleLabel, pointsLabel);
 		topLabelsHBox.setSpacing(750);
 		container.setTop(topLabelsHBox);
 
-		initializeDialogButtons();
+		// adding EventHandlers to the dialog buttons
+		EventHandler<ActionEvent> eventHandler = event -> onLeave((Node) event.getSource());
+		leaveButton.setOnAction(eventHandler);
+		EventHandler<ActionEvent> eventHandler1 = event -> onStay((Node) event.getSource());
+		stayButton.setOnAction(eventHandler1);
+
+		initializeExercisesTabPane();
 	}
 
 	/**
-	 *
+	 * the initializeExercisesTabPane() method is responsible for building the TabPane containing the different exercises of the current lesson.
 	 */
 	private void initializeExercisesTabPane() {
 
 		for(Exercise exercise : this.lesson.getExercises()) {
 
 			// TODO : maybe it's possible to add a FXML file as a TabPane content ?
+
 			// building the tab
 			Tab tmpTab = new Tab();
 			tmpTab.setText("Exercise n°" + exercise.getId());
@@ -169,8 +172,6 @@ public class LessonViewController {
 			// building the content
 			VBox content = new VBox();
 			content.setAlignment(Pos.CENTER);
-
-			// building the content
 			Label title = new Label("Exercise n°" + exercise.getId());
 			title.setStyle("-fx-font-size: 20px; -fx-padding: 0 0 20px 0; -fx-border-insets: 0 0 20px 0; -fx-background-insets: 0 0 20px 0;");
 
@@ -193,7 +194,7 @@ public class LessonViewController {
 			// adding a button to finish the exercise
 			JFXButton finishButton = new JFXButton("Submit my answer");
 			finishButton.getStyleClass().add("button-raised");
-			EventHandler<ActionEvent> eventHandler = event -> finishExerciseAction((Node) event.getSource(), exercise);
+			EventHandler<ActionEvent> eventHandler = event -> onFinishExerciseAction((Node) event.getSource(), exercise);
 			finishButton.setOnAction(eventHandler);
 
 			HBox userHBox = new HBox();
@@ -203,7 +204,7 @@ public class LessonViewController {
 			userHBox.setStyle("-fx-padding: 50px 0 0 0; -fx-border-insets: 50px 0 0 0; -fx-background-insets: 50px 0 0 0;");
 			StackPane.setMargin(userHBox, new Insets(50, 0, 0, 0));
 
-			// wrapping everything together
+			// wrapping everything up
 			content.getChildren().setAll(title, exerciseContent, userHBox);
 			container.getChildren().add(content);
 
@@ -214,47 +215,37 @@ public class LessonViewController {
 		container.setCenter(exercisesTabPane);
 	}
 
-	/**
-	 *
-	 */
-	private void initializeDialogButtons() {
-
-		EventHandler<ActionEvent> eventHandler = event ->
-			leaveAction((Node) event.getSource());
-		leaveButton.setOnAction(eventHandler);
-
-		EventHandler<ActionEvent> eventHandler1 = event ->
-			stayAction((Node) event.getSource());
-		stayButton.setOnAction(eventHandler1);
-	}
-
-
 
 	//================================================================================
-	// Event Actions
+	// Event actions
 	//================================================================================
 
 	/**
+	 * the onFinishExerciseAction() method is responsible for performing the necessary actions when the user clicks on the "Finish" button for an exercise.
 	 *
-	 * @param source
-	 * @param exercise
+	 * @param source the source of the event.
+	 * @param exercise the Exercise concerned by the clicked button.
 	 */
-	private void finishExerciseAction(Node source, Exercise exercise) {
+	private void onFinishExerciseAction(Node source, Exercise exercise) {
 
-		// action for the end of the exercise
+		// as the user finished an exercise
+		// we create an "EXERCICE_END" Action
 		this.actionController.createNewAction(this.user, ActionType.EXERCICE_END, new Date(), ConverterHelper.integerToString(exercise.getId()), null);
 
 		SelectionModel selectionModel = exercisesTabPane.getSelectionModel();
 		Integer index = selectionModel.getSelectedIndex();
 
+		// if we're at the end of the tabs
 		if (index == this.lesson.getExercises().size() - 1) {
 
+			// we display the dialog
 			dialog.setTransitionType(JFXDialog.DialogTransition.TOP);
 			dialog.show(root);
 		}
+
 		else {
 
-			// since the exercises are fake, we just do a randomize result
+			// since the exercises are fake, we just create a randomized result
 			if (this.getRandomBoolean()) {
 
 				this.points += exercise.getPoints();
@@ -271,17 +262,33 @@ public class LessonViewController {
 		}
 	}
 
-	private void stayAction(Node source) {
+	/**
+	 * the onStay() method is responsible for performing the necessary action whe the user clicks on the "Stay" button of the dialog.
+	 * @param source the source of the event.
+	 */
+	private void onStay(Node source) {
 
 		dialog.close();
 	}
 
-	private void leaveAction(Node source) {
+	/**
+	 * the onLeave() method is responsible for performing the necessary action whe the user clicks on the "Leave" button of the dialog.
+	 * @param source the source of the event.
+	 */
+	private void onLeave(Node source) {
 
 		String lessonId = ConverterHelper.languageToString(language) +
 			"_" +
 			ConverterHelper.lessonTypeToString(lesson.getType());
-		this.actionController.createNewAction(this.user, ActionType.LESSON_END, new Date(), null, lessonId);
+
+		// since the user quits the lesson
+		// we create a "LESSON_END" action
+		this.actionController.createNewAction(
+			this.user,
+			ActionType.LESSON_END,
+			new Date(),
+			null,
+			lessonId);
 
 		dialog.close();
 
@@ -293,16 +300,21 @@ public class LessonViewController {
 	}
 
 	/**
+	 * the navigateToHome() method is responsible of opening the Home View.
 	 *
-	 * @throws VetoException
-	 * @throws FlowException
+	 * @throws VetoException the VetoException to throw, if any.
+	 * @throws FlowException the FlowException to throw, if any.
 	 */
-	void navigateToHome() throws VetoException, FlowException {
+	private void navigateToHome() throws VetoException, FlowException {
 
 		actionHandler.navigate(HomeViewController.class);
 	}
 
-	public boolean getRandomBoolean() {
+	/**
+	 * the getRandomBoolean() is responsible of returning a randomized Boolean value.
+	 * @return the randomized boolean value.
+	 */
+	private boolean getRandomBoolean() {
 
 		return randomResult.nextBoolean();
 	}
