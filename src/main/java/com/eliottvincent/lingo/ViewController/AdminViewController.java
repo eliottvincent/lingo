@@ -160,7 +160,7 @@ public class AdminViewController {
 		// there are cases in which we can't use a Flow, like this one
 		// so we are forced to use a classic FXMLLoader
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainpopup.fxml"));
-		loader.setController(new PopUpControllerBis(dialog ,root));
+		loader.setController(new AdminPopUpController(dialog ,root));
 		toolbarPopup = new JFXPopup(loader.load());
 
 		// adding a listener to handle clicks on the different
@@ -381,11 +381,11 @@ public class AdminViewController {
 	}
 
 	/**
-	 * <b>PopUpController is the class responsible for the actions performed on the popup.</b>
+	 * <b>HomePopUpController is the class responsible for the actions performed on the popup.</b>
 	 *
 	 * @author eliottvincent
 	 */
-	private static final class PopUpControllerBis {
+	private static final class AdminPopUpController {
 
 
 		//================================================================================
@@ -422,11 +422,11 @@ public class AdminViewController {
 		//================================================================================
 
 		/**
-		 * The default constructor for the PopUpController.
+		 * The default constructor for the HomePopUpController.
 		 *
 		 * @param root the root concerned.
 		 */
-		PopUpControllerBis(JFXDialog dialog, StackPane root) {
+		AdminPopUpController(JFXDialog dialog, StackPane root) {
 
 			this.root = root;
 

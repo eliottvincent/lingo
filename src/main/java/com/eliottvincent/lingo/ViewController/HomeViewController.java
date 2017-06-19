@@ -196,7 +196,7 @@ public class HomeViewController {
 		// there are cases in which we can't use a Flow, like this one
 		// so we are forced to use a classic FXMLLoader
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainpopup.fxml"));
-		loader.setController(new PopUpController(this.user, dialog, root));
+		loader.setController(new HomePopUpController(this.user, dialog, root));
 		toolbarPopup = new JFXPopup(loader.load());
 
 		// adding a listener to handle clicks on the different
@@ -549,11 +549,11 @@ public class HomeViewController {
 	}
 
 	/**
-	 * <b>PopUpController is the class responsible for the actions performed on the popup.</b>
+	 * <b>HomePopUpController is the class responsible for the actions performed on the popup.</b>
 	 *
 	 * @author eliottvincent
 	 */
-	private static final class PopUpController {
+	private static final class HomePopUpController {
 
 
 		//================================================================================
@@ -590,11 +590,11 @@ public class HomeViewController {
 		//================================================================================
 
 		/**
-		 * The default constructor for the PopUpController.
+		 * The default constructor for the HomePopUpController.
 		 *
 		 * @param user the user concerned.
 		 */
-		PopUpController(User user, JFXDialog dialog, StackPane root) {
+		HomePopUpController(User user, JFXDialog dialog, StackPane root) {
 
 			this.user = user;
 

@@ -42,7 +42,7 @@ public class ConverterHelper {
 	/**
 	 *
 	 * @param i the integer to be converted
-	 * @return
+	 * @return the Integer converted to a String
 	 */
 	public static String integerToString(Integer i) {
 
