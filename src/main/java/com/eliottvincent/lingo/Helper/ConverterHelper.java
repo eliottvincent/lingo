@@ -1,16 +1,11 @@
 package com.eliottvincent.lingo.Helper;
 
-/**
- * Created by eliottvincent on 09/06/2017.
- */
-
 import com.eliottvincent.lingo.Data.ActionType;
 import com.eliottvincent.lingo.Data.Gender;
 import com.eliottvincent.lingo.Data.Language;
 import com.eliottvincent.lingo.Data.LessonType;
 import com.eliottvincent.lingo.Model.History;
 import com.eliottvincent.lingo.Model.User;
-
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -284,4 +279,5 @@ public class ConverterHelper {
 		// encapsulates the string in a SimpleStringProperty
 		return new SimpleStringProperty(s);
 	}
+
 }

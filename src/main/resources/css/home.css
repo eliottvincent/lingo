@@ -79,6 +79,13 @@
 	-fx-background-insets: 20px 0 0 0;
 }
 
+#buttonsVBox {
+	-fx-spacing: 30;
+	-fx-padding: 50px 0 0 0;
+	-fx-border-insets: 50px 0 0 0;
+	-fx-background-insets: 50px 0 0 0;
+}
+
 /*******************************************************************************
 *                                                                              *
 * JFX Decorator                                                                *
