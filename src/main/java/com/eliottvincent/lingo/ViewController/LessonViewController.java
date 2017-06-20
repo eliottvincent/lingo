@@ -7,10 +7,7 @@ import com.eliottvincent.lingo.Helper.ConverterHelper;
 import com.eliottvincent.lingo.Model.Exercise;
 import com.eliottvincent.lingo.Model.Lesson;
 import com.eliottvincent.lingo.Model.User;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXTabPane;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import com.jfoenix.validation.RequiredFieldValidator;
 import de.jensd.fx.glyphs.GlyphsBuilder;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -22,10 +19,11 @@ import io.datafx.controller.flow.context.FXMLViewFlowContext;
 import io.datafx.controller.flow.context.FlowActionHandler;
 import io.datafx.controller.flow.context.ViewFlowContext;
 import io.datafx.controller.util.VetoException;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -62,6 +60,9 @@ public class LessonViewController {
 	private BorderPane container;
 
 	@FXML
+	private VBox contentVBox;
+
+	@FXML
 	private HBox topLabelsHBox;
 
 	@FXML
@@ -77,10 +78,31 @@ public class LessonViewController {
 	private JFXDialog dialog;
 
 	@FXML
+	private JFXDialog helpDialog;
+
+	@FXML
 	private JFXButton stayButton;
 
 	@FXML
 	private JFXButton leaveButton;
+
+	@FXML
+	private JFXToolbar lessonJFXToolbar;
+
+	@FXML
+	private StackPane homeButtonContainer;
+
+	@FXML
+	private StackPane optionsBurger;
+
+	@FXML
+	private JFXRippler optionsRippler;
+
+	@FXML
+	private JFXButton okButton;
+
+	@FXML
+	private Label usernameLabel;
 
 
 	//================================================================================
@@ -109,6 +131,8 @@ public class LessonViewController {
 	private Integer points;
 
 	private Random randomResult;
+
+	private JFXPopup toolbarPopup;
 
 
 	//================================================================================
@@ -139,16 +163,19 @@ public class LessonViewController {
 		this.lesson = (Lesson) flowContext.getRegisteredObject("lesson");
 		this.user = (User) flowContext.getRegisteredObject("user");
 
+		// setting the Label text
+		usernameLabel.setText((this.user != null) ? this.user.getUsername() : "Guest");
+
+		// initializing the toolbar
+		try {
+			initializeTopBar();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		// removing the dialog, because we want to display it only at the end
 		container.getChildren().remove(dialog);
-		container.getChildren().clear();
-
-		// filling the top labels
-		titleLabel.setText(ConverterHelper.languageToString(language) + ": " + ConverterHelper.lessonTypeToString(lesson.getType()) + " lesson");
-		pointsLabel.setText("Score: 0 / " + ConverterHelper.integerToString(this.lesson.getExercises().size()));
-		topLabelsHBox.getChildren().setAll(titleLabel, pointsLabel);
-		topLabelsHBox.setSpacing(750);
-		container.setTop(topLabelsHBox);
+		container.getChildren().remove(helpDialog);
 
 		// adding EventHandlers to the dialog buttons
 		EventHandler<ActionEvent> eventHandler = event -> onLeave((Node) event.getSource());
@@ -160,28 +187,69 @@ public class LessonViewController {
 	}
 
 	/**
+	 * the initializeTopBar() is responsible for initializing the toolbar.
+	 *
+	 * @throws Exception the exception to throw, if any.
+	 */
+	private void initializeTopBar() throws Exception {
+
+		// adding a listener on the home button
+		homeButtonContainer.setOnMouseClicked(e -> {
+
+			// going back to the login view
+			try {
+				actionHandler.navigate(HomeViewController.class);
+			} catch (VetoException | FlowException e1) {
+				e1.printStackTrace();
+			}
+		});
+
+		// loading the popup content
+		// there are cases in which we can't use a Flow, like this one
+		// so we are forced to use a classic FXMLLoader
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainpopup.fxml"));
+		loader.setController(new LessonViewController.LessonPopUpController(helpDialog ,root));
+		toolbarPopup = new JFXPopup(loader.load());
+
+		// adding a listener to handle clicks on the different
+		optionsBurger.setOnMouseClicked(e -> toolbarPopup.show(optionsBurger,
+			JFXPopup.PopupVPosition.TOP,
+			JFXPopup.PopupHPosition.RIGHT,
+			-12,
+			15)
+		);
+
+		BorderPane.setAlignment(lessonJFXToolbar, Pos.CENTER);
+		container.setTop(lessonJFXToolbar);
+
+		// adding EventHandler to the dialog button
+		EventHandler<ActionEvent> eventHandler = event -> onOk((Node) event.getSource());
+		okButton.setOnAction(eventHandler);
+	}
+
+	/**
 	 * the initializeExercisesTabPane() method is responsible for building the TabPane containing the different exercises of the current lesson.
 	 */
 	private void initializeExercisesTabPane() {
 
 		for(Exercise exercise : this.lesson.getExercises()) {
 
-			// TODO : maybe it's possible to add a FXML file as a TabPane content ?
+			// TODO : maybe it's possible to add a FXML file as a TabPane content?
 
 			// building the tab
 			Tab tmpTab = new Tab();
 			tmpTab.setText("Exercise n°" + exercise.getId());
 
 			// building the container
-			StackPane container = new StackPane();
+			StackPane exerciseContainerStackPane = new StackPane();
 
 			// building the content
-			VBox content = new VBox();
-			content.setAlignment(Pos.CENTER);
+			VBox exerciseContentVBox = new VBox();
+			exerciseContentVBox.setAlignment(Pos.CENTER);
 			Label title = new Label("Exercise n°" + exercise.getId());
 			title.setStyle("-fx-font-size: 20px; -fx-padding: 0 0 20px 0; -fx-border-insets: 0 0 20px 0; -fx-background-insets: 0 0 20px 0;");
 
-			Label exerciseContent = new Label("Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n" +
+			Label exerciseLabel = new Label("Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n" +
 				"Vivamus convallis turpis in tellus sagittis maximus. Aliquam eu lorem ipsum. \n" +
 				"ras sollicitudin lacinia nisi, eu sollicitudin ex consequat sed. \n" +
 				"Aenean eu volutpat odio. Ut et felis nisl. Aenean euismod augue tellus, nec finibus ante pellentesque et. \n" +
@@ -194,6 +262,7 @@ public class LessonViewController {
 			// adding a textfield for the answer
 			JFXTextField answerField = new JFXTextField();
 			answerField.setId("answerField");
+			answerField.setPromptText("Enter your answer");
 
 			// adding a validator to the answer field
 			RequiredFieldValidator validator = new RequiredFieldValidator();
@@ -225,14 +294,23 @@ public class LessonViewController {
 			StackPane.setMargin(userHBox, new Insets(50, 0, 0, 0));
 
 			// wrapping everything up
-			content.getChildren().setAll(title, exerciseContent, userHBox);
-			container.getChildren().add(content);
+			exerciseContentVBox.setSpacing(20);
+			exerciseContentVBox.setStyle("-fx-padding: 40px 0 0 0; -fx-border-insets: 40px 0 0 0; -fx-background-insets: 40px 0 0 0;");
+			exerciseContentVBox.getChildren().setAll(title, exerciseLabel, userHBox);
+			exerciseContainerStackPane.getChildren().add(exerciseContentVBox);
 
-			tmpTab.setContent(container);
+			tmpTab.setContent(exerciseContainerStackPane);
 			exercisesTabPane.getTabs().add(tmpTab);
 		}
 
-		container.setCenter(exercisesTabPane);
+		// filling the top labels
+		titleLabel.setText(ConverterHelper.languageToString(language) + ": " + ConverterHelper.lessonTypeToString(lesson.getType()) + " lesson");
+		pointsLabel.setText("Score: 0");
+		topLabelsHBox.getChildren().setAll(titleLabel, pointsLabel);
+		topLabelsHBox.setSpacing(750);
+
+		container.setCenter(contentVBox);
+		BorderPane.setAlignment(contentVBox, Pos.CENTER);
 	}
 
 
@@ -273,9 +351,9 @@ public class LessonViewController {
 					this.points += exercise.getPoints();
 				}
 
-				// clearing the label
+				// updating the label
 				pointsLabel.setText("");
-				pointsLabel.setText("Score: " +  this.points + " / " + this.lesson.getExercises().size());
+				pointsLabel.setText("Score: " +  this.points);
 
 				// action for the start of the new exercise
 				this.actionController.createNewAction(this.user, ActionType.EXERCICE_START, new Date(), ConverterHelper.integerToString(exercise.getId()) + 1, null);
@@ -328,6 +406,15 @@ public class LessonViewController {
 	}
 
 	/**
+	 * the onOk() method is responsible for performing the necessary action whe the user clicks on the "Ok" button of the dialog.
+	 * @param source the source of the event.
+	 */
+	private void onOk(Node source) {
+
+		helpDialog.close();
+	}
+
+	/**
 	 * the navigateToHome() method is responsible of opening the Home View.
 	 *
 	 * @throws VetoException the VetoException to throw, if any.
@@ -347,6 +434,79 @@ public class LessonViewController {
 		return randomResult.nextBoolean();
 	}
 
+
+	/**
+	 * <b>HomePopUpController is the class responsible for the actions performed on the popup.</b>
+	 *
+	 * @author eliottvincent
+	 */
+	private static final class LessonPopUpController {
+
+
+		//================================================================================
+		// JavaFX elements
+		//================================================================================
+
+		@FXML
+		private JFXListView<?> toolbarPopupList;
+
+
+		//================================================================================
+		// DataFX elements
+		//================================================================================
+
+		@FXMLViewFlowContext
+		private ViewFlowContext flowContext;
+
+
+		//================================================================================
+		// Other properties
+		//================================================================================
+
+		private User user;
+
+		private JFXDialog dialog;
+
+		private StackPane root;
+
+		private ActionController actionController;
+
+
+		//================================================================================
+		// Constructor and initialization
+		//================================================================================
+
+		/**
+		 * The default constructor for the LessonPopUpController.
+		 *
+		 * @param root the root concerned.
+		 */
+		LessonPopUpController(JFXDialog dialog, StackPane root) {
+
+			this.root = root;
+
+			this.dialog = dialog;
+		}
+
+		/**
+		 * the submit() method is responsible for performing the necessary actions when the user clicks on an item of the popup.
+		 */
+		@FXML
+		private void submit() {
+
+			if (toolbarPopupList.getSelectionModel().getSelectedIndex() == 1) {
+
+				// and we quit the application
+				Platform.exit();
+			}
+
+			else {
+				// we display the dialog
+				this.dialog.setTransitionType(JFXDialog.DialogTransition.TOP);
+				this.dialog.show(this.root);
+			}
+		}
+	}
 
 
 }
