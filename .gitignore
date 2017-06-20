@@ -4,14 +4,8 @@
 # Log file
 *.log
 
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
 # Package Files #
-*.jar
+libs/*.jar
 *.war
 *.ear
 *.zip
@@ -27,3 +21,11 @@ hs_err_pid*
 
 # Maven
 target
+
+# Gradle
+gradle
+.gradle
+build
+classes
+gradlew
+gradlew.bat

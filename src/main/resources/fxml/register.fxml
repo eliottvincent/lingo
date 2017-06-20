@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+
+	<children>
+		<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" text="Account creation" />
+
+		<Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" />
+
+		<JFXTextField fx:id="usernameTextField" maxHeight="50.0" maxWidth="400.0" minHeight="50.0" minWidth="400.0" prefHeight="50.0" prefWidth="400.0" />
+		<JFXPasswordField fx:id="passwordField" maxHeight="50.0" maxWidth="400.0" minHeight="50.0" minWidth="400.0" prefHeight="50.0" prefWidth="400.0" promptText="Password" />
+		<JFXPasswordField fx:id="passwordBisField" maxHeight="50.0" maxWidth="400.0" minHeight="50.0" minWidth="400.0" prefHeight="50.0" prefWidth="400.0" promptText="Password again" />
+
+		<JFXDatePicker fx:id="birthdatePicker" prefHeight="25.0" prefWidth="400.0" />
+		<JFXComboBox fx:id="genderComboBox" maxHeight="50.0" maxWidth="400.0" minHeight="50.0" minWidth="400.0" prefHeight="50.0" prefWidth="400.0" promptText="gender" />
+		<JFXComboBox fx:id="languageComboBox" maxHeight="50.0" maxWidth="400.0" minHeight="50.0" minWidth="400.0" prefHeight="50.0" prefWidth="400.0" promptText="language" />
+
+		<HBox styleClass="buttons">
+			<children>
+				<JFXButton fx:id="createAccountJFXButton" styleClass="button-raised" text="Create account" />
+				<JFXButton fx:id="cancelJFXButton" styleClass="button-raised" text="Cancel" />
+			</children>
+		</HBox>
+	</children>
+</VBox>

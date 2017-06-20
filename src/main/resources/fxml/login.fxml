@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox fx:id="container" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" text="Lingo" />
+		<Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" text="" />
+
+		<VBox spacing="50" alignment="CENTER">
+			<children>
+				<JFXTextField fx:id="usernameTextField" maxHeight="60.0" maxWidth="400.0" minHeight="60.0" minWidth="400.0"
+					  prefHeight="60.0" prefWidth="400.0" promptText="Username"/>
+
+				<JFXPasswordField fx:id="passwordField" maxHeight="60.0" maxWidth="400.0" minHeight="60.0" minWidth="400.0"
+								  prefHeight="60.0" prefWidth="400.0" promptText="Password"/>
+			</children>
+		</VBox>
+
+		<VBox fx:id="buttonsVBox">
+			<children>
+				<HBox styleClass="buttons">
+					<children>
+						<JFXButton fx:id="loginButton" styleClass="button-raised" text="Log In" />
+						<JFXButton fx:id="guestLoginButton" styleClass="button-raised" text="Log as a guest" />
+					</children>
+				</HBox>
+
+				<HBox styleClass="buttons">
+					<children>
+						<JFXButton fx:id="createAccountButton" styleClass="button-raised" text="Register" />
+					</children>
+				</HBox>
+			</children>
+		</VBox>
+	</children>
+</VBox>

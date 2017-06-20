@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.layout.HBox?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Label?>
+
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import com.jfoenix.controls.JFXRippler?>
+<?import javafx.scene.layout.StackPane?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import com.jfoenix.controls.JFXHamburger?>
+
+<?import javafx.scene.layout.BorderPane?>
+
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDialog?>
+<StackPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" >
+
+	<BorderPane fx:id="container">
+		<top>
+			<JFXToolbar fx:id="adminJFXToolbar">
+				<leftItems>
+					<JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;">
+						<StackPane fx:id="homeButtonContainer">
+							<FontAwesomeIconView glyphName="HOME" size="2.5em" styleClass="option-jfx-list-view-home-icon"/>
+						</StackPane>
+					</JFXRippler>
+					<Label text="Admin"/>
+				</leftItems>
+
+				<rightItems>
+					<JFXRippler fx:id="optionsRippler" maskType="CIRCLE" style="-fx-ripple-color:WHITE;">
+						<StackPane fx:id="optionsBurger">
+							<JFXHamburger styleClass="jfx-options-burger"/>
+						</StackPane>
+					</JFXRippler>
+				</rightItems>
+			</JFXToolbar>
+		</top>
+
+		<center>
+			<HBox fx:id="content" >
+				<children>
+					<VBox>
+						<children>
+							<Label styleClass="tableLabel" text="Users"/>
+							<JFXTreeTableView fx:id="usersJFXTreeTableView" />
+							<HBox fx:id="bottomTableHBox">
+								<children>
+									<Label styleClass="tableLabel" text="Search: " />
+									<JFXTextField fx:id="searchJFXTextField" />
+								</children>
+							</HBox>
+						</children>
+					</VBox>
+					<HBox>
+						<children>
+							<VBox>
+								<children>
+									<Label styleClass="tableLabel" text="Sessions"/>
+									<ListView fx:id="sessionsListView"/>
+								</children>
+							</VBox>
+							<VBox>
+								<children>
+									<Label styleClass="tableLabel" text="Actions"/>
+									<ListView fx:id="actionsListView"/>
+								</children>
+							</VBox>
+						</children>
+					</HBox>
+				</children>
+			</HBox>
+		</center>
+	</BorderPane>
+	<JFXDialog fx:id="dialog">
+		<JFXDialogLayout>
+			<heading>
+				<Label>Help</Label>
+			</heading>
+			<body>
+				<Label text="Choose an User to display his sessions and actions."/>
+			</body>
+			<actions>
+				<JFXButton fx:id="okButton" styleClass="dialog-accept">OK
+				</JFXButton>
+			</actions>
+		</JFXDialogLayout>
+	</JFXDialog>
+</StackPane>

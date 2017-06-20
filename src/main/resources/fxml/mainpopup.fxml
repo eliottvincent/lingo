@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.Label?>
+<JFXListView fx:id="toolbarPopupList" styleClass="option-list-view" onMouseClicked="#submit" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+	<Label>
+		Help
+		<graphic>
+			<StackPane>
+				<FontAwesomeIconView glyphName="INFO" size="1.5em" styleClass="option-jfx-list-view-icon"/>
+			</StackPane>
+		</graphic>
+	</Label>
+	<Label>
+		Exit
+		<graphic>
+			<StackPane>
+				<FontAwesomeIconView glyphName="REPLY" size="1.5em" styleClass="option-jfx-list-view-icon"/>
+			</StackPane>
+		</graphic>
+	</Label>
+</JFXListView>

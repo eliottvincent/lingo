@@ -1,55 +1,125 @@
 package com.eliottvincent.lingo;
 
-import com.eliottvincent.lingo.Controller.ScreenController;
-import com.eliottvincent.lingo.View.LoginView;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+import com.eliottvincent.lingo.Controller.ActionController;
+import com.eliottvincent.lingo.Data.ActionType;
+import com.eliottvincent.lingo.Model.User;
+import com.eliottvincent.lingo.ViewController.LoginViewController;
 
-import java.io.IOException;
+import com.jfoenix.controls.JFXDecorator;
+import io.datafx.controller.flow.Flow;
+import io.datafx.controller.flow.container.DefaultFlowContainer;
+import io.datafx.controller.flow.context.FXMLViewFlowContext;
+import io.datafx.controller.flow.context.ViewFlowContext;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import java.util.Date;
+
 
 /**
- * Hello world!
+ * <b>Lingo is the main class of the application.</b>
  *
+ * @author eliottvincent
  */
-public class Lingo extends Application
-{
+public class Lingo extends Application {
+
+
+	//================================================================================
+	// DataFX elements
+	//================================================================================
+
+	@FXMLViewFlowContext
+	private ViewFlowContext flowContext;
+
+
+	//================================================================================
+	// Other properties
+	//================================================================================
+
+	public User user;
+
+	private ActionController actionController;
+
 
 	//================================================================================
 	// Main and initialization
 	//================================================================================
 
 	/**
+	 * start() is the method responsible for starting the application.
 	 *
-	 * @param primaryStage
+	 * @param stage the primary stage of the Application
 	 */
 	@Override
-	public void start(Stage primaryStage) {
-		// we need to instantiate the ScreenController
-		ScreenController screenController = new ScreenController();
+	public void start(Stage stage) throws Exception {
 
-		// then we create an instance of loginView
-		// this instance is going to be the controller of our FXML template
-		LoginView loginView = new LoginView();
+		// creating a new Flow linked to the LoginViewController
+		Flow flow = new Flow(LoginViewController.class);
+		DefaultFlowContainer container = new DefaultFlowContainer();
 
-		// we add a screen in our ScreenController
-		// named "login", template from "../fxml/login.fxml", loginView as controller
-		screenController.addScreen("login", "../fxml/login.fxml", loginView);
+		// creating a new ViewFlowContext
+		// so we can save some data between flows
+		flowContext = new ViewFlowContext();
 
-		Group root = new Group();
-		Scene scene = new Scene(root, 1500, 750);
-		screenController.activate(scene, "login", primaryStage);
+		// registering the stage in the context
+		flowContext.register("Stage", stage);
+		flow.createHandler(flowContext).start(container);
+
+		// creating a decorator
+		JFXDecorator decorator = new JFXDecorator(stage, container.getView());
+		decorator.setCustomMaximize(true);
+		Scene scene = new Scene(decorator, 1500, 750);
+
+		// adding the stylesheets to the application
+		final ObservableList<String> stylesheets = scene.getStylesheets();
+		stylesheets.addAll(
+			Lingo.class.getResource("/css/fonts.css").toExternalForm(),
+			Lingo.class.getResource("/css/home.css").toExternalForm()
+		);
+
+		// setting sizes
+		stage.setMinWidth(1500);
+		stage.setMinHeight(750);
+		stage.setScene(scene);
+
+		// showing the application
+		stage.show();
+	}
+
+	/**
+	 * stop() is the method responsible for stopping the application.
+	 *
+	 */
+	@Override
+	public void stop() {
+
+		// before quitting the application, we want to save a LOGOUT action for the curent user
+		this.user = (User) flowContext.getRegisteredObject("user");
+
+		if (this.user != null) {
+
+			this.actionController = new ActionController();
+			this.actionController.createNewAction(
+				this.user,
+				ActionType.LOGOUT,
+				new Date(),
+				null,
+				null
+			);
+		}
+
+		// closing the application
+		Platform.exit();
 	}
 
 	/**
 	 *
-	 * @param args
+	 * @param args the arguments passed to the application, if any
 	 */
 	public static void main(String[] args) {
+
 		launch(args);
 	}
 
