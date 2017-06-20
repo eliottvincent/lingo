@@ -48,7 +48,7 @@
 		</center>
 
 	</BorderPane>
-	<JFXDialog fx:id="dialog" maxHeight="100.0" maxWidth="600.0" minHeight="100.0" minWidth="600.0" prefHeight="100.0" prefWidth="600.0">
+	<JFXDialog fx:id="dialog">
 		<JFXDialogLayout>
 			<heading>
 				<Label>Help</Label>

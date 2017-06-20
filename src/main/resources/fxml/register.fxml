@@ -11,7 +11,7 @@
 
 		<Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" />
 
-		<JFXTextField fx:id="usernameTextField" maxHeight="50.0" maxWidth="400.0" minHeight="50.0" minWidth="400.0" prefHeight="50.0" prefWidth="400.0" promptText="Username" />
+		<JFXTextField fx:id="usernameTextField" maxHeight="50.0" maxWidth="400.0" minHeight="50.0" minWidth="400.0" prefHeight="50.0" prefWidth="400.0" />
 		<JFXPasswordField fx:id="passwordField" maxHeight="50.0" maxWidth="400.0" minHeight="50.0" minWidth="400.0" prefHeight="50.0" prefWidth="400.0" promptText="Password" />
 		<JFXPasswordField fx:id="passwordBisField" maxHeight="50.0" maxWidth="400.0" minHeight="50.0" minWidth="400.0" prefHeight="50.0" prefWidth="400.0" promptText="Password again" />
 

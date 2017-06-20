@@ -4,40 +4,82 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.StackPane?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
 <StackPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" >
+
 	<BorderPane fx:id="container" >
 
-		<children>
-			<HBox fx:id="topLabelsHBox">
+		<top>
+			<JFXToolbar fx:id="lessonJFXToolbar">
+				<leftItems>
+					<JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;">
+						<StackPane fx:id="homeButtonContainer">
+							<FontAwesomeIconView glyphName="HOME" size="2.5em" styleClass="option-jfx-list-view-home-icon"/>
+						</StackPane>
+					</JFXRippler>
+					<Label fx:id="usernameLabel"/>
+				</leftItems>
+
+				<rightItems>
+					<JFXRippler fx:id="optionsRippler" maskType="CIRCLE" style="-fx-ripple-color:WHITE;">
+						<StackPane fx:id="optionsBurger">
+							<JFXHamburger styleClass="jfx-options-burger"/>
+						</StackPane>
+					</JFXRippler>
+				</rightItems>
+			</JFXToolbar>
+		</top>
+
+		<center>
+
+			<VBox fx:id="contentVBox">
 				<children>
-					<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" text=""/>
-					<Label fx:id="pointsLabel" text=""/>
+					<HBox fx:id="topLabelsHBox">
+						<children>
+							<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" text=""/>
+							<Label fx:id="pointsLabel" text=""/>
+						</children>
+					</HBox>
+
+					<JFXTabPane fx:id="exercisesTabPane"/>
 				</children>
-			</HBox>
+			</VBox>
+		</center>
 
-			<JFXTabPane fx:id="exercisesTabPane"/>
-
-			<JFXDialog fx:id="dialog" maxHeight="100.0" maxWidth="600.0" minHeight="100.0" minWidth="600.0" prefHeight="100.0" prefWidth="600.0">
-				<JFXDialogLayout>
-					<heading>
-						<Label>Finish lesson</Label>
-					</heading>
-					<body>
-						<Label>Congratulations! You finished this lesson. You can stay in this lesson or go back home.
-						</Label>
-					</body>
-					<actions>
-						<JFXButton fx:id="stayButton" styleClass="dialog-accept">Stay
-						</JFXButton>
-						<JFXButton fx:id="leaveButton" styleClass="dialog-accept">Leave
-						</JFXButton>
-					</actions>
-				</JFXDialogLayout>
-			</JFXDialog>
-
-		</children>
 	</BorderPane>
+
+	<JFXDialog fx:id="dialog">
+		<JFXDialogLayout>
+			<heading>
+				<Label>Finish lesson</Label>
+			</heading>
+			<body>
+				<Label>Congratulations! You finished this lesson. You can stay in this lesson or go back home.
+				</Label>
+			</body>
+			<actions>
+				<JFXButton fx:id="stayButton" styleClass="dialog-accept">Stay</JFXButton>
+				<JFXButton fx:id="leaveButton" styleClass="dialog-accept">Leave</JFXButton>
+			</actions>
+		</JFXDialogLayout>
+	</JFXDialog>
+
+	<JFXDialog fx:id="helpDialog">
+		<JFXDialogLayout>
+			<heading>
+				<Label>Help</Label>
+			</heading>
+			<body>
+				<Label text="Type your answer on the answer text field and finish the exercise."/>
+			</body>
+			<actions>
+				<JFXButton fx:id="okButton" styleClass="dialog-accept">OK
+				</JFXButton>
+			</actions>
+		</JFXDialogLayout>
+	</JFXDialog>
 </StackPane>
