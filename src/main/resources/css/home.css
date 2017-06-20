@@ -13,15 +13,15 @@
 }
 
 #titleLabel {
-	-fx-font-size: 31px;
+	-fx-font-size: 24px;
 }
 
 #pointsLabel {
-	-fx-font-size: 31px;
+	-fx-font-size: 24px;
 }
 
 .tableLabel {
-	-fx-font-size: 25px;
+	-fx-font-size: 19px;
 	-fx-padding: 0 0 20px 0;
 	-fx-border-insets: 0 0 20px 0;
 	-fx-background-insets: 0 0 20px 0;
@@ -37,7 +37,7 @@
 }
 
 .text-field {
-	-fx-font-size: 20px;
+	-fx-font-size: 18px;
 	-fx-alignment: center-left;
 }
 
@@ -46,14 +46,14 @@
 }
 
 .password-field {
-	-fx-font-size: 20px;
+	-fx-font-size: 18px;
 	-fx-text-fill: #636363;
 	-fx-alignment: center-left;
 }
 
 .button-raised {
 	-fx-padding: 0.7em 0.57em;
-	-fx-font-size: 14px;
+	-fx-font-size: 13px;
 	-jfx-button-type: RAISED;
 	-fx-background-color: #CE584A;
 	-fx-pref-width: 200;
@@ -96,6 +96,12 @@
 	-fx-padding: 0 0 20px 0;
 	-fx-border-insets: 0 0 20px 0;
 	-fx-background-insets: 0 0 20px 0;
+}
+
+#contentVBox {
+	-fx-padding: 40px 0 0 0;
+	-fx-border-insets: 40px 0 0 0;
+	-fx-background-insets: 40px 0 0 0;
 }
 
 
@@ -215,7 +221,7 @@
 }
 
 .jfx-tool-bar {
-	-fx-font-size: 20.0;
+	-fx-font-size: 18px;
 	-fx-pref-width: 100.0%;
 	-fx-pref-height: 64.0px;
 }
