@@ -105,6 +105,7 @@ public class AdminViewController {
 
 	private JFXPopup toolbarPopup;
 
+
 	//================================================================================
 	// Constructors and initialization
 	//================================================================================
@@ -274,6 +275,7 @@ public class AdminViewController {
 
 							// filling the label's text with the session's data
 							label.setText("Session n°" + session.getId().toString());
+
 							setGraphic(label);
 						}
 					}
